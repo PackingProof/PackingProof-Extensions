@@ -10,7 +10,7 @@
     "validate": "node tools/cli.mjs validate",
     "generate": "node tools/cli.mjs generate",
     "check": "node tools/cli.mjs check",
-    "ppx": "node tools/cli.mjs ppx",
+    "ppext": "node tools/cli.mjs ppext",
     "submit": "node tools/cli.mjs submit",
     "registry:sign": "node tools/cli.mjs registry-sign",
     "registry:verify": "node tools/cli.mjs registry-verify",

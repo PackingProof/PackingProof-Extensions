@@ -5,6 +5,7 @@
   "additionalProperties": false,
   "required": [
     "schemaVersion",
+    "format",
     "packageFormatVersion",
     "id",
     "version",
@@ -16,6 +17,7 @@
   "properties": {
     "$schema": {"type": "string"},
     "schemaVersion": {"const": 1},
+    "format": {"const": "packingproof-extension"},
     "packageFormatVersion": {"const": 1},
     "id": {"$ref": "common.v1.schema.json#/$defs/identifier"},
     "version": {"$ref": "common.v1.schema.json#/$defs/semver"},

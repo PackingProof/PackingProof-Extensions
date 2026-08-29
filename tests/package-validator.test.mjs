@@ -10,35 +10,60 @@ import { externalManifest, userscriptManifest, writeZip } from "./helpers.mjs";
 const rootDirectory = path.resolve(import.meta.dirname, "..");
 
 test("allows Gitee release redirects to its current asset host", async () => {
-  const temporary = await mkdtemp(path.join(os.tmpdir(), "ppx-gitee-download-"));
+  const temporary = await mkdtemp(path.join(os.tmpdir(), "ppext-gitee-download-"));
   const originalFetch = globalThis.fetch;
   try {
     globalThis.fetch = async () => {
-      const response = new Response(Buffer.from("ppx"), {
+      const response = new Response(Buffer.from("ppext"), {
         status: 200,
-        headers: { "content-length": "3" },
+        headers: { "content-length": "5" },
       });
       Object.defineProperty(response, "url", {
-        value: "https://foruda.gitee.com/attach_file/example/sample.ppx",
+        value: "https://foruda.gitee.com/attach_file/example/sample.ppext",
       });
       return response;
     };
-    const destination = path.join(temporary, "sample.ppx");
+    const destination = path.join(temporary, "sample.ppext");
     assert.equal(await downloadPackage(
-      "https://gitee.com/SampleOrg/Demo/releases/download/v1.0.0/sample.ppx",
+      "https://gitee.com/SampleOrg/Demo/releases/download/v1.0.0/sample.ppext",
       destination,
-    ), 3);
-    assert.equal(await readFile(destination, "utf8"), "ppx");
+    ), 5);
+    assert.equal(await readFile(destination, "utf8"), "ppext");
   } finally {
     globalThis.fetch = originalFetch;
     await rm(temporary, { recursive: true, force: true });
   }
 });
 
-test("validates userscript package and normalizes X.Y metadata version", async () => {
-  const temporary = await mkdtemp(path.join(os.tmpdir(), "ppx-userscript-"));
+test("rejects legacy extension names and packages without the PackingProof format marker", async () => {
+  const temporary = await mkdtemp(path.join(os.tmpdir(), "ppext-identity-"));
   try {
-    const filePath = path.join(temporary, "sample.ppx");
+    const legacyPath = path.join(temporary, "sample.ppx");
+    await writeFile(legacyPath, "legacy", "utf8");
+    await assert.rejects(
+      validatePackage(legacyPath, await createSchemaValidator(rootDirectory)),
+      /必须使用 \.ppext 文件名/,
+    );
+
+    const filePath = path.join(temporary, "sample.ppext");
+    const { format: _format, ...manifest } = externalManifest();
+    await writeZip(filePath, [
+      ["manifest.json", JSON.stringify(manifest)],
+      ["payload/adapter.exe", Buffer.from([1, 2, 3])],
+    ]);
+    await assert.rejects(
+      validatePackage(filePath, await createSchemaValidator(rootDirectory)),
+      /format/,
+    );
+  } finally {
+    await rm(temporary, { recursive: true, force: true });
+  }
+});
+
+test("validates userscript package and normalizes X.Y metadata version", async () => {
+  const temporary = await mkdtemp(path.join(os.tmpdir(), "ppext-userscript-"));
+  try {
+    const filePath = path.join(temporary, "sample.ppext");
     const manifest = userscriptManifest();
     await writeZip(filePath, [
       ["manifest.json", JSON.stringify(manifest)],
@@ -54,9 +79,9 @@ test("validates userscript package and normalizes X.Y metadata version", async (
 });
 
 test("warns when an external adapter omits README", async () => {
-  const temporary = await mkdtemp(path.join(os.tmpdir(), "ppx-adapter-"));
+  const temporary = await mkdtemp(path.join(os.tmpdir(), "ppext-adapter-"));
   try {
-    const filePath = path.join(temporary, "sample.ppx");
+    const filePath = path.join(temporary, "sample.ppext");
     await writeZip(filePath, [
       ["manifest.json", JSON.stringify(externalManifest())],
       ["payload/adapter.exe", Buffer.from([1, 2, 3, 4, 5])],
@@ -69,9 +94,9 @@ test("warns when an external adapter omits README", async () => {
 });
 
 test("rejects path traversal before extraction", async () => {
-  const temporary = await mkdtemp(path.join(os.tmpdir(), "ppx-traversal-"));
+  const temporary = await mkdtemp(path.join(os.tmpdir(), "ppext-traversal-"));
   try {
-    const filePath = path.join(temporary, "sample.ppx");
+    const filePath = path.join(temporary, "sample.ppext");
     const manifest = externalManifest({
       installation: { mode: "manual-external", suggestedPath: "payload/a.txt" },
     });
@@ -99,9 +124,9 @@ test("rejects path traversal before extraction", async () => {
 });
 
 test("rejects suspicious compression ratios from the central directory", async () => {
-  const temporary = await mkdtemp(path.join(os.tmpdir(), "ppx-ratio-"));
+  const temporary = await mkdtemp(path.join(os.tmpdir(), "ppext-ratio-"));
   try {
-    const filePath = path.join(temporary, "sample.ppx");
+    const filePath = path.join(temporary, "sample.ppext");
     await writeZip(filePath, [
       ["manifest.json", JSON.stringify(externalManifest())],
       ["payload/adapter.exe", Buffer.alloc(300_000)],

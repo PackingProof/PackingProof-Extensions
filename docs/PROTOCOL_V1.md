@@ -22,16 +22,16 @@ Publisher ID 是与托管平台账号分离的稳定身份。GitHub/Gitee 用户
 ## Release 规则
 
 - 只接受 GitHub/Gitee Release Asset
-- Asset 名称固定为 `<extension-id>-<version>.ppx`
+- Asset 名称固定为 `<extension-id>-<version>.ppext`
 - 不接受 Raw、分支文件、自建 CDN、draft 或 prerelease
 - 每个版本至少提供 Gitee 或 GitHub 地址之一，推荐优先发布到 Gitee
 - 同时提供两个平台时必须是同一字节流
 - 更新机器人独立检查所有登记源，任一来源可发现新稳定版本
 - 新版本使用 `downloads.gitee`、`downloads.github`；旧版 `primary/mirror` 记录继续兼容且不可修改
 
-## `.ppx` 格式
+## `.ppext` 格式
 
-`.ppx` 是 ZIP 分发容器，不是可执行格式。
+`.ppext` 是 PackingProof 专用的 ZIP 分发容器，不是可执行格式。包内 `manifest.json` 必须包含固定标识 `"format": "packingproof-extension"`，用于拒绝其他软件使用相同压缩结构或错误文件名的制品。
 
 ```text
 manifest.json   必须
@@ -40,7 +40,7 @@ README.md       可选
 icon.png        可选
 ```
 
-作者只填写 ID、名称、版本、类型、最低 PackingProof 版本和 payload。`ppx pack` 自动生成包含 `packageFormatVersion`、安装方式和兼容信息的包内 manifest。安装模式只能是：
+作者只填写 ID、名称、版本、类型、最低 PackingProof 版本和 payload。`ppext pack` 自动生成包含 `format`、`packageFormatVersion`、安装方式和兼容信息的包内 manifest。安装模式只能是：
 
 - `userscript-import`，使用 `payloadPath` 指向一个 `.user.js`
 - `manual-external`，使用 `suggestedPath` 指向建议用户查看的文件
@@ -73,7 +73,7 @@ Schema 为后续版本预留 `macos`、`linux`、`android` 和 `ios`，但 v1 �
 
 ## 权限
 
-市场 v1 不要求作者在 PPX 中填写系统访问分类。PackingProof API 权限以扩展实际发起的授权请求和用户批准结果为准。
+市场 v1 不要求作者在 PPEXT 中填写系统访问分类。PackingProof API 权限以扩展实际发起的授权请求和用户批准结果为准。
 
 外部适配器是普通程序，PackingProof 无法沙箱限制其网络、文件、进程或设备访问。客户端始终显示这一边界；闭源适配器额外显示“闭源外部程序”提示。
 

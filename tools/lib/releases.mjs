@@ -4,7 +4,7 @@ import semver from "semver";
 import { stableJson } from "./files.mjs";
 import { buildRegistry } from "./registry.mjs";
 import { downloadPackage, sha256File, validatePackage } from "./package-validator.mjs";
-import { normalizedReleaseVersion, releaseAssetUrl } from "./policy.mjs";
+import { releaseAssetUrl } from "./policy.mjs";
 
 export async function updateExtension(rootDirectory, market, extensionId, options = {}) {
   const item = market.extensions.get(extensionId);
@@ -14,14 +14,16 @@ export async function updateExtension(rootDirectory, market, extensionId, option
   const releasesByVersion = new Map();
   for (const discovery of discoveries.filter((value) => value.releases)) {
     for (const release of discovery.releases) {
-      const version = normalizedReleaseVersion(release.tag);
-      if (!version) continue;
-      const current = releasesByVersion.get(version);
-      const assets = [...new Set([...(current?.assets ?? []), ...release.assets])];
-      if (!current || discovery.source.provider === "gitee") {
-        releasesByVersion.set(version, { ...release, assets, version, source: discovery.source });
-      } else {
-        current.assets = assets;
+      for (const assetName of release.assets) {
+        const version = extensionAssetVersion(extensionId, assetName);
+        if (!version) continue;
+        const current = releasesByVersion.get(version);
+        const assets = [...new Set([...(current?.assets ?? []), ...release.assets])];
+        if (!current || discovery.source.provider === "gitee") {
+          releasesByVersion.set(version, { ...release, assets, version, source: discovery.source });
+        } else {
+          current.assets = assets;
+        }
       }
     }
   }
@@ -33,7 +35,7 @@ export async function updateExtension(rootDirectory, market, extensionId, option
   const pendingDocuments = [];
 
   for (const release of candidates) {
-    const assetName = `${extensionId}-${release.version}.ppx`;
+    const assetName = `${extensionId}-${release.version}.ppext`;
     if (!release.assets.includes(assetName)) continue;
     const cacheDirectory = path.join(rootDirectory, ".cache", "updates", extensionId, release.version);
     await mkdir(cacheDirectory, { recursive: true });
@@ -93,6 +95,13 @@ export async function updateExtension(rootDirectory, market, extensionId, option
     await buildRegistry(rootDirectory, refreshed);
   }
   return created;
+}
+
+function extensionAssetVersion(extensionId, assetName) {
+  const prefix = `${extensionId}-`;
+  const suffix = ".ppext";
+  if (!assetName.startsWith(prefix) || !assetName.endsWith(suffix)) return null;
+  return semver.valid(assetName.slice(prefix.length, -suffix.length));
 }
 
 export async function discoverWithFallback(sources) {

@@ -10,7 +10,7 @@
   "downloads": {
     "primary": {
       "provider": "github",
-      "url": "https://github.com/SampleOrg/Demo/releases/download/v1.0.0/sample.demo-1.0.0.ppx"
+      "url": "https://github.com/SampleOrg/Demo/releases/download/v1.0.0/sample.demo-1.0.0.ppext"
     }
   },
   "sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",

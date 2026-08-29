@@ -22,7 +22,7 @@ test("falls back to the mirror release API when primary discovery fails", async 
         draft: false,
         prerelease: false,
         published_at: "2026-08-29T00:00:00Z",
-        assets: [{ name: "sample.demo-1.2.0.ppx" }],
+        assets: [{ name: "sample.demo-1.2.0.ppext" }],
       }],
     };
   };
@@ -62,30 +62,30 @@ test("creates the versions directory for the first discovered release", async ()
       license: { spdx: "MIT", sourceUrl: "https://github.com/PackingProof/TestAdapter/blob/main/LICENSE" },
       releaseSources: [{ provider: "github", owner: "PackingProof", name: "TestAdapter" }],
     });
-    const ppxPath = path.join(root, "test.ppx");
+    const ppextPath = path.join(root, "test.ppext");
     const manifest = externalManifest({ id: "packingproof.test" });
-    await writeZip(ppxPath, [
+    await writeZip(ppextPath, [
       ["manifest.json", JSON.stringify(manifest)],
       ["payload/adapter.exe", Buffer.from([1, 2, 3, 4])],
     ]);
-    const ppxBytes = await readFile(ppxPath);
+    const ppextBytes = await readFile(ppextPath);
     globalThis.fetch = async (url) => {
       const value = String(url);
       if (value.includes("/releases?")) {
         return jsonResponse([{
-          tag_name: "v1.0.0",
+          tag_name: "v0.0.62",
           draft: false,
           prerelease: false,
           published_at: "2026-08-29T00:00:00Z",
-          assets: [{ name: "packingproof.test-1.0.0.ppx" }],
+          assets: [{ name: "packingproof.test-1.0.0.ppext" }],
         }], value);
       }
       if (value.includes("/commits/")) {
         return jsonResponse({ sha: "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa" }, value);
       }
-      const response = new Response(ppxBytes, {
+      const response = new Response(ppextBytes, {
         status: 200,
-        headers: { "content-length": String(ppxBytes.length) },
+        headers: { "content-length": String(ppextBytes.length) },
       });
       Object.defineProperty(response, "url", { value });
       return response;
@@ -99,6 +99,7 @@ test("creates the versions directory for the first discovered release", async ()
     ));
     assert.equal(version.extensionId, "packingproof.test");
     assert.equal(version.version, "1.0.0");
+    assert.equal(version.source.tag, "v0.0.62");
   } finally {
     globalThis.fetch = originalFetch;
     await rm(root, { recursive: true, force: true });

@@ -5,12 +5,12 @@
 ## 第一次发布
 
 1. 克隆本仓库并运行 `npm ci`
-2. 运行 `npm run ppx -- init <项目目录>`，按提示填写扩展名称、作者、说明和发布来源
-3. 将脚本或程序放入生成的 `payload/`，运行 `npm run ppx -- pack <项目目录>`
-4. 将 `<扩展ID>-<版本>.ppx` 上传到 Gitee、GitHub 或两边的稳定 Release
+2. 运行 `npm run ppext -- init <项目目录>`，按提示填写扩展名称、作者、说明和发布来源
+3. 将脚本或程序放入生成的 `payload/`，运行 `npm run ppext -- pack <项目目录>`
+4. 将 `<扩展ID>-<版本>.ppext` 上传到 Gitee、GitHub 或两边的稳定 Release
 5. 运行 `npm run submit -- --project <项目目录>`，检查生成内容并提交 PR
 
-`ppx init` 生成的 `manifest.json` 只有以下字段：
+`ppext init` 生成的 `manifest.json` 只有以下字段：
 
 ```json
 {
@@ -24,7 +24,7 @@
 }
 ```
 
-`README.md` 和 `icon.png` 都是可选文件。PPX 会自动接受格式与基础安全校验，开发者不需要手工计算 SHA-256。
+`README.md` 和 `icon.png` 都是可选文件。PPEXT 会自动接受格式与基础安全校验，开发者不需要手工计算 SHA-256。
 
 ## 后续版本
 
@@ -33,7 +33,7 @@
 ## 发布来源
 
 - 每个版本至少上传到 Gitee 或 GitHub 之一，推荐优先提供 Gitee
-- 同时上传到两边时，必须上传完全相同的 PPX
+- 同时上传到两边时，必须上传完全相同的 PPEXT
 - 只接受 Release Asset，不接受分支 Raw 文件、draft 或 prerelease
 - 扩展 ID 和已经合并的版本记录不可修改
 

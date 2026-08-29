@@ -68,6 +68,9 @@ export async function sha256File(filePath) {
 }
 
 export async function validatePackage(filePath, schema, expected = null) {
+  if (path.extname(filePath).toLowerCase() !== ".ppext") {
+    throw new Error(`${filePath}: 扩展包必须使用 .ppext 文件名`);
+  }
   const packageSize = (await stat(filePath)).size;
   if (packageSize <= 0 || packageSize > MAX_PACKAGE_BYTES) throw new Error(`${filePath}: 包大小超限`);
   const zip = await openZip(filePath, { lazyEntries: true, validateEntrySizes: true, strictFileNames: true });

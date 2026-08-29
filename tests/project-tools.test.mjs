@@ -10,7 +10,7 @@ import { createSchemaValidator } from "../tools/lib/schemas.mjs";
 const repositoryRoot = path.resolve(import.meta.dirname, "..");
 
 test("initializes and packs a userscript from the small author manifest", async () => {
-  const root = await mkdtemp(path.join(os.tmpdir(), "ppx-project-"));
+  const root = await mkdtemp(path.join(os.tmpdir(), "ppext-project-"));
   try {
     await initializeProject(root, projectValues());
     await writeFile(path.join(root, "payload", "main.user.js"), [
@@ -20,8 +20,9 @@ test("initializes and packs a userscript from the small author manifest", async 
       "// ==/UserScript==",
       "",
     ].join("\n"), "utf8");
-    const output = path.join(root, "sample.demo-1.0.0.ppx");
+    const output = path.join(root, "sample.demo-1.0.0.ppext");
     const packed = await packProject(root, output, repositoryRoot);
+    assert.equal(packed.manifest.format, "packingproof-extension");
     assert.equal(packed.manifest.installation.mode, "userscript-import");
     assert.deepEqual(packed.manifest.compatibility.platforms, { userscript: ["any"] });
     const result = await validatePackage(output, await createSchemaValidator(repositoryRoot));
@@ -32,7 +33,7 @@ test("initializes and packs a userscript from the small author manifest", async 
 });
 
 test("packs an external adapter without asking for architecture or access declarations", async () => {
-  const root = await mkdtemp(path.join(os.tmpdir(), "ppx-adapter-project-"));
+  const root = await mkdtemp(path.join(os.tmpdir(), "ppext-adapter-project-"));
   try {
     const values = projectValues({
       id: "sample.adapter",
@@ -42,7 +43,7 @@ test("packs an external adapter without asking for architecture or access declar
     });
     await initializeProject(root, values);
     await writeFile(path.join(root, "payload", "adapter.exe"), Buffer.from([1, 2, 3, 4]));
-    const output = path.join(root, "sample.adapter-1.0.0.ppx");
+    const output = path.join(root, "sample.adapter-1.0.0.ppext");
     const packed = await packProject(root, output, repositoryRoot);
     assert.deepEqual(packed.manifest.compatibility.platforms, { windows: ["any"] });
     assert.deepEqual(packed.manifest.access.systemAccess, []);

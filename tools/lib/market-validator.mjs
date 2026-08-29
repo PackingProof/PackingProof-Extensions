@@ -155,8 +155,8 @@ async function validateIcon(extension, extensionDirectory, label) {
 function validateVersion(extension, version, label) {
   assertStableSemver(version.version, label);
   if (version.extensionId !== extension.id) throw new Error(`${label}: extensionId 与扩展不一致`);
-  if (normalizedReleaseVersion(version.source.tag) !== version.version) {
-    throw new Error(`${label}: 源码标签必须与版本号一致，可选 v 前缀`);
+  if (!normalizedReleaseVersion(version.source.tag)) {
+    throw new Error(`${label}: 源码标签必须是稳定 SemVer，可选 v 前缀`);
   }
   if (version.compatibility.maxPackingProofVersion
       && semver.lt(version.compatibility.maxPackingProofVersion, version.compatibility.minPackingProofVersion)) {
@@ -165,13 +165,16 @@ function validateVersion(extension, version, label) {
   validatePlatforms(extension.type, version.compatibility.platforms, label);
   validateAccess(version.access, label);
 
-  const expectedAsset = `${extension.id}-${version.version}.ppx`;
+  const expectedAssets = [
+    `${extension.id}-${version.version}.ppext`,
+    `${extension.id}-${version.version}.ppx`,
+  ];
   for (const download of normalizedDownloads(version.downloads)) {
     const releaseSource = extension.releaseSources.find((source) => source.provider === download.provider);
     if (!releaseSource) throw new Error(`${label}: 下载地址必须来自已登记发布源`);
-    const expectedUrl = releaseAssetUrl(releaseSource, version.source.tag, expectedAsset);
-    if (download.url !== expectedUrl) {
-      throw new Error(`${label}: 下载地址必须是登记发布源的 Release Asset：${expectedUrl}`);
+    const expectedUrls = expectedAssets.map((asset) => releaseAssetUrl(releaseSource, version.source.tag, asset));
+    if (!expectedUrls.includes(download.url)) {
+      throw new Error(`${label}: 下载地址必须是登记发布源的 Release Asset：${expectedUrls[0]}`);
     }
   }
 }

@@ -1,10 +1,26 @@
 {
   "extensions": [
     {
+      "details": "extensions/packingproof.kdzs.json",
+      "detailsSha256": "f2887dcbd94bd80e3ea32c69fd4630d1b872cd6e382a90f2eef5df9994d3c61f",
+      "id": "packingproof.kdzs",
+      "latestVersion": "2.14.0",
+      "name": "PackingProof 快递助手订单联动",
+      "publisher": {
+        "displayName": "PackingProof",
+        "id": "packingproof"
+      },
+      "riskLabels": [],
+      "sourceAvailability": "open-source",
+      "summary": "从快递助手页面提取订单、备注和退款状态并发送到 PackingProof",
+      "trust": "official",
+      "type": "userscript"
+    },
+    {
       "details": "extensions/packingproof.qqbot.json",
-      "detailsSha256": "c87e43c3e8a43529b0d152a6e36f27bd2eecac3a8e8049007ac6fd0c36917fde",
+      "detailsSha256": "3bfc7aac721842dc3b68a52a01b14c5a36b3771f0f2ce654fe83c366f2fc9869",
       "id": "packingproof.qqbot",
-      "latestVersion": "0.0.4",
+      "latestVersion": "0.0.5",
       "name": "PackingProof QQBot",
       "publisher": {
         "displayName": "PackingProof",
@@ -20,6 +36,6 @@
     }
   ],
   "schemaVersion": 1,
-  "sourceDigest": "b61f4cd9e7ad7fb1cee7e4336576836244fbcfd42391906e3fb83c239ef10aee",
-  "updatedAt": "2026-08-29T18:00:17+08:00"
+  "sourceDigest": "318e5dfddef7814f658e02c3e06a3b8f175f77b2a12e775548b9e91083b892f3",
+  "updatedAt": "2026-08-29T14:17:10Z"
 }

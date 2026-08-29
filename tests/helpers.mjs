@@ -16,6 +16,7 @@ export async function writeZip(filePath, entries) {
 export function userscriptManifest(overrides = {}) {
   return {
     schemaVersion: 1,
+    format: "packingproof-extension",
     packageFormatVersion: 1,
     id: "sample.demo",
     version: "1.2.0",
@@ -40,6 +41,7 @@ export function userscriptManifest(overrides = {}) {
 export function externalManifest(overrides = {}) {
   return {
     schemaVersion: 1,
+    format: "packingproof-extension",
     packageFormatVersion: 1,
     id: "sample.adapter",
     version: "1.0.0",

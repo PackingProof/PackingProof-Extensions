@@ -1,0 +1,92 @@
+{
+  "extension": {
+    "categories": [
+      "orders",
+      "userscript"
+    ],
+    "description": "在快递助手批量打印页面运行的官方用户脚本，将订单、备注、商品和打印后退款状态发送到已配置的 PackingProof 录像设备或保存主机",
+    "homepage": "https://github.com/PackingProof/PackingProof-Desktop",
+    "id": "packingproof.kdzs",
+    "license": {
+      "sourceUrl": "https://github.com/PackingProof/PackingProof-Desktop/blob/main/LICENSE",
+      "spdx": "AGPL-3.0-only"
+    },
+    "name": "PackingProof 快递助手订单联动",
+    "publisherId": "packingproof",
+    "releaseSources": [
+      {
+        "name": "PackingProof-Desktop",
+        "owner": "PackingProof",
+        "provider": "gitee"
+      },
+      {
+        "name": "PackingProof-Desktop",
+        "owner": "PackingProof",
+        "provider": "github"
+      }
+    ],
+    "repository": {
+      "name": "PackingProof-Desktop",
+      "owner": "PackingProof",
+      "provider": "github"
+    },
+    "schemaVersion": 1,
+    "sourceAvailability": "open-source",
+    "summary": "从快递助手页面提取订单、备注和退款状态并发送到 PackingProof",
+    "type": "userscript"
+  },
+  "publisher": {
+    "accounts": {
+      "gitee": "PackingProof",
+      "github": "PackingProof"
+    },
+    "displayName": "PackingProof",
+    "homepage": "https://github.com/PackingProof",
+    "id": "packingproof",
+    "schemaVersion": 1
+  },
+  "riskLabels": [],
+  "schemaVersion": 1,
+  "trust": "official",
+  "versions": [
+    {
+      "advisory": null,
+      "release": {
+        "access": {
+          "packingProofCapabilities": [],
+          "packingProofPermissions": [],
+          "systemAccess": []
+        },
+        "compatibility": {
+          "minPackingProofVersion": "0.0.63",
+          "platforms": {
+            "userscript": [
+              "any"
+            ]
+          }
+        },
+        "downloads": {
+          "gitee": {
+            "provider": "gitee",
+            "url": "https://gitee.com/PackingProof/PackingProof-Desktop/releases/download/v0.0.62/packingproof.kdzs-2.14.0.ppext"
+          },
+          "github": {
+            "provider": "github",
+            "url": "https://github.com/PackingProof/PackingProof-Desktop/releases/download/v0.0.62/packingproof.kdzs-2.14.0.ppext"
+          }
+        },
+        "extensionId": "packingproof.kdzs",
+        "publishedAt": "2026-08-29T03:44:57Z",
+        "schemaVersion": 1,
+        "sha256": "77820c50cfe775fc30281a2f36e0f561b3e77059e36030dc5dfd87b4516baedc",
+        "size": 15795,
+        "source": {
+          "commit": "c68de6092564d1e1b8551ac61ce7c97e5b3c5884",
+          "tag": "v0.0.62"
+        },
+        "version": "2.14.0"
+      },
+      "status": "available"
+    }
+  ]
+}

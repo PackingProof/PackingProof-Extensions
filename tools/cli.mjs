@@ -31,8 +31,8 @@ try {
     await loadMarket(rootDirectory, { validateRegistry: true });
     await verifyRegistrySignature(rootDirectory);
     console.log("完整校验通过");
-  } else if (command === "ppx") {
-    await handlePpx(argumentsList);
+  } else if (command === "ppext") {
+    await handlePpext(argumentsList);
   } else if (command === "submit") {
     const project = path.resolve(optionValue(argumentsList, "--project") ?? ".");
     const result = await submitProject(rootDirectory, project);
@@ -70,7 +70,7 @@ try {
   process.exitCode = 1;
 }
 
-async function handlePpx(values) {
+async function handlePpext(values) {
   const action = values[0];
   const directoryValue = values[1]?.startsWith("--") ? null : values[1];
   const projectDirectory = path.resolve(directoryValue ?? ".");
@@ -82,12 +82,12 @@ async function handlePpx(values) {
   if (action === "pack") {
     const manifest = JSON.parse(await import("node:fs/promises")
       .then(({ readFile }) => readFile(path.join(projectDirectory, "manifest.json"), "utf8")));
-    const output = path.resolve(optionValue(values, "--out") ?? path.join(projectDirectory, `${manifest.id}-${manifest.version}.ppx`));
+    const output = path.resolve(optionValue(values, "--out") ?? path.join(projectDirectory, `${manifest.id}-${manifest.version}.ppext`));
     await packProject(projectDirectory, output, rootDirectory);
-    console.log(`PPX 已生成：${output}`);
+    console.log(`PPEXT 已生成：${output}`);
     return;
   }
-  throw new Error("ppx 仅支持 init 或 pack");
+  throw new Error("ppext 仅支持 init 或 pack");
 }
 
 async function collectInitValues(values) {
@@ -121,7 +121,7 @@ async function collectInitValues(values) {
       authorUrl: await value("author-url", "作者或组织公开主页"),
       version: await value("version", "版本", "1.0.0"),
       type,
-      minPackingProofVersion: await value("min-version", "最低 PackingProof 版本", "0.0.62"),
+      minPackingProofVersion: await value("min-version", "最低 PackingProof 版本", "0.0.63"),
       payload: await value("payload", "payload 文件", type === "userscript" ? "payload/main.user.js" : "payload/adapter.exe"),
       summary: await value("summary", "一句话简介"),
       description: await value("description", "详细说明"),
@@ -170,7 +170,7 @@ async function verifyChangedVersions(root, base) {
     return;
   }
   const market = await loadMarket(root);
-  const temporaryDirectory = await mkdtemp(path.join(os.tmpdir(), "packingproof-ppx-"));
+  const temporaryDirectory = await mkdtemp(path.join(os.tmpdir(), "packingproof-ppext-"));
   try {
     for (const [, relativePath] of versionChanges) {
       const version = JSON.parse(await import("node:fs/promises").then(({ readFile }) => readFile(path.join(root, relativePath), "utf8")));
@@ -180,7 +180,7 @@ async function verifyChangedVersions(root, base) {
         ? [version.downloads.primary, version.downloads.mirror]
         : [version.downloads.gitee, version.downloads.github];
       const availableDownloads = downloads.filter(Boolean);
-      const firstPath = path.join(temporaryDirectory, `${version.extensionId}-${version.version}-first.ppx`);
+      const firstPath = path.join(temporaryDirectory, `${version.extensionId}-${version.version}-first.ppext`);
       await downloadPackage(availableDownloads[0].url, firstPath);
       const result = await validatePackage(firstPath, market.schema, {
         id: version.extensionId,
@@ -194,7 +194,7 @@ async function verifyChangedVersions(root, base) {
         throw new Error(`${relativePath}: 主制品大小或 SHA-256 不匹配`);
       }
       if (availableDownloads[1]) {
-        const mirrorPath = path.join(temporaryDirectory, `${version.extensionId}-${version.version}-mirror.ppx`);
+        const mirrorPath = path.join(temporaryDirectory, `${version.extensionId}-${version.version}-mirror.ppext`);
         await downloadPackage(availableDownloads[1].url, mirrorPath);
         if (await sha256File(mirrorPath) !== digest || (await import("node:fs/promises").then(({ stat }) => stat(mirrorPath))).size !== result.packageSize) {
           throw new Error(`${relativePath}: Gitee 与 GitHub 制品不一致`);

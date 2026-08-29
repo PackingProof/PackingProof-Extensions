@@ -74,7 +74,7 @@ export async function packProject(projectDirectory, outputPath, repositoryRoot) 
     throw new Error("userscript payload 必须是 .user.js 文件");
   }
   const internalManifest = expandAuthorManifest(authorManifest);
-  schema.validate("package-manifest.v1.schema.json", internalManifest, "生成的 PPX manifest");
+  schema.validate("package-manifest.v1.schema.json", internalManifest, "生成的 PPEXT manifest");
   const files = await collectProjectFiles(projectDirectory);
   if (!files.includes(payloadPath)) throw new Error(`payload 文件不存在：${payloadPath}`);
   await mkdir(path.dirname(outputPath), { recursive: true });
@@ -116,7 +116,7 @@ export async function submitProject(repositoryRoot, projectDirectory) {
     });
     generatedVersions.push(...versions);
     if (!versions.length && !(await fileExists(path.join(extensionDirectory, "versions", `${authorManifest.version}.json`)))) {
-      throw new Error(`发布源中没有找到 ${submission.extension.id}-${authorManifest.version}.ppx`);
+      throw new Error(`发布源中没有找到 ${submission.extension.id}-${authorManifest.version}.ppext`);
     }
     await buildRegistry(repositoryRoot, await loadMarket(repositoryRoot));
     return { publisherPath, extensionPath, versions };
@@ -130,6 +130,7 @@ export async function submitProject(repositoryRoot, projectDirectory) {
 export function expandAuthorManifest(manifest) {
   return {
     schemaVersion: 1,
+    format: "packingproof-extension",
     packageFormatVersion: 1,
     id: manifest.id,
     version: manifest.version,

@@ -1,0 +1,37 @@
+{
+  "$schema": "../../schemas/extension.v1.schema.json",
+  "schemaVersion": 1,
+  "id": "packingproof.kdzs",
+  "publisherId": "packingproof",
+  "name": "PackingProof 快递助手订单联动",
+  "summary": "从快递助手页面提取订单、备注和退款状态并发送到 PackingProof",
+  "description": "在快递助手批量打印页面运行的官方用户脚本，将订单、备注、商品和打印后退款状态发送到已配置的 PackingProof 录像设备或保存主机",
+  "type": "userscript",
+  "repository": {
+    "provider": "github",
+    "owner": "PackingProof",
+    "name": "PackingProof-Desktop"
+  },
+  "homepage": "https://github.com/PackingProof/PackingProof-Desktop",
+  "license": {
+    "spdx": "AGPL-3.0-only",
+    "sourceUrl": "https://github.com/PackingProof/PackingProof-Desktop/blob/main/LICENSE"
+  },
+  "sourceAvailability": "open-source",
+  "categories": [
+    "orders",
+    "userscript"
+  ],
+  "releaseSources": [
+    {
+      "provider": "gitee",
+      "owner": "PackingProof",
+      "name": "PackingProof-Desktop"
+    },
+    {
+      "provider": "github",
+      "owner": "PackingProof",
+      "name": "PackingProof-Desktop"
+    }
+  ]
+}
