@@ -2,9 +2,9 @@
   "extensions": [
     {
       "details": "extensions/packingproof.kdzs.json",
-      "detailsSha256": "c0be22a51e15772818e5ba1882f7c3c722a41c5d647076743b14fa8dbbed6741",
+      "detailsSha256": "9c815733d008b9db119de14e22684c2fb5e0f715fae644e70f0dfc5c6a973f08",
       "id": "packingproof.kdzs",
-      "latestVersion": "2.14",
+      "latestVersion": "2.15",
       "name": "PackingProof 快递助手订单联动",
       "publisher": {
         "displayName": "PackingProof",
@@ -36,6 +36,6 @@
     }
   ],
   "schemaVersion": 1,
-  "sourceDigest": "e0e4db0ddcd6074b44eda83b5201885b7ec0d32a56b973b0f2c046e3115ca508",
-  "updatedAt": "2026-08-29T23:04:17+08:00"
+  "sourceDigest": "161e78624145bb9a8b0bb718dbc131222bffcb24459c842c7d6b886fb7f81f84",
+  "updatedAt": "2026-08-29T16:11:17Z"
 }
