@@ -1,0 +1,11 @@
+{
+  "$schema": "../schemas/publisher.v1.schema.json",
+  "schemaVersion": 1,
+  "id": "packingproof",
+  "displayName": "PackingProof",
+  "accounts": {
+    "github": "PackingProof",
+    "gitee": "PackingProof"
+  },
+  "homepage": "https://github.com/PackingProof"
+}

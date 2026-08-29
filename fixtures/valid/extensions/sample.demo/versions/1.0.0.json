@@ -1,0 +1,38 @@
+{
+  "schemaVersion": 1,
+  "extensionId": "sample.demo",
+  "version": "1.0.0",
+  "publishedAt": "2026-08-29T00:00:00Z",
+  "source": {
+    "tag": "v1.0.0",
+    "commit": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+  },
+  "downloads": {
+    "primary": {
+      "provider": "github",
+      "url": "https://github.com/SampleOrg/Demo/releases/download/v1.0.0/sample.demo-1.0.0.ppx"
+    }
+  },
+  "sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+  "size": 1024,
+  "compatibility": {
+    "minPackingProofVersion": "0.0.62",
+    "platforms": {
+      "userscript": ["any"]
+    }
+  },
+  "access": {
+    "packingProofPermissions": ["orders.write"],
+    "packingProofCapabilities": [],
+    "systemAccess": [
+      {
+        "id": "network",
+        "reason": "连接用户明确配置的 PackingProof 工位"
+      },
+      {
+        "id": "browser.page-data",
+        "reason": "读取当前订单页面中的结构化订单信息"
+      }
+    ]
+  }
+}

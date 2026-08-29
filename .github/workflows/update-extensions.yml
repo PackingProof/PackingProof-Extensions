@@ -1,0 +1,63 @@
+name: Discover extension releases
+
+on:
+  schedule:
+    - cron: "23 */6 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  discover:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - name: Create one candidate PR per extension
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GITHUB_TOKEN: ${{ github.token }}
+          GITEE_TOKEN: ${{ secrets.GITEE_TOKEN }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name "packingproof-registry-bot"
+          git config user.email "packingproof-registry-bot@users.noreply.github.com"
+          mapfile -t extension_ids < <(node tools/cli.mjs list-extensions)
+          failed=0
+          for extension_id in "${extension_ids[@]}"; do
+            branch="bot/update-${extension_id//./-}"
+            git switch main
+            git branch -D "$branch" 2>/dev/null || true
+            git switch -c "$branch"
+            if ! node tools/cli.mjs update --extension "$extension_id"; then
+              echo "::error title=Extension update failed::$extension_id"
+              failed=1
+              continue
+            fi
+            git add "extensions/$extension_id/versions" registry
+            if git diff --cached --quiet; then
+              continue
+            fi
+            npm test
+            npm run validate
+            git commit -m "chore: 更新 ${extension_id} 扩展版本"
+            git fetch origin "$branch:refs/remotes/origin/$branch" 2>/dev/null || true
+            git push --force-with-lease origin "HEAD:$branch"
+            if ! gh pr list --head "$branch" --state open --json number --jq 'length > 0' | grep -q true; then
+              gh pr create \
+                --base main \
+                --head "$branch" \
+                --title "chore: 更新 ${extension_id} 扩展版本" \
+                --body "更新机器人发现新的稳定 Release，并完成 PPX、SHA-256、权限声明与可选镜像校验。合并前仍需维护者审核源码和版本差异。"
+            fi
+          done
+          exit "$failed"

@@ -1,0 +1,27 @@
+name: Sync main to Gitee
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Push the same main branch to Gitee
+        env:
+          GITEE_USERNAME: ${{ secrets.GITEE_USERNAME }}
+          GITEE_TOKEN: ${{ secrets.GITEE_TOKEN }}
+        run: |
+          if [ -z "$GITEE_USERNAME" ] || [ -z "$GITEE_TOKEN" ]; then
+            echo "Gitee secrets are not configured; skipping mirror push"
+            exit 0
+          fi
+          git push "https://${GITEE_USERNAME}:${GITEE_TOKEN}@gitee.com/PackingProof/PackingProof-Extensions.git" main:main

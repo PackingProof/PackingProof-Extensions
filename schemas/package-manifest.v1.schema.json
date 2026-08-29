@@ -1,0 +1,56 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://packingproof.dev/schemas/package-manifest.v1.schema.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "packageFormatVersion",
+    "id",
+    "version",
+    "type",
+    "installation",
+    "compatibility",
+    "access"
+  ],
+  "properties": {
+    "$schema": {"type": "string"},
+    "schemaVersion": {"const": 1},
+    "packageFormatVersion": {"const": 1},
+    "id": {"$ref": "common.v1.schema.json#/$defs/identifier"},
+    "version": {"$ref": "common.v1.schema.json#/$defs/semver"},
+    "type": {"enum": ["userscript", "external-adapter"]},
+    "installation": {
+      "oneOf": [
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["mode", "payloadPath"],
+          "properties": {
+            "mode": {"const": "userscript-import"},
+            "payloadPath": {
+              "type": "string",
+              "pattern": "^payload/[A-Za-z0-9_./-]+\\.user\\.js$",
+              "maxLength": 300
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["mode", "suggestedPath"],
+          "properties": {
+            "mode": {"const": "manual-external"},
+            "suggestedPath": {
+              "type": "string",
+              "pattern": "^payload/[A-Za-z0-9_./ -]+$",
+              "maxLength": 300
+            }
+          }
+        }
+      ]
+    },
+    "compatibility": {"$ref": "common.v1.schema.json#/$defs/compatibility"},
+    "access": {"$ref": "common.v1.schema.json#/$defs/access"}
+  }
+}

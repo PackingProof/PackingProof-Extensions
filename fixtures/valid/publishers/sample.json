@@ -1,0 +1,8 @@
+{
+  "schemaVersion": 1,
+  "id": "sample",
+  "displayName": "Sample Publisher",
+  "accounts": {
+    "github": "SampleOrg"
+  }
+}

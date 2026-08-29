@@ -1,0 +1,43 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://packingproof.dev/schemas/registry-catalog.v1.schema.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schemaVersion", "sourceDigest", "updatedAt", "extensions"],
+  "properties": {
+    "schemaVersion": {"const": 1},
+    "sourceDigest": {"type": "string", "pattern": "^$|^[0-9a-f]{64}$"},
+    "updatedAt": {"type": ["string", "null"], "format": "date-time"},
+    "extensions": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id", "name", "summary", "type", "publisher", "trust", "latestVersion", "details"],
+        "properties": {
+          "id": {"$ref": "common.v1.schema.json#/$defs/identifier"},
+          "name": {"type": "string"},
+          "summary": {"type": "string"},
+          "type": {"enum": ["userscript", "external-adapter"]},
+          "publisher": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["id", "displayName"],
+            "properties": {
+              "id": {"$ref": "common.v1.schema.json#/$defs/publisherIdentifier"},
+              "displayName": {"type": "string"}
+            }
+          },
+          "trust": {"enum": ["official", "third-party"]},
+          "latestVersion": {
+            "oneOf": [
+              {"$ref": "common.v1.schema.json#/$defs/semver"},
+              {"type": "null"}
+            ]
+          },
+          "details": {"type": "string", "pattern": "^extensions/[a-z0-9.-]+\\.json$"}
+        }
+      }
+    }
+  }
+}

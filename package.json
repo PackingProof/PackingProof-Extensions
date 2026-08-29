@@ -1,0 +1,27 @@
+{
+  "name": "packingproof-extensions-registry",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "validate": "node tools/cli.mjs validate",
+    "generate": "node tools/cli.mjs generate",
+    "check": "node tools/cli.mjs check",
+    "verify:changed": "node tools/cli.mjs verify-changed --base origin/main",
+    "test": "node --test"
+  },
+  "dependencies": {
+    "ajv": "^8.17.1",
+    "ajv-formats": "^3.0.1",
+    "semver": "^7.7.2",
+    "spdx-expression-parse": "^4.0.0",
+    "spdx-license-list": "^6.10.0",
+    "yauzl": "^3.2.0"
+  },
+  "devDependencies": {
+    "yazl": "^3.3.1"
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://packingproof.dev/schemas/publisher.v1.schema.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schemaVersion", "id", "displayName", "accounts"],
+  "properties": {
+    "$schema": {"type": "string"},
+    "schemaVersion": {"const": 1},
+    "id": {"$ref": "common.v1.schema.json#/$defs/publisherIdentifier"},
+    "displayName": {"type": "string", "minLength": 1, "maxLength": 100},
+    "description": {"type": "string", "maxLength": 500},
+    "accounts": {
+      "type": "object",
+      "additionalProperties": false,
+      "minProperties": 1,
+      "properties": {
+        "github": {"type": "string", "pattern": "^[A-Za-z0-9-]{1,39}$"},
+        "gitee": {"type": "string", "pattern": "^[A-Za-z0-9_.-]{1,100}$"}
+      }
+    },
+    "homepage": {"$ref": "common.v1.schema.json#/$defs/httpsUrl"}
+  }
+}

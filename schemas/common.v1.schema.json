@@ -1,0 +1,160 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://packingproof.dev/schemas/common.v1.schema.json",
+  "$defs": {
+    "identifier": {
+      "type": "string",
+      "pattern": "^[a-z0-9][a-z0-9.-]{1,126}[a-z0-9]$",
+      "maxLength": 128
+    },
+    "publisherIdentifier": {
+      "type": "string",
+      "pattern": "^[a-z0-9][a-z0-9-]{0,62}[a-z0-9]$",
+      "minLength": 3,
+      "maxLength": 64
+    },
+    "semver": {
+      "type": "string",
+      "pattern": "^(0|[1-9][0-9]*)\\.(0|[1-9][0-9]*)\\.(0|[1-9][0-9]*)$",
+      "maxLength": 32
+    },
+    "httpsUrl": {
+      "type": "string",
+      "format": "uri",
+      "pattern": "^https://",
+      "maxLength": 2048
+    },
+    "repository": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["provider", "owner", "name"],
+      "properties": {
+        "provider": {
+          "enum": ["github", "gitee"]
+        },
+        "owner": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9_.-]{1,100}$"
+        },
+        "name": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9_.-]{1,100}$"
+        }
+      }
+    },
+    "download": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["provider", "url"],
+      "properties": {
+        "provider": {
+          "enum": ["github", "gitee"]
+        },
+        "url": {
+          "$ref": "#/$defs/httpsUrl"
+        }
+      }
+    },
+    "platforms": {
+      "type": "object",
+      "additionalProperties": false,
+      "minProperties": 1,
+      "properties": {
+        "userscript": {
+          "type": "array",
+          "prefixItems": [{"const": "any"}],
+          "items": false,
+          "minItems": 1,
+          "maxItems": 1
+        },
+        "windows": {"$ref": "#/$defs/architectures"},
+        "macos": {"$ref": "#/$defs/architectures"},
+        "linux": {"$ref": "#/$defs/architectures"},
+        "android": {"$ref": "#/$defs/architectures"},
+        "ios": {"$ref": "#/$defs/architectures"}
+      }
+    },
+    "architectures": {
+      "type": "array",
+      "items": {
+        "enum": ["x86", "x64", "arm64", "any"]
+      },
+      "minItems": 1,
+      "uniqueItems": true
+    },
+    "compatibility": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["minPackingProofVersion", "platforms"],
+      "properties": {
+        "minPackingProofVersion": {"$ref": "#/$defs/semver"},
+        "maxPackingProofVersion": {"$ref": "#/$defs/semver"},
+        "platforms": {"$ref": "#/$defs/platforms"}
+      }
+    },
+    "packingProofPermission": {
+      "enum": [
+        "orders.write",
+        "scan-tasks.read",
+        "scan-results.write",
+        "recordings.active.read",
+        "recording-fields.write",
+        "recordings.search",
+        "recordings.download",
+        "recordings.delivery"
+      ]
+    },
+    "packingProofCapability": {
+      "enum": ["order.lookup", "refund.lookup", "measurement.capture"]
+    },
+    "systemAccess": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "reason"],
+      "properties": {
+        "id": {
+          "enum": [
+            "network",
+            "filesystem.read",
+            "filesystem.write",
+            "process.launch",
+            "serial-port",
+            "camera",
+            "microphone",
+            "clipboard",
+            "browser.page-data",
+            "browser.storage",
+            "other"
+          ]
+        },
+        "reason": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 300
+        }
+      }
+    },
+    "access": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["packingProofPermissions", "packingProofCapabilities", "systemAccess"],
+      "properties": {
+        "packingProofPermissions": {
+          "type": "array",
+          "items": {"$ref": "#/$defs/packingProofPermission"},
+          "uniqueItems": true
+        },
+        "packingProofCapabilities": {
+          "type": "array",
+          "items": {"$ref": "#/$defs/packingProofCapability"},
+          "uniqueItems": true
+        },
+        "systemAccess": {
+          "type": "array",
+          "items": {"$ref": "#/$defs/systemAccess"},
+          "maxItems": 16
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,25 @@
+{
+  "schemaVersion": 1,
+  "id": "sample.demo",
+  "publisherId": "sample",
+  "name": "示例油猴脚本",
+  "summary": "用于验证扩展市场协议的测试夹具",
+  "description": "该条目只用于自动化测试，不会进入正式 registry",
+  "type": "userscript",
+  "repository": {
+    "provider": "github",
+    "owner": "SampleOrg",
+    "name": "Demo"
+  },
+  "license": {
+    "spdx": "MIT",
+    "sourceUrl": "https://github.com/SampleOrg/Demo/blob/main/LICENSE"
+  },
+  "releaseSources": [
+    {
+      "provider": "github",
+      "owner": "SampleOrg",
+      "name": "Demo"
+    }
+  ]
+}
