@@ -1,0 +1,28 @@
+{
+  "$schema": "../../schemas/extension.v1.schema.json",
+  "schemaVersion": 1,
+  "id": "packingproof.qqbot",
+  "publisherId": "packingproof",
+  "name": "PackingProof QQBot",
+  "summary": "通过 QQ 私聊或群聊按单号查询并发送 PackingProof 打包录像",
+  "description": "连接 QQ 官方机器人平台与 PackingProof Extension API。用户可以在 QQ 私聊中发送快递单号，或在允许的群聊中 @机器人查询录像；超出 QQ 文件限制时可请求 PackingProof 主机生成交付副本",
+  "type": "external-adapter",
+  "repository": {
+    "provider": "github",
+    "owner": "PackingProof",
+    "name": "PackingProof-QQBot"
+  },
+  "homepage": "https://github.com/PackingProof/PackingProof-QQBot",
+  "license": {
+    "spdx": "AGPL-3.0-only",
+    "sourceUrl": "https://github.com/PackingProof/PackingProof-QQBot/blob/main/LICENSE"
+  },
+  "categories": ["chatbot", "recording"],
+  "releaseSources": [
+    {
+      "provider": "github",
+      "owner": "PackingProof",
+      "name": "PackingProof-QQBot"
+    }
+  ]
+}

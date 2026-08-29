@@ -1,0 +1,102 @@
+{
+  "extension": {
+    "categories": [
+      "chatbot",
+      "recording"
+    ],
+    "description": "连接 QQ 官方机器人平台与 PackingProof Extension API。用户可以在 QQ 私聊中发送快递单号，或在允许的群聊中 @机器人查询录像；超出 QQ 文件限制时可请求 PackingProof 主机生成交付副本",
+    "homepage": "https://github.com/PackingProof/PackingProof-QQBot",
+    "id": "packingproof.qqbot",
+    "license": {
+      "sourceUrl": "https://github.com/PackingProof/PackingProof-QQBot/blob/main/LICENSE",
+      "spdx": "AGPL-3.0-only"
+    },
+    "name": "PackingProof QQBot",
+    "publisherId": "packingproof",
+    "releaseSources": [
+      {
+        "name": "PackingProof-QQBot",
+        "owner": "PackingProof",
+        "provider": "github"
+      }
+    ],
+    "repository": {
+      "name": "PackingProof-QQBot",
+      "owner": "PackingProof",
+      "provider": "github"
+    },
+    "schemaVersion": 1,
+    "summary": "通过 QQ 私聊或群聊按单号查询并发送 PackingProof 打包录像",
+    "type": "external-adapter"
+  },
+  "publisher": {
+    "accounts": {
+      "gitee": "PackingProof",
+      "github": "PackingProof"
+    },
+    "displayName": "PackingProof",
+    "homepage": "https://github.com/PackingProof",
+    "id": "packingproof",
+    "schemaVersion": 1
+  },
+  "schemaVersion": 1,
+  "trust": "official",
+  "versions": [
+    {
+      "advisory": null,
+      "release": {
+        "access": {
+          "packingProofCapabilities": [],
+          "packingProofPermissions": [
+            "recordings.search",
+            "recordings.download",
+            "recordings.delivery"
+          ],
+          "systemAccess": [
+            {
+              "id": "network",
+              "reason": "连接 QQ 官方接口与用户配置的 PackingProof 主机"
+            },
+            {
+              "id": "filesystem.read",
+              "reason": "读取 QQBot 本机配置、加密凭据和运行状态"
+            },
+            {
+              "id": "filesystem.write",
+              "reason": "保存本机配置、加密凭据、日志和待发送的临时录像"
+            },
+            {
+              "id": "other",
+              "reason": "用户启用开机自动启动时写入当前 Windows 用户的启动项"
+            }
+          ]
+        },
+        "compatibility": {
+          "minPackingProofVersion": "0.0.62",
+          "platforms": {
+            "windows": [
+              "x64"
+            ]
+          }
+        },
+        "downloads": {
+          "primary": {
+            "provider": "github",
+            "url": "https://github.com/PackingProof/PackingProof-QQBot/releases/download/v0.0.3/packingproof.qqbot-0.0.3.ppx"
+          }
+        },
+        "extensionId": "packingproof.qqbot",
+        "publishedAt": "2026-08-29T09:37:09Z",
+        "schemaVersion": 1,
+        "sha256": "302d23c9d786e15e0f4ddc3ae18022dacb48338103c4bcf81a5129f74d21a023",
+        "size": 72514429,
+        "source": {
+          "commit": "d275b2bb232f8263d1e7a763909ed29cdb028be8",
+          "tag": "v0.0.3"
+        },
+        "version": "0.0.3"
+      },
+      "status": "available"
+    }
+  ]
+}

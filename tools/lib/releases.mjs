@@ -1,4 +1,4 @@
-import { mkdir, unlink, writeFile } from "node:fs/promises";
+import { mkdir, stat, writeFile } from "node:fs/promises";
 import path from "node:path";
 import semver from "semver";
 import { stableJson } from "./files.mjs";
@@ -25,7 +25,13 @@ export async function updateExtension(rootDirectory, market, extensionId) {
     await mkdir(cacheDirectory, { recursive: true });
     const downloads = await resolveDownloads(item.descriptor.releaseSources, release.tag, assetName, cacheDirectory);
     const available = [downloads.primary, downloads.mirror].find((value) => value?.filePath);
-    if (!available?.filePath) throw new Error(`${extensionId} ${release.version}: 所有发布源均无法下载扩展包`);
+    if (!available?.filePath) {
+      const reasons = [downloads.primary, downloads.mirror]
+        .filter(Boolean)
+        .map((value) => `${value.provider}: ${value.error}`)
+        .join("；");
+      throw new Error(`${extensionId} ${release.version}: 所有发布源均无法下载扩展包：${reasons}`);
+    }
     const packageResult = await validatePackage(available.filePath, market.schema);
     if (packageResult.manifest.id !== extensionId
         || packageResult.manifest.version !== release.version
@@ -68,6 +74,7 @@ export async function updateExtension(rootDirectory, market, extensionId) {
 
   if (pendingDocuments.length) {
     for (const pending of pendingDocuments) {
+      await mkdir(path.dirname(pending.targetPath), { recursive: true });
       await writeFile(pending.targetPath, stableJson(pending.document), { encoding: "utf8", flag: "wx" });
     }
     const refreshed = await import("./market-validator.mjs").then(({ loadMarket }) => loadMarket(rootDirectory));
@@ -94,12 +101,17 @@ async function resolveDownloads(sources, tag, assetName, cacheDirectory) {
     const source = sources[index];
     const url = releaseAssetUrl(source, tag, assetName);
     const filePath = path.join(cacheDirectory, `${index}-${assetName}`);
-    await unlink(filePath).catch(() => {});
     try {
+      const existing = await stat(filePath).catch(() => null);
+      if (existing?.size > 0) {
+        values.push({ provider: source.provider, url, filePath, size: existing.size });
+        continue;
+      }
       const size = await downloadPackage(url, filePath);
       values.push({ provider: source.provider, url, filePath, size });
-    } catch {
-      values.push({ provider: source.provider, url, filePath: null, size: null });
+    } catch (error) {
+      const reason = error.cause?.message ? `${error.message}: ${error.cause.message}` : error.message;
+      values.push({ provider: source.provider, url, filePath: null, size: null, error: reason });
     }
   }
   return { primary: values[0], mirror: values[1] };

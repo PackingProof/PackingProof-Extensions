@@ -35,7 +35,7 @@ export async function buildRegistry(rootDirectory, market) {
       updatedAt = laterTimestamp(updatedAt, version.publishedAt);
       if (advisory) updatedAt = laterTimestamp(updatedAt, advisory.withdrawnAt);
       return {
-        release: version,
+        release: withoutSchema(version),
         status: advisory ? "withdrawn" : "available",
         advisory: advisory ?? null,
       };
@@ -43,8 +43,8 @@ export async function buildRegistry(rootDirectory, market) {
     const latest = versions.find((version) => version.status === "available") ?? null;
     const detail = {
       schemaVersion: 1,
-      extension: item.descriptor,
-      publisher: item.publisher,
+      extension: withoutSchema(item.descriptor),
+      publisher: withoutSchema(item.publisher),
       trust,
       versions,
     };
@@ -77,4 +77,9 @@ export async function buildRegistry(rootDirectory, market) {
 function laterTimestamp(current, candidate) {
   if (!current || Date.parse(candidate) > Date.parse(current)) return candidate;
   return current;
+}
+
+function withoutSchema(value) {
+  const { $schema: _schema, ...rest } = value;
+  return rest;
 }

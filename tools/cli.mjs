@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+import "./lib/http.mjs";
 import { execFile } from "node:child_process";
 import { mkdtemp, rm } from "node:fs/promises";
 import os from "node:os";
