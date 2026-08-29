@@ -3,12 +3,17 @@
   "$id": "https://packingproof.dev/schemas/registry-extension.v1.schema.json",
   "type": "object",
   "additionalProperties": false,
-  "required": ["schemaVersion", "extension", "publisher", "trust", "versions"],
+  "required": ["schemaVersion", "extension", "publisher", "trust", "riskLabels", "versions"],
   "properties": {
     "schemaVersion": {"const": 1},
     "extension": {"$ref": "extension.v1.schema.json"},
     "publisher": {"$ref": "publisher.v1.schema.json"},
     "trust": {"enum": ["official", "third-party"]},
+    "riskLabels": {
+      "type": "array",
+      "items": {"enum": ["closed-source-external", "external-program"]},
+      "uniqueItems": true
+    },
     "versions": {
       "type": "array",
       "items": {

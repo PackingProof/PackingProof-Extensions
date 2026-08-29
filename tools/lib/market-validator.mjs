@@ -50,7 +50,7 @@ export async function loadMarket(rootDirectory, options = {}) {
     const publisher = publishers.get(extension.publisherId);
     if (!publisher) throw new Error(`${descriptorPath}: Publisher 不存在：${extension.publisherId}`);
     if (extensions.has(extension.id)) throw new Error(`${descriptorPath}: 扩展 ID 重复`);
-    assertOsiLicense(extension.license.spdx, descriptorPath);
+    validateSourcePolicy(extension, publisher, descriptorPath);
     validateReleaseSources(extension, publisher, descriptorPath);
     await validateIcon(extension, extensionDirectory, descriptorPath);
 
@@ -101,21 +101,43 @@ export async function loadMarket(rootDirectory, options = {}) {
 function validateReleaseSources(extension, publisher, label) {
   const providers = new Set();
   for (const source of extension.releaseSources) {
-    if (providers.has(source.provider)) throw new Error(`${label}: 主源与镜像不能使用同一平台`);
+    if (providers.has(source.provider)) throw new Error(`${label}: 每个平台只能登记一个发布源`);
     providers.add(source.provider);
   }
-  if (!extension.releaseSources.some((source) => repositoriesEqual(source, extension.repository))) {
-    throw new Error(`${label}: 源码仓库必须同时是主发布源或镜像发布源`);
-  }
-  const owner = publisher.accounts[extension.repository.provider];
-  if (!owner || owner.toLowerCase() !== extension.repository.owner.toLowerCase()) {
-    throw new Error(`${label}: 源码仓库所有者必须匹配 Publisher 平台账号`);
+  if (extension.repository) {
+    if (!extension.releaseSources.some((source) => repositoriesEqual(source, extension.repository))) {
+      throw new Error(`${label}: 源码仓库必须同时是已登记发布源`);
+    }
+    const owner = publisher.accounts[extension.repository.provider];
+    if (!owner || owner.toLowerCase() !== extension.repository.owner.toLowerCase()) {
+      throw new Error(`${label}: 源码仓库所有者必须匹配 Publisher 平台账号`);
+    }
   }
   for (const source of extension.releaseSources) {
     const mappedOwner = publisher.accounts[source.provider];
     if (!mappedOwner || mappedOwner.toLowerCase() !== source.owner.toLowerCase()) {
       throw new Error(`${label}: 发布源所有者必须匹配 Publisher 的 ${source.provider} 账号`);
     }
+  }
+}
+
+function validateSourcePolicy(extension, publisher, label) {
+  const availability = extension.sourceAvailability ?? "open-source";
+  if (extension.type === "userscript" && availability !== "open-source") {
+    throw new Error(`${label}: userscript 必须公开源码`);
+  }
+  if (availability === "open-source") {
+    if (!extension.repository) throw new Error(`${label}: 开源扩展必须登记源码仓库`);
+    if (!extension.license.spdx) throw new Error(`${label}: 开源扩展必须使用 SPDX 许可证`);
+    assertOsiLicense(extension.license.spdx, label);
+    return;
+  }
+  if (extension.type !== "external-adapter") throw new Error(`${label}: 只有 external-adapter 可以闭源`);
+  if (!publisher.homepage || !extension.homepage) {
+    throw new Error(`${label}: 闭源外部程序必须提供作者主页和项目主页`);
+  }
+  if (!extension.license.name || !extension.license.termsUrl) {
+    throw new Error(`${label}: 闭源外部程序必须提供使用许可名称和条款地址`);
   }
 }
 
@@ -144,26 +166,19 @@ function validateVersion(extension, version, label) {
   validateAccess(version.access, label);
 
   const expectedAsset = `${extension.id}-${version.version}.ppx`;
-  const primarySource = extension.releaseSources.find(
-    (source) => source.provider === version.downloads.primary.provider,
-  );
-  if (!primarySource) throw new Error(`${label}: primary 必须来自登记的发布源`);
-  const expectedPrimary = releaseAssetUrl(primarySource, version.source.tag, expectedAsset);
-  if (version.downloads.primary.url !== expectedPrimary) {
-    throw new Error(`${label}: 主下载地址必须是登记发布源的 Release Asset：${expectedPrimary}`);
-  }
-  if (version.downloads.mirror) {
-    const mirrorSource = extension.releaseSources.find(
-      (source) => source.provider === version.downloads.mirror.provider,
-    );
-    if (!mirrorSource || mirrorSource.provider === primarySource.provider) {
-      throw new Error(`${label}: mirror 必须来自另一个已登记发布源`);
-    }
-    const expectedMirror = releaseAssetUrl(mirrorSource, version.source.tag, expectedAsset);
-    if (version.downloads.mirror.url !== expectedMirror) {
-      throw new Error(`${label}: 镜像地址必须是登记镜像源的 Release Asset：${expectedMirror}`);
+  for (const download of normalizedDownloads(version.downloads)) {
+    const releaseSource = extension.releaseSources.find((source) => source.provider === download.provider);
+    if (!releaseSource) throw new Error(`${label}: 下载地址必须来自已登记发布源`);
+    const expectedUrl = releaseAssetUrl(releaseSource, version.source.tag, expectedAsset);
+    if (download.url !== expectedUrl) {
+      throw new Error(`${label}: 下载地址必须是登记发布源的 Release Asset：${expectedUrl}`);
     }
   }
+}
+
+function normalizedDownloads(downloads) {
+  if (downloads.primary) return [downloads.primary, downloads.mirror].filter(Boolean);
+  return [downloads.gitee, downloads.github].filter(Boolean);
 }
 
 function validatePlatforms(type, platforms, label) {
@@ -228,5 +243,5 @@ export function trustForPublisher(publisherId) {
 }
 
 export function extensionRepositoryUrl(extension) {
-  return repositoryUrl(extension.repository);
+  return extension.repository ? repositoryUrl(extension.repository) : extension.homepage;
 }

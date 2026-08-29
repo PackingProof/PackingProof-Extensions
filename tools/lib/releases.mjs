@@ -6,14 +6,28 @@ import { buildRegistry } from "./registry.mjs";
 import { downloadPackage, sha256File, validatePackage } from "./package-validator.mjs";
 import { normalizedReleaseVersion, releaseAssetUrl } from "./policy.mjs";
 
-export async function updateExtension(rootDirectory, market, extensionId) {
+export async function updateExtension(rootDirectory, market, extensionId, options = {}) {
   const item = market.extensions.get(extensionId);
   if (!item) throw new Error(`扩展不存在：${extensionId}`);
   const known = new Set(item.versions.map((version) => version.version));
-  const discovery = await discoverWithFallback(item.descriptor.releaseSources);
-  const candidates = discovery.releases
-    .map((release) => ({ ...release, version: normalizedReleaseVersion(release.tag) }))
-    .filter((release) => release.version && !known.has(release.version))
+  const discoveries = await discoverAll(item.descriptor.releaseSources);
+  const releasesByVersion = new Map();
+  for (const discovery of discoveries.filter((value) => value.releases)) {
+    for (const release of discovery.releases) {
+      const version = normalizedReleaseVersion(release.tag);
+      if (!version) continue;
+      const current = releasesByVersion.get(version);
+      const assets = [...new Set([...(current?.assets ?? []), ...release.assets])];
+      if (!current || discovery.source.provider === "gitee") {
+        releasesByVersion.set(version, { ...release, assets, version, source: discovery.source });
+      } else {
+        current.assets = assets;
+      }
+    }
+  }
+  const candidates = [...releasesByVersion.values()]
+    .filter((release) => !known.has(release.version)
+      && (!options.onlyVersion || release.version === options.onlyVersion))
     .sort((left, right) => semver.compare(left.version, right.version));
   const created = [];
   const pendingDocuments = [];
@@ -24,9 +38,9 @@ export async function updateExtension(rootDirectory, market, extensionId) {
     const cacheDirectory = path.join(rootDirectory, ".cache", "updates", extensionId, release.version);
     await mkdir(cacheDirectory, { recursive: true });
     const downloads = await resolveDownloads(item.descriptor.releaseSources, release.tag, assetName, cacheDirectory);
-    const available = [downloads.primary, downloads.mirror].find((value) => value?.filePath);
+    const available = [downloads.gitee, downloads.github].find((value) => value?.filePath);
     if (!available?.filePath) {
-      const reasons = [downloads.primary, downloads.mirror]
+      const reasons = [downloads.gitee, downloads.github]
         .filter(Boolean)
         .map((value) => `${value.provider}: ${value.error}`)
         .join("；");
@@ -39,16 +53,19 @@ export async function updateExtension(rootDirectory, market, extensionId) {
       throw new Error(`${extensionId} ${release.version}: manifest 身份与扩展登记不一致`);
     }
     const digest = await sha256File(available.filePath);
-    for (const candidate of [downloads.primary, downloads.mirror].filter(Boolean)) {
+    for (const candidate of [downloads.gitee, downloads.github].filter(Boolean)) {
       if (!candidate.filePath) continue;
       const candidateDigest = await sha256File(candidate.filePath);
       if (candidateDigest !== digest || candidate.size !== available.size) {
-        throw new Error(`${extensionId} ${release.version}: 主源与镜像制品不一致`);
+        throw new Error(`${extensionId} ${release.version}: Gitee 与 GitHub 制品不一致`);
       }
     }
-    const commit = await resolveCommit(discovery.source, release.tag);
-    const otherAvailable = [downloads.primary, downloads.mirror]
-      .find((value) => value?.filePath && value.provider !== available.provider);
+    const commit = await resolveCommit(release.source, release.tag);
+    const availableDownloads = Object.fromEntries(
+      [downloads.gitee, downloads.github]
+        .filter((value) => value?.filePath)
+        .map((value) => [value.provider, { provider: value.provider, url: value.url }]),
+    );
     const document = {
       $schema: "../../../schemas/version.v1.schema.json",
       schemaVersion: 1,
@@ -56,12 +73,7 @@ export async function updateExtension(rootDirectory, market, extensionId) {
       version: release.version,
       publishedAt: release.publishedAt,
       source: { tag: release.tag, commit },
-      downloads: {
-        primary: { provider: available.provider, url: available.url },
-        ...(otherAvailable
-          ? { mirror: { provider: otherAvailable.provider, url: otherAvailable.url } }
-          : {}),
-      },
+      downloads: availableDownloads,
       sha256: digest,
       size: available.size,
       compatibility: packageResult.manifest.compatibility,
@@ -92,7 +104,21 @@ export async function discoverWithFallback(sources) {
       errors.push(`${source.provider}: ${error.message}`);
     }
   }
-  throw new Error(`主发布源与镜像发布源均无法发现版本：${errors.join("；")}`);
+  throw new Error(`所有发布源均无法发现版本：${errors.join("；")}`);
+}
+
+export async function discoverAll(sources) {
+  const results = await Promise.all(sources.map(async (source) => {
+    try {
+      return { source, releases: await listReleases(source), error: null };
+    } catch (error) {
+      return { source, releases: null, error: error.message };
+    }
+  }));
+  if (!results.some((value) => value.releases)) {
+    throw new Error(`所有发布源均无法发现版本：${results.map((value) => `${value.source.provider}: ${value.error}`).join("；")}`);
+  }
+  return results;
 }
 
 async function resolveDownloads(sources, tag, assetName, cacheDirectory) {
@@ -114,7 +140,7 @@ async function resolveDownloads(sources, tag, assetName, cacheDirectory) {
       values.push({ provider: source.provider, url, filePath: null, size: null, error: reason });
     }
   }
-  return { primary: values[0], mirror: values[1] };
+  return Object.fromEntries(values.map((value) => [value.provider, value]));
 }
 
 async function listReleases(source) {

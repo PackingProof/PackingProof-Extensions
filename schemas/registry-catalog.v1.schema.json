@@ -13,12 +13,18 @@
       "items": {
         "type": "object",
         "additionalProperties": false,
-        "required": ["id", "name", "summary", "type", "publisher", "trust", "latestVersion", "details"],
+        "required": ["id", "name", "summary", "type", "sourceAvailability", "riskLabels", "publisher", "trust", "latestVersion", "details", "detailsSha256"],
         "properties": {
           "id": {"$ref": "common.v1.schema.json#/$defs/identifier"},
           "name": {"type": "string"},
           "summary": {"type": "string"},
           "type": {"enum": ["userscript", "external-adapter"]},
+          "sourceAvailability": {"enum": ["open-source", "closed-source"]},
+          "riskLabels": {
+            "type": "array",
+            "items": {"enum": ["closed-source-external", "external-program"]},
+            "uniqueItems": true
+          },
           "publisher": {
             "type": "object",
             "additionalProperties": false,
@@ -35,7 +41,8 @@
               {"type": "null"}
             ]
           },
-          "details": {"type": "string", "pattern": "^extensions/[a-z0-9.-]+\\.json$"}
+          "details": {"type": "string", "pattern": "^extensions/[a-z0-9.-]+\\.json$"},
+          "detailsSha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"}
         }
       }
     }

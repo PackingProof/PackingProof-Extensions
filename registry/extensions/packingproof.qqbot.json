@@ -31,6 +31,7 @@
       "provider": "github"
     },
     "schemaVersion": 1,
+    "sourceAvailability": "open-source",
     "summary": "通过 QQ 私聊或群聊按单号查询并发送 PackingProof 打包录像",
     "type": "external-adapter"
   },
@@ -44,6 +45,9 @@
     "id": "packingproof",
     "schemaVersion": 1
   },
+  "riskLabels": [
+    "external-program"
+  ],
   "schemaVersion": 1,
   "trust": "official",
   "versions": [

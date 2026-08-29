@@ -31,13 +31,26 @@
       }
     },
     "downloads": {
-      "type": "object",
-      "additionalProperties": false,
-      "required": ["primary"],
-      "properties": {
-        "primary": {"$ref": "common.v1.schema.json#/$defs/download"},
-        "mirror": {"$ref": "common.v1.schema.json#/$defs/download"}
-      }
+      "oneOf": [
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["primary"],
+          "properties": {
+            "primary": {"$ref": "common.v1.schema.json#/$defs/download"},
+            "mirror": {"$ref": "common.v1.schema.json#/$defs/download"}
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "minProperties": 1,
+          "properties": {
+            "gitee": {"$ref": "common.v1.schema.json#/$defs/download"},
+            "github": {"$ref": "common.v1.schema.json#/$defs/download"}
+          }
+        }
+      ]
     },
     "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
     "size": {"type": "integer", "minimum": 1, "maximum": 209715200},

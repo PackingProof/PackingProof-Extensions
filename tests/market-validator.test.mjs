@@ -54,6 +54,46 @@ test("rejects capability declarations without enforced API permissions", async (
   }
 });
 
+test("allows a closed-source external adapter with public identity and terms", async () => {
+  const root = await createFixtureRoot();
+  try {
+    const publisherPath = path.join(root, "publishers", "sample.json");
+    const publisher = JSON.parse(await readFile(publisherPath, "utf8"));
+    publisher.homepage = "https://gitee.com/SampleOrg";
+    await writeJson(publisherPath, publisher);
+    const extensionPath = path.join(root, "extensions", "sample.demo", "extension.json");
+    const extension = JSON.parse(await readFile(extensionPath, "utf8"));
+    extension.type = "external-adapter";
+    extension.sourceAvailability = "closed-source";
+    extension.homepage = "https://gitee.com/SampleOrg/Demo";
+    delete extension.repository;
+    extension.license = { name: "Proprietary", termsUrl: "https://gitee.com/SampleOrg/Demo/terms" };
+    await writeJson(extensionPath, extension);
+    const versionPath = path.join(root, "extensions", "sample.demo", "versions", "1.0.0.json");
+    const version = JSON.parse(await readFile(versionPath, "utf8"));
+    version.compatibility.platforms = { windows: ["any"] };
+    await writeJson(versionPath, version);
+    const market = await loadMarket(root);
+    const catalog = await buildRegistry(root, market);
+    assert.deepEqual(catalog.extensions[0].riskLabels, ["external-program", "closed-source-external"]);
+  } finally {
+    await rm(root, { recursive: true, force: true });
+  }
+});
+
+test("rejects a closed-source userscript", async () => {
+  const root = await createFixtureRoot();
+  try {
+    const extensionPath = path.join(root, "extensions", "sample.demo", "extension.json");
+    const extension = JSON.parse(await readFile(extensionPath, "utf8"));
+    extension.sourceAvailability = "closed-source";
+    await writeJson(extensionPath, extension);
+    await assert.rejects(loadMarket(root), /userscript 必须公开源码/);
+  } finally {
+    await rm(root, { recursive: true, force: true });
+  }
+});
+
 async function createFixtureRoot() {
   const root = await mkdtemp(path.join(os.tmpdir(), "packingproof-market-"));
   await cp(path.join(repositoryRoot, "schemas"), path.join(root, "schemas"), { recursive: true });

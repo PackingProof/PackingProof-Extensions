@@ -1,14 +1,14 @@
 # PackingProof Extensions
 
-PackingProof 官方扩展登记仓库，负责公开协议、发布者和扩展登记、不可变版本记录、生成市场索引与候选更新 PR。
+PackingProof 官方扩展登记仓库，负责公开包格式、扩展登记、不可变版本记录、签名市场索引与候选更新 PR。
 
-本仓库不托管第三方扩展源码或制品。扩展源码必须位于公开的 GitHub/Gitee 仓库，安装包必须以 `.ppx` Release Asset 发布。
+本仓库不托管第三方扩展源码或制品。安装包必须以 GitHub/Gitee `.ppx` Release Asset 发布；用户脚本要求公开源码，外部适配器允许闭源并显示风险提示。
 
 ## v1 支持范围
 
 - `userscript`：由 PackingProof 导入到现有油猴脚本管理流程
 - `external-adapter`：PackingProof 校验并解包后展示说明和所在目录，永不自动执行
-- 官方扩展优先使用 Gitee 主发布源和 GitHub 镜像；主发布源发现失败时，更新机器人尝试镜像发现
+- GitHub/Gitee 均可作为发布源；客户端存在 Gitee 地址时优先使用 Gitee，失败后尝试 GitHub
 - 只有稳定 SemVer 版本；不收录 draft、prerelease 或 Raw 文件
 - 官方与第三方两级来源标识；市场收录不代表安全保证
 
@@ -37,7 +37,7 @@ npm run check
 git diff --exit-code
 ```
 
-协议细节见 [扩展市场协议 v1](docs/PROTOCOL_V1.md)，提交扩展见 [贡献指南](CONTRIBUTING.md)。
+开始开发只需阅读 [贡献指南](CONTRIBUTING.md)。内部协议见 [扩展市场协议 v1](docs/PROTOCOL_V1.md)，维护者审核见 [扩展审核指南](docs/REVIEW_GUIDE.md)。
 
 ## 安全边界
 

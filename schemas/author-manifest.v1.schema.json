@@ -1,0 +1,29 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://packingproof.dev/schemas/author-manifest.v1.schema.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "id",
+    "name",
+    "version",
+    "type",
+    "minPackingProofVersion",
+    "payload"
+  ],
+  "properties": {
+    "$schema": {"type": "string"},
+    "schemaVersion": {"const": 1},
+    "id": {"$ref": "common.v1.schema.json#/$defs/identifier"},
+    "name": {"type": "string", "minLength": 1, "maxLength": 100},
+    "version": {"$ref": "common.v1.schema.json#/$defs/semver"},
+    "type": {"enum": ["userscript", "external-adapter"]},
+    "minPackingProofVersion": {"$ref": "common.v1.schema.json#/$defs/semver"},
+    "payload": {
+      "type": "string",
+      "pattern": "^payload/[A-Za-z0-9_./ -]+$",
+      "maxLength": 300
+    }
+  }
+}

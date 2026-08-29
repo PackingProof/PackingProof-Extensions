@@ -30,6 +30,11 @@ export async function buildRegistry(rootDirectory, market) {
 
   for (const [id, item] of [...market.extensions.entries()].sort(([left], [right]) => left.localeCompare(right, "en"))) {
     const trust = trustForPublisher(item.publisher.id);
+    const sourceAvailability = item.descriptor.sourceAvailability ?? "open-source";
+    const riskLabels = [
+      ...(item.descriptor.type === "external-adapter" ? ["external-program"] : []),
+      ...(sourceAvailability === "closed-source" ? ["closed-source-external"] : []),
+    ];
     const versions = item.versions.map((version) => {
       const advisory = advisoryMap.get(`${id}@${version.version}`);
       updatedAt = laterTimestamp(updatedAt, version.publishedAt);
@@ -43,23 +48,28 @@ export async function buildRegistry(rootDirectory, market) {
     const latest = versions.find((version) => version.status === "available") ?? null;
     const detail = {
       schemaVersion: 1,
-      extension: withoutSchema(item.descriptor),
+      extension: { ...withoutSchema(item.descriptor), sourceAvailability },
       publisher: withoutSchema(item.publisher),
       trust,
+      riskLabels,
       versions,
     };
     const fileName = `${id}.json`;
     expectedDetailFiles.add(fileName);
-    await writeFile(path.join(detailsDirectory, fileName), stableJson(detail), "utf8");
+    const detailBytes = stableJson(detail);
+    await writeFile(path.join(detailsDirectory, fileName), detailBytes, "utf8");
     catalogExtensions.push({
       id,
       name: item.descriptor.name,
       summary: item.descriptor.summary,
       type: item.descriptor.type,
+      sourceAvailability,
+      riskLabels,
       publisher: { id: item.publisher.id, displayName: item.publisher.displayName },
       trust,
       latestVersion: latest?.release.version ?? null,
       details: `extensions/${fileName}`,
+      detailsSha256: createHash("sha256").update(detailBytes).digest("hex"),
     });
   }
 
