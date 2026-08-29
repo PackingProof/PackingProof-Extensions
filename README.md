@@ -8,7 +8,7 @@ PackingProof 官方扩展登记仓库，负责公开协议、发布者和扩展�
 
 - `userscript`：由 PackingProof 导入到现有油猴脚本管理流程
 - `external-adapter`：PackingProof 校验并解包后展示说明和所在目录，永不自动执行
-- GitHub/Gitee 主发布源与可选镜像；主发布源发现失败时，更新机器人尝试镜像发现
+- 官方扩展优先使用 Gitee 主发布源和 GitHub 镜像；主发布源发现失败时，更新机器人尝试镜像发现
 - 只有稳定 SemVer 版本；不收录 draft、prerelease 或 Raw 文件
 - 官方与第三方两级来源标识；市场收录不代表安全保证
 
