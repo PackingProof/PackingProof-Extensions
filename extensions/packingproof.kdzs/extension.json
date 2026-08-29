@@ -10,12 +10,12 @@
   "repository": {
     "provider": "github",
     "owner": "PackingProof",
-    "name": "PackingProof-Desktop"
+    "name": "PackingProof-KDZS"
   },
-  "homepage": "https://github.com/PackingProof/PackingProof-Desktop",
+  "homepage": "https://github.com/PackingProof/PackingProof-KDZS",
   "license": {
     "spdx": "AGPL-3.0-only",
-    "sourceUrl": "https://github.com/PackingProof/PackingProof-Desktop/blob/main/LICENSE"
+    "sourceUrl": "https://github.com/PackingProof/PackingProof-KDZS/blob/main/LICENSE"
   },
   "sourceAvailability": "open-source",
   "categories": [
@@ -23,6 +23,18 @@
     "userscript"
   ],
   "releaseSources": [
+    {
+      "provider": "gitee",
+      "owner": "PackingProof",
+      "name": "PackingProof-KDZS"
+    },
+    {
+      "provider": "github",
+      "owner": "PackingProof",
+      "name": "PackingProof-KDZS"
+    }
+  ],
+  "historicalReleaseSources": [
     {
       "provider": "gitee",
       "owner": "PackingProof",

@@ -64,6 +64,12 @@
       "items": {"$ref": "common.v1.schema.json#/$defs/repository"},
       "minItems": 1,
       "maxItems": 2
+    },
+    "historicalReleaseSources": {
+      "type": "array",
+      "items": {"$ref": "common.v1.schema.json#/$defs/repository"},
+      "minItems": 1,
+      "maxItems": 8
     }
   }
 }

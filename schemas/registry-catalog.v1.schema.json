@@ -37,7 +37,7 @@
           "trust": {"enum": ["official", "third-party"]},
           "latestVersion": {
             "oneOf": [
-              {"$ref": "common.v1.schema.json#/$defs/semver"},
+              {"$ref": "common.v1.schema.json#/$defs/extensionVersion"},
               {"type": "null"}
             ]
           },

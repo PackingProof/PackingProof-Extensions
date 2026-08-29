@@ -20,7 +20,7 @@
     "format": {"const": "packingproof-extension"},
     "packageFormatVersion": {"const": 1},
     "id": {"$ref": "common.v1.schema.json#/$defs/identifier"},
-    "version": {"$ref": "common.v1.schema.json#/$defs/semver"},
+    "version": {"$ref": "common.v1.schema.json#/$defs/extensionVersion"},
     "type": {"enum": ["userscript", "external-adapter"]},
     "installation": {
       "oneOf": [
@@ -54,5 +54,12 @@
     },
     "compatibility": {"$ref": "common.v1.schema.json#/$defs/compatibility"},
     "access": {"$ref": "common.v1.schema.json#/$defs/access"}
-  }
+  },
+  "allOf": [
+    {
+      "if": {"properties": {"type": {"const": "userscript"}}},
+      "then": {"properties": {"version": {"$ref": "common.v1.schema.json#/$defs/userscriptVersion"}}},
+      "else": {"properties": {"version": {"$ref": "common.v1.schema.json#/$defs/semver"}}}
+    }
+  ]
 }

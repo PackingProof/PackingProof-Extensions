@@ -10,7 +10,7 @@ Publisher ID 是与托管平台账号分离的稳定身份。GitHub/Gitee 用户
 
 `extension.json` 保存扩展静态信息和最多两个 `releaseSources`。GitHub/Gitee 地位相同，数组顺序没有主源语义。
 
-每个稳定版本使用独立的 `versions/<semver>.json`，保存：
+每个稳定版本使用独立的 `versions/<version>.json`。`userscript` 使用 `X.Y`，`external-adapter` 使用 `X.Y.Z`，版本文件保存：
 
 - 源码标签、提交和发布时间
 - 可选 Gitee/GitHub 下载地址、公共 SHA-256 与大小
@@ -41,6 +41,9 @@ icon.png        可选
 ```
 
 作者只填写 ID、名称、版本、类型、最低 PackingProof 版本和 payload。`ppext pack` 自动生成包含 `format`、`packageFormatVersion`、安装方式和兼容信息的包内 manifest。安装模式只能是：
+
+- `userscript` 包和市场记录保留两段源版本 `X.Y`；Desktop 安装时附加的设备配置修订号 `Z` 不写入包或市场
+- `external-adapter` 使用稳定三段版本 `X.Y.Z`
 
 - `userscript-import`，使用 `payloadPath` 指向一个 `.user.js`
 - `manual-external`，使用 `suggestedPath` 指向建议用户查看的文件

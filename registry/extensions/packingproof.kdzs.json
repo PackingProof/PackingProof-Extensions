@@ -5,28 +5,28 @@
       "userscript"
     ],
     "description": "在快递助手批量打印页面运行的官方用户脚本，将订单、备注、商品和打印后退款状态发送到已配置的 PackingProof 录像设备或保存主机",
-    "homepage": "https://github.com/PackingProof/PackingProof-Desktop",
+    "homepage": "https://github.com/PackingProof/PackingProof-KDZS",
     "id": "packingproof.kdzs",
     "license": {
-      "sourceUrl": "https://github.com/PackingProof/PackingProof-Desktop/blob/main/LICENSE",
+      "sourceUrl": "https://github.com/PackingProof/PackingProof-KDZS/blob/main/LICENSE",
       "spdx": "AGPL-3.0-only"
     },
     "name": "PackingProof 快递助手订单联动",
     "publisherId": "packingproof",
     "releaseSources": [
       {
-        "name": "PackingProof-Desktop",
+        "name": "PackingProof-KDZS",
         "owner": "PackingProof",
         "provider": "gitee"
       },
       {
-        "name": "PackingProof-Desktop",
+        "name": "PackingProof-KDZS",
         "owner": "PackingProof",
         "provider": "github"
       }
     ],
     "repository": {
-      "name": "PackingProof-Desktop",
+      "name": "PackingProof-KDZS",
       "owner": "PackingProof",
       "provider": "github"
     },
@@ -50,7 +50,17 @@
   "trust": "official",
   "versions": [
     {
-      "advisory": null,
+      "advisory": {
+        "$schema": "../../schemas/advisory.v1.schema.json",
+        "extensionId": "packingproof.kdzs",
+        "message": "该版本在市场预发布阶段错误地将 userscript 两段源版本补为三段，扩展已迁移至独立仓库并按规范重新发布",
+        "reasonCode": "other",
+        "replacedBy": "2.14",
+        "schemaVersion": 1,
+        "status": "withdrawn",
+        "version": "2.14.0",
+        "withdrawnAt": "2026-08-29T23:04:17+08:00"
+      },
       "release": {
         "access": {
           "packingProofCapabilities": [],
@@ -85,6 +95,45 @@
           "tag": "v0.0.62"
         },
         "version": "2.14.0"
+      },
+      "status": "withdrawn"
+    },
+    {
+      "advisory": null,
+      "release": {
+        "access": {
+          "packingProofCapabilities": [],
+          "packingProofPermissions": [],
+          "systemAccess": []
+        },
+        "compatibility": {
+          "minPackingProofVersion": "0.0.63",
+          "platforms": {
+            "userscript": [
+              "any"
+            ]
+          }
+        },
+        "downloads": {
+          "gitee": {
+            "provider": "gitee",
+            "url": "https://gitee.com/PackingProof/PackingProof-KDZS/releases/download/v2.14/packingproof.kdzs-2.14.ppext"
+          },
+          "github": {
+            "provider": "github",
+            "url": "https://github.com/PackingProof/PackingProof-KDZS/releases/download/v2.14/packingproof.kdzs-2.14.ppext"
+          }
+        },
+        "extensionId": "packingproof.kdzs",
+        "publishedAt": "2026-08-29T15:03:25Z",
+        "schemaVersion": 1,
+        "sha256": "c308eef5dfcd764680452f6f3c7403a88600d92a3565da43819c7c1c74a5d75e",
+        "size": 28619,
+        "source": {
+          "commit": "8197ef300e11200d01008202a7774804e2a9e9b2",
+          "tag": "v2.14"
+        },
+        "version": "2.14"
       },
       "status": "available"
     }

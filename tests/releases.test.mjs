@@ -18,11 +18,11 @@ test("falls back to the mirror release API when primary discovery fails", async 
     return {
       ok: true,
       json: async () => [{
-        tag_name: "v1.2.0",
+        tag_name: "v1.2",
         draft: false,
         prerelease: false,
         published_at: "2026-08-29T00:00:00Z",
-        assets: [{ name: "sample.demo-1.2.0.ppext" }],
+        assets: [{ name: "sample.demo-1.2.ppext" }],
       }],
     };
   };
@@ -32,7 +32,7 @@ test("falls back to the mirror release API when primary discovery fails", async 
       { provider: "github", owner: "SampleOrg", name: "Demo" },
     ]);
     assert.equal(result.source.provider, "github");
-    assert.equal(result.releases[0].tag, "v1.2.0");
+    assert.equal(result.releases[0].tag, "v1.2");
     assert.equal(requested.length, 2);
   } finally {
     globalThis.fetch = originalFetch;

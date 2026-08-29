@@ -20,7 +20,7 @@ test("initializes and packs a userscript from the small author manifest", async 
       "// ==/UserScript==",
       "",
     ].join("\n"), "utf8");
-    const output = path.join(root, "sample.demo-1.0.0.ppext");
+    const output = path.join(root, "sample.demo-1.0.ppext");
     const packed = await packProject(root, output, repositoryRoot);
     assert.equal(packed.manifest.format, "packingproof-extension");
     assert.equal(packed.manifest.installation.mode, "userscript-import");
@@ -38,6 +38,7 @@ test("packs an external adapter without asking for architecture or access declar
     const values = projectValues({
       id: "sample.adapter",
       name: "Sample Adapter",
+      version: "1.0.0",
       type: "external-adapter",
       payload: "payload/adapter.exe",
     });
@@ -59,7 +60,7 @@ function projectValues(overrides = {}) {
     name: "Sample Demo",
     author: "Sample Publisher",
     authorUrl: "https://gitee.com/SampleOrg",
-    version: "1.0.0",
+    version: "1.0",
     type: "userscript",
     minPackingProofVersion: "0.0.62",
     payload: "payload/main.user.js",

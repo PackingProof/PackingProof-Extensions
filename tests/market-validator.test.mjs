@@ -1,5 +1,5 @@
 import assert from "node:assert/strict";
-import { cp, mkdtemp, readFile, rm } from "node:fs/promises";
+import { cp, mkdtemp, readFile, rename, rm } from "node:fs/promises";
 import os from "node:os";
 import path from "node:path";
 import test from "node:test";
@@ -21,7 +21,12 @@ test("loads valid fixtures and generates a deterministic split registry", async 
     assert.equal(firstBytes, secondBytes);
     assert.equal(first.extensions[0].id, "sample.demo");
     assert.equal(first.extensions[0].trust, "third-party");
-    assert.equal(first.extensions[0].latestVersion, "1.0.0");
+    assert.equal(first.extensions[0].latestVersion, "1.0");
+    const details = JSON.parse(await readFile(
+      path.join(root, "registry", "extensions", "sample.demo.json"),
+      "utf8",
+    ));
+    assert.equal(details.extension.historicalReleaseSources, undefined);
   } finally {
     await rm(root, { recursive: true, force: true });
   }
@@ -30,7 +35,7 @@ test("loads valid fixtures and generates a deterministic split registry", async 
 test("rejects userscript packages declared as an operating-system platform", async () => {
   const root = await createFixtureRoot();
   try {
-    const versionPath = path.join(root, "extensions", "sample.demo", "versions", "1.0.0.json");
+    const versionPath = path.join(root, "extensions", "sample.demo", "versions", "1.0.json");
     const version = JSON.parse(await readFile(versionPath, "utf8"));
     version.compatibility.platforms = { windows: ["x64"] };
     await writeJson(versionPath, version);
@@ -43,7 +48,7 @@ test("rejects userscript packages declared as an operating-system platform", asy
 test("rejects capability declarations without enforced API permissions", async () => {
   const root = await createFixtureRoot();
   try {
-    const versionPath = path.join(root, "extensions", "sample.demo", "versions", "1.0.0.json");
+    const versionPath = path.join(root, "extensions", "sample.demo", "versions", "1.0.json");
     const version = JSON.parse(await readFile(versionPath, "utf8"));
     version.access.packingProofCapabilities = ["order.lookup"];
     version.access.packingProofPermissions = [];
@@ -69,8 +74,13 @@ test("allows a closed-source external adapter with public identity and terms", a
     delete extension.repository;
     extension.license = { name: "Proprietary", termsUrl: "https://gitee.com/SampleOrg/Demo/terms" };
     await writeJson(extensionPath, extension);
+    const userscriptVersionPath = path.join(root, "extensions", "sample.demo", "versions", "1.0.json");
     const versionPath = path.join(root, "extensions", "sample.demo", "versions", "1.0.0.json");
+    await rename(userscriptVersionPath, versionPath);
     const version = JSON.parse(await readFile(versionPath, "utf8"));
+    version.version = "1.0.0";
+    version.source.tag = "v1.0.0";
+    version.downloads.primary.url = "https://github.com/SampleOrg/Demo/releases/download/v1.0.0/sample.demo-1.0.0.ppext";
     version.compatibility.platforms = { windows: ["any"] };
     await writeJson(versionPath, version);
     const market = await loadMarket(root);

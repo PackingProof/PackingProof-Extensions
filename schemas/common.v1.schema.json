@@ -18,6 +18,17 @@
       "pattern": "^(0|[1-9][0-9]*)\\.(0|[1-9][0-9]*)\\.(0|[1-9][0-9]*)$",
       "maxLength": 32
     },
+    "userscriptVersion": {
+      "type": "string",
+      "pattern": "^(0|[1-9][0-9]*)\\.(0|[1-9][0-9]*)$",
+      "maxLength": 32
+    },
+    "extensionVersion": {
+      "oneOf": [
+        {"$ref": "#/$defs/userscriptVersion"},
+        {"$ref": "#/$defs/semver"}
+      ]
+    },
     "httpsUrl": {
       "type": "string",
       "format": "uri",

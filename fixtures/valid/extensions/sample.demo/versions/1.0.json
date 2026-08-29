@@ -1,16 +1,16 @@
 {
   "schemaVersion": 1,
   "extensionId": "sample.demo",
-  "version": "1.0.0",
+  "version": "1.0",
   "publishedAt": "2026-08-29T00:00:00Z",
   "source": {
-    "tag": "v1.0.0",
+    "tag": "v1.0",
     "commit": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
   },
   "downloads": {
     "primary": {
       "provider": "github",
-      "url": "https://github.com/SampleOrg/Demo/releases/download/v1.0.0/sample.demo-1.0.0.ppext"
+      "url": "https://github.com/SampleOrg/Demo/releases/download/v1.0/sample.demo-1.0.ppext"
     }
   },
   "sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",

@@ -19,7 +19,7 @@ export function userscriptManifest(overrides = {}) {
     format: "packingproof-extension",
     packageFormatVersion: 1,
     id: "sample.demo",
-    version: "1.2.0",
+    version: "1.2",
     type: "userscript",
     installation: {
       mode: "userscript-import",

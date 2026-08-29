@@ -60,7 +60,7 @@ test("rejects legacy extension names and packages without the PackingProof forma
   }
 });
 
-test("validates userscript package and normalizes X.Y metadata version", async () => {
+test("validates userscript package and preserves X.Y metadata version", async () => {
   const temporary = await mkdtemp(path.join(os.tmpdir(), "ppext-userscript-"));
   try {
     const filePath = path.join(temporary, "sample.ppext");
@@ -72,7 +72,25 @@ test("validates userscript package and normalizes X.Y metadata version", async (
     const schema = await createSchemaValidator(rootDirectory);
     const result = await validatePackage(filePath, schema);
     assert.equal(result.manifest.id, "sample.demo");
+    assert.equal(result.manifest.version, "1.2");
     assert.deepEqual(result.warnings, []);
+  } finally {
+    await rm(temporary, { recursive: true, force: true });
+  }
+});
+
+test("rejects a three-part userscript source version", async () => {
+  const temporary = await mkdtemp(path.join(os.tmpdir(), "ppext-userscript-version-"));
+  try {
+    const filePath = path.join(temporary, "sample.ppext");
+    await writeZip(filePath, [
+      ["manifest.json", JSON.stringify(userscriptManifest({ version: "1.2.0" }))],
+      ["payload/main.user.js", "// ==UserScript==\n// @name Demo\n// @version 1.2.0\n// ==/UserScript==\n"],
+    ]);
+    await assert.rejects(
+      validatePackage(filePath, await createSchemaValidator(rootDirectory)),
+      /version|版本/,
+    );
   } finally {
     await rm(temporary, { recursive: true, force: true });
   }

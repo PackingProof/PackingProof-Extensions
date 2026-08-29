@@ -17,13 +17,13 @@
     "$schema": {"type": "string"},
     "schemaVersion": {"const": 1},
     "extensionId": {"$ref": "common.v1.schema.json#/$defs/identifier"},
-    "version": {"$ref": "common.v1.schema.json#/$defs/semver"},
+    "version": {"$ref": "common.v1.schema.json#/$defs/extensionVersion"},
     "status": {"const": "withdrawn"},
     "reasonCode": {"enum": ["security", "broken", "license", "unavailable", "other"]},
     "message": {"type": "string", "minLength": 1, "maxLength": 1000},
     "replacedBy": {
       "oneOf": [
-        {"$ref": "common.v1.schema.json#/$defs/semver"},
+        {"$ref": "common.v1.schema.json#/$defs/extensionVersion"},
         {"type": "null"}
       ]
     },

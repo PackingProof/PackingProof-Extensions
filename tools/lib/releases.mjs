@@ -1,10 +1,9 @@
 import { mkdir, stat, writeFile } from "node:fs/promises";
 import path from "node:path";
-import semver from "semver";
 import { stableJson } from "./files.mjs";
 import { buildRegistry } from "./registry.mjs";
 import { downloadPackage, sha256File, validatePackage } from "./package-validator.mjs";
-import { releaseAssetUrl } from "./policy.mjs";
+import { compareExtensionVersions, normalizedExtensionVersion, releaseAssetUrl } from "./policy.mjs";
 
 export async function updateExtension(rootDirectory, market, extensionId, options = {}) {
   const item = market.extensions.get(extensionId);
@@ -15,7 +14,7 @@ export async function updateExtension(rootDirectory, market, extensionId, option
   for (const discovery of discoveries.filter((value) => value.releases)) {
     for (const release of discovery.releases) {
       for (const assetName of release.assets) {
-        const version = extensionAssetVersion(extensionId, assetName);
+        const version = extensionAssetVersion(extensionId, assetName, item.descriptor.type);
         if (!version) continue;
         const current = releasesByVersion.get(version);
         const assets = [...new Set([...(current?.assets ?? []), ...release.assets])];
@@ -30,7 +29,7 @@ export async function updateExtension(rootDirectory, market, extensionId, option
   const candidates = [...releasesByVersion.values()]
     .filter((release) => !known.has(release.version)
       && (!options.onlyVersion || release.version === options.onlyVersion))
-    .sort((left, right) => semver.compare(left.version, right.version));
+    .sort((left, right) => compareExtensionVersions(left.version, right.version, item.descriptor.type));
   const created = [];
   const pendingDocuments = [];
 
@@ -97,11 +96,12 @@ export async function updateExtension(rootDirectory, market, extensionId, option
   return created;
 }
 
-function extensionAssetVersion(extensionId, assetName) {
+function extensionAssetVersion(extensionId, assetName, type) {
   const prefix = `${extensionId}-`;
   const suffix = ".ppext";
   if (!assetName.startsWith(prefix) || !assetName.endsWith(suffix)) return null;
-  return semver.valid(assetName.slice(prefix.length, -suffix.length));
+  const value = assetName.slice(prefix.length, -suffix.length);
+  return normalizedExtensionVersion(value, type) ? value : null;
 }
 
 export async function discoverWithFallback(sources) {

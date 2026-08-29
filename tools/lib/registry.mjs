@@ -48,7 +48,7 @@ export async function buildRegistry(rootDirectory, market) {
     const latest = versions.find((version) => version.status === "available") ?? null;
     const detail = {
       schemaVersion: 1,
-      extension: { ...withoutSchema(item.descriptor), sourceAvailability },
+      extension: { ...withoutHistoricalSources(withoutSchema(item.descriptor)), sourceAvailability },
       publisher: withoutSchema(item.publisher),
       trust,
       riskLabels,
@@ -82,6 +82,11 @@ export async function buildRegistry(rootDirectory, market) {
   const catalog = { schemaVersion: 1, sourceDigest, updatedAt, extensions: catalogExtensions };
   await writeFile(path.join(registryDirectory, "catalog.v1.json"), stableJson(catalog), "utf8");
   return catalog;
+}
+
+function withoutHistoricalSources(extension) {
+  const { historicalReleaseSources, ...publicExtension } = extension;
+  return publicExtension;
 }
 
 function laterTimestamp(current, candidate) {

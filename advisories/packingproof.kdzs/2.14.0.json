@@ -1,0 +1,11 @@
+{
+  "$schema": "../../schemas/advisory.v1.schema.json",
+  "schemaVersion": 1,
+  "extensionId": "packingproof.kdzs",
+  "version": "2.14.0",
+  "status": "withdrawn",
+  "reasonCode": "other",
+  "message": "该版本在市场预发布阶段错误地将 userscript 两段源版本补为三段，扩展已迁移至独立仓库并按规范重新发布",
+  "replacedBy": "2.14",
+  "withdrawnAt": "2026-08-29T23:04:17+08:00"
+}

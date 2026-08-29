@@ -5,7 +5,8 @@ import { fileSize, listDirectories, listJsonFiles, readJson } from "./files.mjs"
 import {
   OFFICIAL_PUBLISHERS,
   assertOsiLicense,
-  assertStableSemver,
+  assertStoredExtensionVersion,
+  compareExtensionVersions,
   normalizedReleaseVersion,
   releaseAssetUrl,
   repositoryUrl,
@@ -68,7 +69,7 @@ export async function loadMarket(rootDirectory, options = {}) {
       }
       versions.push(version);
     }
-    versions.sort((left, right) => semver.rcompare(left.version, right.version));
+    versions.sort((left, right) => compareExtensionVersions(right.version, left.version, extension.type));
     extensions.set(extension.id, { descriptor: extension, publisher, versions });
   }
 
@@ -113,7 +114,12 @@ function validateReleaseSources(extension, publisher, label) {
       throw new Error(`${label}: 源码仓库所有者必须匹配 Publisher 平台账号`);
     }
   }
-  for (const source of extension.releaseSources) {
+  const allSources = [...extension.releaseSources, ...(extension.historicalReleaseSources ?? [])];
+  const repositories = new Set();
+  for (const source of allSources) {
+    const repositoryKey = `${source.provider}:${source.owner.toLowerCase()}/${source.name.toLowerCase()}`;
+    if (repositories.has(repositoryKey)) throw new Error(`${label}: 发布源仓库重复：${repositoryKey}`);
+    repositories.add(repositoryKey);
     const mappedOwner = publisher.accounts[source.provider];
     if (!mappedOwner || mappedOwner.toLowerCase() !== source.owner.toLowerCase()) {
       throw new Error(`${label}: 发布源所有者必须匹配 Publisher 的 ${source.provider} 账号`);
@@ -153,10 +159,10 @@ async function validateIcon(extension, extensionDirectory, label) {
 }
 
 function validateVersion(extension, version, label) {
-  assertStableSemver(version.version, label);
+  assertStoredExtensionVersion(version.version, extension.type, label);
   if (version.extensionId !== extension.id) throw new Error(`${label}: extensionId 与扩展不一致`);
-  if (!normalizedReleaseVersion(version.source.tag)) {
-    throw new Error(`${label}: 源码标签必须是稳定 SemVer，可选 v 前缀`);
+  if (!normalizedReleaseVersion(version.source.tag, extension.type)) {
+    throw new Error(`${label}: 源码标签与扩展类型的版本格式不一致，可选 v 前缀`);
   }
   if (version.compatibility.maxPackingProofVersion
       && semver.lt(version.compatibility.maxPackingProofVersion, version.compatibility.minPackingProofVersion)) {
@@ -170,7 +176,9 @@ function validateVersion(extension, version, label) {
     `${extension.id}-${version.version}.ppx`,
   ];
   for (const download of normalizedDownloads(version.downloads)) {
-    const releaseSource = extension.releaseSources.find((source) => source.provider === download.provider);
+    const releaseSource = [...extension.releaseSources, ...(extension.historicalReleaseSources ?? [])]
+      .find((source) => releaseAssetUrl(source, version.source.tag, expectedAssets[0]) === download.url
+        || releaseAssetUrl(source, version.source.tag, expectedAssets[1]) === download.url);
     if (!releaseSource) throw new Error(`${label}: 下载地址必须来自已登记发布源`);
     const expectedUrls = expectedAssets.map((asset) => releaseAssetUrl(releaseSource, version.source.tag, asset));
     if (!expectedUrls.includes(download.url)) {

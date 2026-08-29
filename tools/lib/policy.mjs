@@ -16,9 +16,35 @@ export function assertStableSemver(value, label) {
   }
 }
 
-export function normalizedReleaseVersion(tag) {
-  const value = tag.startsWith("v") ? tag.slice(1) : tag;
+export function assertExtensionVersion(value, type, label) {
+  if (type === "userscript") {
+    if (!/^\d+\.\d+$/.test(value)) throw new Error(`${label}: userscript 版本必须是 X.Y：${value}`);
+    return;
+  }
+  assertStableSemver(value, label);
+}
+
+export function assertStoredExtensionVersion(value, type, label) {
+  if (type === "userscript" && /^\d+\.\d+(?:\.\d+)?$/.test(value)) return;
+  assertExtensionVersion(value, type, label);
+}
+
+export function normalizedExtensionVersion(value, type, allowLegacyUserscript = false) {
+  if (type === "userscript" && /^\d+\.\d+$/.test(value)) return `${value}.0`;
+  if (type === "userscript" && !allowLegacyUserscript) return null;
   return semver.valid(value) && !semver.prerelease(value) ? value : null;
+}
+
+export function compareExtensionVersions(left, right, type) {
+  return semver.compare(
+    normalizedExtensionVersion(left, type, true),
+    normalizedExtensionVersion(right, type, true),
+  );
+}
+
+export function normalizedReleaseVersion(tag, type = "external-adapter") {
+  const value = tag.startsWith("v") ? tag.slice(1) : tag;
+  return normalizedExtensionVersion(value, type, true) ? value : null;
 }
 
 export function assertOsiLicense(expression, label) {

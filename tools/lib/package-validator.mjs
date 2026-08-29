@@ -200,8 +200,7 @@ function validateManifestMatch(manifest, expected, label) {
 }
 
 function normalizeUserscriptVersion(value) {
-  if (/^\d+\.\d+$/.test(value)) return `${value}.0`;
-  return semver.valid(value) && !semver.prerelease(value) ? value : null;
+  return /^\d+\.\d+$/.test(value) ? value : null;
 }
 
 async function readZipEntry(filePath, entryName, limit) {

@@ -24,6 +24,8 @@
 }
 ```
 
+`userscript` 的源版本必须使用 `X.Y`，例如 `2.14`；Desktop 安装时生成的 `X.Y.Z` 中，`Z` 是设备配置修订号，不属于市场版本。`external-adapter` 继续使用 `X.Y.Z`。
+
 `README.md` 和 `icon.png` 都是可选文件。PPEXT 会自动接受格式与基础安全校验，开发者不需要手工计算 SHA-256。
 
 ## 后续版本

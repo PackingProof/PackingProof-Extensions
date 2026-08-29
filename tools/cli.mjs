@@ -119,7 +119,7 @@ async function collectInitValues(values) {
       name,
       author: await value("author", "作者或组织名称"),
       authorUrl: await value("author-url", "作者或组织公开主页"),
-      version: await value("version", "版本", "1.0.0"),
+      version: await value("version", "版本", type === "userscript" ? "1.0" : "1.0.0"),
       type,
       minPackingProofVersion: await value("min-version", "最低 PackingProof 版本", "0.0.63"),
       payload: await value("payload", "payload 文件", type === "userscript" ? "payload/main.user.js" : "payload/adapter.exe"),
@@ -176,6 +176,9 @@ async function verifyChangedVersions(root, base) {
       const version = JSON.parse(await import("node:fs/promises").then(({ readFile }) => readFile(path.join(root, relativePath), "utf8")));
       const extension = market.extensions.get(version.extensionId);
       if (!extension) throw new Error(`${relativePath}: 扩展不存在`);
+      if (extension.descriptor.type === "userscript" && !/^\d+\.\d+$/.test(version.version)) {
+        throw new Error(`${relativePath}: 新 userscript 版本必须使用 X.Y`);
+      }
       const downloads = version.downloads.primary
         ? [version.downloads.primary, version.downloads.mirror]
         : [version.downloads.gitee, version.downloads.github];
