@@ -52,7 +52,7 @@ function assertAllowedRedirect(originalUrl, finalUrl) {
   const finalHost = new URL(finalUrl).hostname.toLowerCase();
   const allowed = originalHost === "github.com"
     ? new Set(["github.com", "objects.githubusercontent.com", "release-assets.githubusercontent.com"])
-    : new Set(["gitee.com", "files.gitee.com"]);
+    : new Set(["gitee.com", "files.gitee.com", "foruda.gitee.com"]);
   if (!allowed.has(finalHost)) throw new Error(`下载重定向到了未授权域名：${finalHost}`);
 }
 

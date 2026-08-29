@@ -3,11 +3,37 @@ import { mkdtemp, readFile, rm, writeFile } from "node:fs/promises";
 import os from "node:os";
 import path from "node:path";
 import test from "node:test";
-import { validatePackage } from "../tools/lib/package-validator.mjs";
+import { downloadPackage, validatePackage } from "../tools/lib/package-validator.mjs";
 import { createSchemaValidator } from "../tools/lib/schemas.mjs";
 import { externalManifest, userscriptManifest, writeZip } from "./helpers.mjs";
 
 const rootDirectory = path.resolve(import.meta.dirname, "..");
+
+test("allows Gitee release redirects to its current asset host", async () => {
+  const temporary = await mkdtemp(path.join(os.tmpdir(), "ppx-gitee-download-"));
+  const originalFetch = globalThis.fetch;
+  try {
+    globalThis.fetch = async () => {
+      const response = new Response(Buffer.from("ppx"), {
+        status: 200,
+        headers: { "content-length": "3" },
+      });
+      Object.defineProperty(response, "url", {
+        value: "https://foruda.gitee.com/attach_file/example/sample.ppx",
+      });
+      return response;
+    };
+    const destination = path.join(temporary, "sample.ppx");
+    assert.equal(await downloadPackage(
+      "https://gitee.com/SampleOrg/Demo/releases/download/v1.0.0/sample.ppx",
+      destination,
+    ), 3);
+    assert.equal(await readFile(destination, "utf8"), "ppx");
+  } finally {
+    globalThis.fetch = originalFetch;
+    await rm(temporary, { recursive: true, force: true });
+  }
+});
 
 test("validates userscript package and normalizes X.Y metadata version", async () => {
   const temporary = await mkdtemp(path.join(os.tmpdir(), "ppx-userscript-"));

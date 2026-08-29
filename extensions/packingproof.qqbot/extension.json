@@ -20,6 +20,11 @@
   "categories": ["chatbot", "recording"],
   "releaseSources": [
     {
+      "provider": "gitee",
+      "owner": "PackingProof",
+      "name": "PackingProof-QQBot"
+    },
+    {
       "provider": "github",
       "owner": "PackingProof",
       "name": "PackingProof-QQBot"

@@ -3,7 +3,7 @@
     {
       "details": "extensions/packingproof.qqbot.json",
       "id": "packingproof.qqbot",
-      "latestVersion": "0.0.3",
+      "latestVersion": "0.0.4",
       "name": "PackingProof QQBot",
       "publisher": {
         "displayName": "PackingProof",
@@ -15,6 +15,6 @@
     }
   ],
   "schemaVersion": 1,
-  "sourceDigest": "aa55ae9fae7a9199ed11fc55cf7362307df7395295d13605101704fa68ad0f1c",
-  "updatedAt": "2026-08-29T09:37:09Z"
+  "sourceDigest": "b61f4cd9e7ad7fb1cee7e4336576836244fbcfd42391906e3fb83c239ef10aee",
+  "updatedAt": "2026-08-29T18:00:17+08:00"
 }

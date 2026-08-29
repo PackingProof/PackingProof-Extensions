@@ -24,7 +24,8 @@ Publisher ID 是与托管平台账号分离的稳定身份。GitHub/Gitee 用户
 - 只接受 GitHub/Gitee Release Asset
 - Asset 名称固定为 `<extension-id>-<version>.ppx`
 - 不接受 Raw、分支文件、自建 CDN、draft 或 prerelease
-- 主源可以是 GitHub 或 Gitee；镜像存在时必须使用另一平台
+- 官方扩展优先使用 Gitee 主源、GitHub 镜像；第三方扩展可按实际托管情况选择主源
+- 镜像存在时必须使用另一平台
 - 主源和镜像必须是同一字节流
 - 更新机器人先检查主发布源；主源发现请求失败后检查镜像发布源
 - 每个版本的 `primary` 指向本次实际可验证的登记源；另一可用来源记录为 `mirror`

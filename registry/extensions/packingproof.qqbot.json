@@ -17,6 +17,11 @@
       {
         "name": "PackingProof-QQBot",
         "owner": "PackingProof",
+        "provider": "gitee"
+      },
+      {
+        "name": "PackingProof-QQBot",
+        "owner": "PackingProof",
         "provider": "github"
       }
     ],
@@ -42,6 +47,66 @@
   "schemaVersion": 1,
   "trust": "official",
   "versions": [
+    {
+      "advisory": null,
+      "release": {
+        "access": {
+          "packingProofCapabilities": [],
+          "packingProofPermissions": [
+            "recordings.search",
+            "recordings.download",
+            "recordings.delivery"
+          ],
+          "systemAccess": [
+            {
+              "id": "network",
+              "reason": "连接 QQ 官方接口与用户配置的 PackingProof 主机"
+            },
+            {
+              "id": "filesystem.read",
+              "reason": "读取 QQBot 本机配置、加密凭据和运行状态"
+            },
+            {
+              "id": "filesystem.write",
+              "reason": "保存本机配置、加密凭据、日志和待发送的临时录像"
+            },
+            {
+              "id": "other",
+              "reason": "用户启用开机自动启动时写入当前 Windows 用户的启动项"
+            }
+          ]
+        },
+        "compatibility": {
+          "minPackingProofVersion": "0.0.62",
+          "platforms": {
+            "windows": [
+              "x64"
+            ]
+          }
+        },
+        "downloads": {
+          "mirror": {
+            "provider": "github",
+            "url": "https://github.com/PackingProof/PackingProof-QQBot/releases/download/v0.0.4/packingproof.qqbot-0.0.4.ppx"
+          },
+          "primary": {
+            "provider": "gitee",
+            "url": "https://gitee.com/PackingProof/PackingProof-QQBot/releases/download/v0.0.4/packingproof.qqbot-0.0.4.ppx"
+          }
+        },
+        "extensionId": "packingproof.qqbot",
+        "publishedAt": "2026-08-29T18:00:17+08:00",
+        "schemaVersion": 1,
+        "sha256": "9fbe13acb06bf160cd91114c82af88497f6717d79fb2d7e39299912bbd45b138",
+        "size": 72514406,
+        "source": {
+          "commit": "bddd99595e538589d2b643ac65ea6b236bd278a8",
+          "tag": "v0.0.4"
+        },
+        "version": "0.0.4"
+      },
+      "status": "available"
+    },
     {
       "advisory": null,
       "release": {
