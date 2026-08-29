@@ -40,10 +40,14 @@ README.md       可选
 icon.png        可选
 ```
 
-作者只填写 ID、名称、版本、类型、最低 PackingProof 版本和 payload。`ppext pack` 自动生成包含 `format`、`packageFormatVersion`、安装方式和兼容信息的包内 manifest。安装模式只能是：
+作者在 PPEXT 的 `manifest.json` 中只填写 ID、名称、版本、类型、最低 PackingProof 版本和 payload；首次市场登记的作者与展示信息另见 [完整投稿教程](PUBLISHING.md)。`ppext pack` 自动生成包含 `format`、`packageFormatVersion`、安装方式和兼容信息的包内 manifest。
+
+版本规则：
 
 - `userscript` 包和市场记录保留两段源版本 `X.Y`；Desktop 安装时附加的设备配置修订号 `Z` 不写入包或市场
 - `external-adapter` 使用稳定三段版本 `X.Y.Z`
+
+安装模式只能是：
 
 - `userscript-import`，使用 `payloadPath` 指向一个 `.user.js`
 - `manual-external`，使用 `suggestedPath` 指向建议用户查看的文件
