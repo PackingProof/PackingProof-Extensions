@@ -52,6 +52,8 @@ icon.png        可选
 - `userscript-import`，使用 `payloadPath` 指向一个 `.user.js`
 - `manual-external`，使用 `suggestedPath` 指向建议用户查看的文件
 
+外部适配器可以另外声明可选的 `launcher.path`，指向 `payload/` 下的 `.exe`、`.cmd` 或 `.bat` 文件。Desktop 只在用户点击“启动”时调用该文件，并将工作目录设为该文件所在目录；启动失败只提示用户，不会影响 Desktop。未声明时仍可通过“打开目录”手动启动。该字段不支持参数、安装脚本或自动启动。
+
 协议没有自动执行、安装脚本、卸载脚本或命令钩子。`suggestedPath` 不授权 PackingProof 启动文件。
 
 ## 平台

@@ -52,6 +52,18 @@
         }
       ]
     },
+    "launcher": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path"],
+      "properties": {
+        "path": {
+          "type": "string",
+          "pattern": "^payload/[A-Za-z0-9_./ -]+\\.(exe|cmd|bat)$",
+          "maxLength": 300
+        }
+      }
+    },
     "compatibility": {"$ref": "common.v1.schema.json#/$defs/compatibility"},
     "access": {"$ref": "common.v1.schema.json#/$defs/access"}
   },
