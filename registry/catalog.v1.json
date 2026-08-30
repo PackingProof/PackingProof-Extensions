@@ -2,9 +2,9 @@
   "extensions": [
     {
       "details": "extensions/369431.kuaimai-erp.json",
-      "detailsSha256": "7a3455a81a9c4dedac39056753615b3a213a868e64890164a84ea1a05d42eb24",
+      "detailsSha256": "d613441b50f24f778977fa968f16ec0160b270abff16895af8971de68e4aa0f1",
       "id": "369431.kuaimai-erp",
-      "latestVersion": "1.0.0",
+      "latestVersion": "1.0.1",
       "name": "PackingProof 快麦 ERP 适配器",
       "publisher": {
         "displayName": "369431",
@@ -54,6 +54,6 @@
     }
   ],
   "schemaVersion": 1,
-  "sourceDigest": "fe164409e6f57d2b95baa4aae365dedacaf21c84b2d3087d687f16f687a0ff30",
-  "updatedAt": "2026-08-30T16:34:07Z"
+  "sourceDigest": "a3b0153734812e02fe7b79ef2b3b912ce557aab5cafd7fef9d06807bf1d471c9",
+  "updatedAt": "2026-08-30T17:43:39Z"
 }
