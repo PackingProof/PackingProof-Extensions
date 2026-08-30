@@ -4,14 +4,14 @@
       "orders",
       "userscript"
     ],
-    "description": "在快递助手批量打印页面运行的官方用户脚本，将订单、备注、商品和打印后退款状态发送到已配置的 PackingProof 录像设备或保存主机",
+    "description": "在快递助手批量打印页面运行的官方脚本，可将订单、买家留言、卖家备注、商品和打印后退款状态发送到已配置的录像设备或保存主机",
     "homepage": "https://github.com/PackingProof/PackingProof-KDZS",
     "id": "packingproof.kdzs",
     "license": {
       "sourceUrl": "https://github.com/PackingProof/PackingProof-KDZS/blob/main/LICENSE",
       "spdx": "AGPL-3.0-only"
     },
-    "name": "PackingProof 快递助手订单联动",
+    "name": "快递助手订单联动",
     "publisherId": "packingproof",
     "releaseSources": [
       {
@@ -32,7 +32,7 @@
     },
     "schemaVersion": 1,
     "sourceAvailability": "open-source",
-    "summary": "从快递助手页面提取订单、备注和退款状态并发送到 PackingProof",
+    "summary": "从快递助手页面读取订单、备注和退款状态，并发送到已配置的录像设备或保存主机",
     "type": "userscript"
   },
   "publisher": {

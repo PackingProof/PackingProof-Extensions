@@ -2,26 +2,26 @@
   "extensions": [
     {
       "details": "extensions/packingproof.kdzs.json",
-      "detailsSha256": "9c815733d008b9db119de14e22684c2fb5e0f715fae644e70f0dfc5c6a973f08",
+      "detailsSha256": "273c91b0a1383229194cfc8d70e39b3569bfec8598fdc763cf12700b58ce719e",
       "id": "packingproof.kdzs",
       "latestVersion": "2.15",
-      "name": "PackingProof 快递助手订单联动",
+      "name": "快递助手订单联动",
       "publisher": {
         "displayName": "PackingProof",
         "id": "packingproof"
       },
       "riskLabels": [],
       "sourceAvailability": "open-source",
-      "summary": "从快递助手页面提取订单、备注和退款状态并发送到 PackingProof",
+      "summary": "从快递助手页面读取订单、备注和退款状态，并发送到已配置的录像设备或保存主机",
       "trust": "official",
       "type": "userscript"
     },
     {
       "details": "extensions/packingproof.qqbot.json",
-      "detailsSha256": "3bfc7aac721842dc3b68a52a01b14c5a36b3771f0f2ce654fe83c366f2fc9869",
+      "detailsSha256": "69183ad919a3c494790c74b7e388020fa99c61bb2983f990740c9c236c87ef0f",
       "id": "packingproof.qqbot",
       "latestVersion": "0.0.5",
-      "name": "PackingProof QQBot",
+      "name": "QQ 机器人",
       "publisher": {
         "displayName": "PackingProof",
         "id": "packingproof"
@@ -30,12 +30,12 @@
         "external-program"
       ],
       "sourceAvailability": "open-source",
-      "summary": "通过 QQ 私聊或群聊按单号查询并发送 PackingProof 打包录像",
+      "summary": "通过 QQ 私聊或群聊按快递单号查询并发送打包录像",
       "trust": "official",
       "type": "external-adapter"
     }
   ],
   "schemaVersion": 1,
-  "sourceDigest": "161e78624145bb9a8b0bb718dbc131222bffcb24459c842c7d6b886fb7f81f84",
+  "sourceDigest": "452a1c46b8175fb756160b295845968571ee6d3537f96aa4728a3667567c0b77",
   "updatedAt": "2026-08-29T16:11:17Z"
 }
