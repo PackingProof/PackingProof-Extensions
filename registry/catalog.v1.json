@@ -1,6 +1,24 @@
 {
   "extensions": [
     {
+      "details": "extensions/369431.kuaimai-erp.json",
+      "detailsSha256": "7a3455a81a9c4dedac39056753615b3a213a868e64890164a84ea1a05d42eb24",
+      "id": "369431.kuaimai-erp",
+      "latestVersion": "1.0.0",
+      "name": "PackingProof 快麦 ERP 适配器",
+      "publisher": {
+        "displayName": "369431",
+        "id": "369431"
+      },
+      "riskLabels": [
+        "external-program"
+      ],
+      "sourceAvailability": "open-source",
+      "summary": "把 PackingProof 扫码任务接入快麦 ERP，自动查询并回传订单、件数和退款状态",
+      "trust": "third-party",
+      "type": "external-adapter"
+    },
+    {
       "details": "extensions/packingproof.kdzs.json",
       "detailsSha256": "6d7de27b65f87ec29a777766a26727f0d0ce973147fd97999b5035c947e50be1",
       "id": "packingproof.kdzs",
@@ -36,6 +54,6 @@
     }
   ],
   "schemaVersion": 1,
-  "sourceDigest": "2af34892bb0652d4aedafb5606e813f6e93daebb1c010c9d53fbd190d5f57448",
-  "updatedAt": "2026-08-29T16:11:17Z"
+  "sourceDigest": "fe164409e6f57d2b95baa4aae365dedacaf21c84b2d3087d687f16f687a0ff30",
+  "updatedAt": "2026-08-30T16:34:07Z"
 }
