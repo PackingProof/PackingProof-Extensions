@@ -1,0 +1,27 @@
+{
+  "description": "仓库人员扫描快递单号后，适配器自动查询快麦订单，并把商家编码、商品件数、买卖家备注和退款状态通过 PackingProof 扩展 API v1 安全回传。独立运行的 Node.js 外部适配器，只通过扩展 API 通信，不读取数据库、配置文件或录像目录。",
+  "homepage": "https://github.com/369431/PackingProof-KuaimaiERP",
+  "id": "369431.kuaimai-erp",
+  "license": {
+    "sourceUrl": "https://github.com/369431/PackingProof-KuaimaiERP/blob/main/LICENSE",
+    "spdx": "AGPL-3.0-only"
+  },
+  "name": "PackingProof 快麦 ERP 适配器",
+  "publisherId": "369431",
+  "releaseSources": [
+    {
+      "name": "PackingProof-KuaimaiERP",
+      "owner": "369431",
+      "provider": "github"
+    }
+  ],
+  "repository": {
+    "name": "PackingProof-KuaimaiERP",
+    "owner": "369431",
+    "provider": "github"
+  },
+  "schemaVersion": 1,
+  "sourceAvailability": "open-source",
+  "summary": "把 PackingProof 扫码任务接入快麦 ERP，自动查询并回传订单、件数和退款状态",
+  "type": "external-adapter"
+}
