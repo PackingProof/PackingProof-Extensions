@@ -56,7 +56,6 @@ jobs:
     permissions:
       actions: write
       contents: write
-      pull-requests: write
     steps:
       - uses: actions/checkout@v4
         with:
@@ -99,7 +98,7 @@ jobs:
       - name: Commit and publish the signature
         shell: bash
         env:
-          GH_TOKEN: ${{ github.token }}
+          GH_TOKEN: ${{ secrets.MARKET_RELEASE_TOKEN }}
         run: |
           git config user.name "packingproof-registry-bot"
           git config user.email "packingproof-registry-bot@users.noreply.github.com"
@@ -132,7 +131,6 @@ jobs:
             --title "chore: 发布已签名扩展市场索引" \
             --body "由受保护的市场签名环境生成。临时分支已完成与主分支相同的 registry 校验。")"
           gh pr merge "$pull_request_url" --rebase --delete-branch
-          gh workflow run sync-gitee.yml --ref main
       - name: Remove the runner key file
         if: always()
         shell: bash
