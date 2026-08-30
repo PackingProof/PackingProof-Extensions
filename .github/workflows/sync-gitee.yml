@@ -28,7 +28,9 @@ jobs:
           GITEE_TOKEN: ${{ secrets.GITEE_TOKEN }}
         run: |
           if [ -z "$GITEE_USERNAME" ] || [ -z "$GITEE_TOKEN" ]; then
-            echo "Gitee secrets are not configured; skipping mirror push"
-            exit 0
+            echo "::error title=Gitee credentials missing::GITEE_USERNAME and GITEE_TOKEN must be configured"
+            exit 1
           fi
-          git push "https://${GITEE_USERNAME}:${GITEE_TOKEN}@gitee.com/PackingProof/PackingProof-Extensions.git" main:main
+          basic_auth="$(printf '%s:%s' "$GITEE_USERNAME" "$GITEE_TOKEN" | base64 | tr -d '\n')"
+          git -c "http.extraHeader=Authorization: Basic $basic_auth" \
+            push "https://gitee.com/PackingProof/PackingProof-Extensions.git" main:main
