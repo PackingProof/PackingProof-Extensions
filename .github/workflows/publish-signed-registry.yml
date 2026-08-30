@@ -1,0 +1,108 @@
+name: Publish signed registry
+
+on:
+  workflow_run:
+    workflows: ["Validate registry"]
+    types: [completed]
+  workflow_dispatch:
+
+concurrency:
+  group: publish-signed-registry
+  cancel-in-progress: false
+
+jobs:
+  preflight:
+    if: >-
+      github.event_name == 'workflow_dispatch' && github.ref == 'refs/heads/main' ||
+      github.event_name == 'workflow_run' &&
+      github.event.workflow_run.event == 'push' &&
+      github.event.workflow_run.head_branch == 'main' &&
+      github.event.workflow_run.conclusion == 'success'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    outputs:
+      needs-signing: ${{ steps.signature.outputs.needs-signing }}
+      revision: ${{ steps.revision.outputs.value }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          ref: ${{ github.event.workflow_run.head_sha || github.sha }}
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci --ignore-scripts
+      - name: Record candidate revision
+        id: revision
+        shell: bash
+        run: echo "value=$(git rev-parse HEAD)" >> "$GITHUB_OUTPUT"
+      - name: Check whether the registry already has a valid signature
+        id: signature
+        shell: bash
+        run: |
+          if npm run registry:verify; then
+            echo "needs-signing=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "needs-signing=true" >> "$GITHUB_OUTPUT"
+          fi
+
+  sign:
+    needs: preflight
+    if: needs.preflight.outputs.needs-signing == 'true'
+    runs-on: ubuntu-latest
+    environment: market-signing
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          ref: ${{ needs.preflight.outputs.revision }}
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci --ignore-scripts
+      - name: Ensure the approved revision is still current main
+        shell: bash
+        run: |
+          git fetch origin main
+          test "$(git rev-parse HEAD)" = "$(git rev-parse origin/main)"
+      - name: Validate committed registry output
+        shell: bash
+        run: |
+          npm test
+          npm run validate
+          npm run generate
+          git diff --exit-code -- registry/catalog.v1.json registry/extensions
+      - name: Prepare the signing key
+        shell: bash
+        env:
+          MARKET_SIGNING_PRIVATE_KEY: ${{ secrets.MARKET_SIGNING_PRIVATE_KEY }}
+        run: |
+          test -n "$MARKET_SIGNING_PRIVATE_KEY"
+          key_path="$RUNNER_TEMP/market-signing-key.pem"
+          printf '%s' "$MARKET_SIGNING_PRIVATE_KEY" > "$key_path"
+          chmod 600 "$key_path"
+          echo "MARKET_SIGNING_KEY_PATH=$key_path" >> "$GITHUB_ENV"
+      - name: Sign and verify the registry
+        shell: bash
+        run: |
+          npm run registry:sign -- --key "$MARKET_SIGNING_KEY_PATH"
+          git diff --exit-code -- registry/catalog-public-key.pem
+          npm run check
+          test "$(git diff --name-only)" = "registry/catalog.v1.sig"
+      - name: Commit and publish the signature
+        shell: bash
+        run: |
+          git config user.name "packingproof-registry-bot"
+          git config user.email "packingproof-registry-bot@users.noreply.github.com"
+          git add registry/catalog.v1.sig
+          git commit -m "chore: 发布已签名扩展市场索引"
+          git push origin HEAD:main
+      - name: Remove the runner key file
+        if: always()
+        shell: bash
+        run: rm -f "${MARKET_SIGNING_KEY_PATH:-$RUNNER_TEMP/market-signing-key.pem}"
