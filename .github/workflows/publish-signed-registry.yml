@@ -54,7 +54,6 @@ jobs:
     runs-on: ubuntu-latest
     environment: market-signing
     permissions:
-      actions: write
       contents: write
     steps:
       - uses: actions/checkout@v4
@@ -107,29 +106,20 @@ jobs:
           signature_revision="$(git rev-parse HEAD)"
           signature_branch="bot/sign-registry-${signature_revision:0:12}"
           git push origin "HEAD:refs/heads/$signature_branch"
-          gh workflow run ci.yml --ref "$signature_branch"
-          run_id=""
-          for attempt in {1..30}; do
-            run_id="$(gh run list \
-              --workflow ci.yml \
-              --branch "$signature_branch" \
-              --event workflow_dispatch \
-              --limit 10 \
-              --json databaseId,headSha \
-              --jq ".[] | select(.headSha == \"$signature_revision\") | .databaseId" \
-              | head -n 1)"
-            if [ -n "$run_id" ]; then
-              break
-            fi
-            sleep 2
-          done
-          test -n "$run_id"
-          gh run watch "$run_id" --exit-status
           pull_request_url="$(gh pr create \
             --base main \
             --head "$signature_branch" \
             --title "chore: 发布已签名扩展市场索引" \
-            --body "由受保护的市场签名环境生成。临时分支已完成与主分支相同的 registry 校验。")"
+            --body "由受保护的市场签名环境生成。签名 PR 仍需通过主分支要求的 registry 校验。")"
+          for attempt in {1..30}; do
+            check_count="$(gh pr checks "$pull_request_url" --required --json name --jq 'length')"
+            if [ "$check_count" -gt 0 ]; then
+              break
+            fi
+            sleep 2
+          done
+          test "$check_count" -gt 0
+          gh pr checks "$pull_request_url" --required --watch
           gh pr merge "$pull_request_url" --rebase --delete-branch
       - name: Remove the runner key file
         if: always()
