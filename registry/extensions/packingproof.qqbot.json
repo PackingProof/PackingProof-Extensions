@@ -4,7 +4,7 @@
       "chatbot",
       "recording"
     ],
-    "description": "连接 QQ 官方机器人平台与扩展 API。用户可以在 QQ 私聊中发送快递单号，或在允许的群聊中 @机器人查询录像；超出 QQ 文件限制时可请求录像主机生成交付副本",
+    "description": "连接 QQ 官方机器人与录像主机。\n\n用户可以在私聊中发送快递单号，或在群聊中 @机器人查询并接收打包录像。\n\n文件过大时，可请求录像主机生成适合 QQ 发送的副本",
     "homepage": "https://github.com/PackingProof/PackingProof-QQBot",
     "id": "packingproof.qqbot",
     "license": {

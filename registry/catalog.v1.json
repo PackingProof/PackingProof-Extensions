@@ -2,7 +2,7 @@
   "extensions": [
     {
       "details": "extensions/packingproof.kdzs.json",
-      "detailsSha256": "273c91b0a1383229194cfc8d70e39b3569bfec8598fdc763cf12700b58ce719e",
+      "detailsSha256": "6d7de27b65f87ec29a777766a26727f0d0ce973147fd97999b5035c947e50be1",
       "id": "packingproof.kdzs",
       "latestVersion": "2.15",
       "name": "快递助手订单联动",
@@ -18,7 +18,7 @@
     },
     {
       "details": "extensions/packingproof.qqbot.json",
-      "detailsSha256": "69183ad919a3c494790c74b7e388020fa99c61bb2983f990740c9c236c87ef0f",
+      "detailsSha256": "ba229a29850e128690acda529e1e102d9475b188e5aeaa1642b855fa1b348a7e",
       "id": "packingproof.qqbot",
       "latestVersion": "0.0.5",
       "name": "QQ 机器人",
@@ -36,6 +36,6 @@
     }
   ],
   "schemaVersion": 1,
-  "sourceDigest": "452a1c46b8175fb756160b295845968571ee6d3537f96aa4728a3667567c0b77",
+  "sourceDigest": "2af34892bb0652d4aedafb5606e813f6e93daebb1c010c9d53fbd190d5f57448",
   "updatedAt": "2026-08-29T16:11:17Z"
 }
