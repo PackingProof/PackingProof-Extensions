@@ -11,6 +11,7 @@ import { buildRegistry } from "./lib/registry.mjs";
 import { updateExtension } from "./lib/releases.mjs";
 import { initializeProject, packProject, submitProject } from "./lib/project-tools.mjs";
 import { generateSigningKey, signRegistry, verifyRegistrySignature } from "./lib/signature.mjs";
+import { resolveSigningKeyPath } from "./lib/signing-key.mjs";
 
 const execFileAsync = promisify(execFile);
 const rootDirectory = process.cwd();
@@ -38,9 +39,12 @@ try {
     const result = await submitProject(rootDirectory, project);
     console.log(`首次登记已生成：${result.extensionPath}`);
   } else if (command === "registry-sign") {
-    const keyPath = optionValue(argumentsList, "--key") ?? process.env.PACKINGPROOF_MARKET_SIGNING_KEY;
-    if (!keyPath) throw new Error("registry-sign 需要 --key 或 PACKINGPROOF_MARKET_SIGNING_KEY");
-    const result = await signRegistry(rootDirectory, path.resolve(keyPath));
+    const keyPath = await resolveSigningKeyPath(
+      rootDirectory,
+      optionValue(argumentsList, "--key"),
+      process.env.PACKINGPROOF_MARKET_SIGNING_KEY,
+    );
+    const result = await signRegistry(rootDirectory, keyPath);
     console.log(`registry 已签名，keyId=${result.keyId}`);
   } else if (command === "registry-verify") {
     const result = await verifyRegistrySignature(rootDirectory);

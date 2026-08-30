@@ -57,6 +57,19 @@ git diff --exit-code
 
 `npm run check` 还会验证维护者签名，适合仓库当前已签名 registry 或维护者重新签名后使用。投稿者修改 registry 后没有私钥是正常情况，不要运行签名命令。
 
+## 维护者签名
+
+市场 registry 更新后，持有现有私钥的维护者将私钥放在仓库本地的 `.env/market-signing-key.pem`，然后运行：
+
+```bash
+npm run registry:sign
+npm run check
+```
+
+`.env/` 已被 Git 整体忽略，私钥不得提交、发送给作者、机器人或 CI。需要临时使用其他安全位置时，可通过 `--key <path>` 或 `PACKINGPROOF_MARKET_SIGNING_KEY` 指定；命令行参数优先于环境变量和默认目录。
+
+仓库只提交 `registry/catalog-public-key.pem` 和 `registry/catalog.v1.sig`。必须持续使用与现有公钥对应的私钥；重新生成密钥属于公钥轮换，会导致尚未更新信任公钥的 Desktop 拒绝市场索引。
+
 ## 安全边界
 
 SHA-256 只能证明下载字节与已审核登记一致，不能证明第三方代码安全。外部适配器是用户手动运行的普通程序，不受 PackingProof 沙箱限制；系统访问声明来自开发者，并由维护者审核，但无法由 PackingProof 强制阻止
