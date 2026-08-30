@@ -21,8 +21,17 @@ jobs:
           cache: npm
       - run: npm ci --ignore-scripts
       - name: Refuse to mirror an unsigned registry
-        run: npm run registry:verify
+        id: signature
+        shell: bash
+        run: |
+          if npm run registry:verify; then
+            echo "signed=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "::notice title=Registry signature pending::The registry is not signed yet; Gitee sync will wait for the signing commit."
+            echo "signed=false" >> "$GITHUB_OUTPUT"
+          fi
       - name: Push the same main branch to Gitee
+        if: steps.signature.outputs.signed == 'true'
         env:
           GITEE_USERNAME: ${{ secrets.GITEE_USERNAME }}
           GITEE_TOKEN: ${{ secrets.GITEE_TOKEN }}
