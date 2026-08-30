@@ -56,6 +56,7 @@ jobs:
     permissions:
       actions: write
       contents: write
+      pull-requests: write
     steps:
       - uses: actions/checkout@v4
         with:
@@ -125,8 +126,13 @@ jobs:
           done
           test -n "$run_id"
           gh run watch "$run_id" --exit-status
-          git push origin HEAD:main
-          git push origin --delete "$signature_branch"
+          pull_request_url="$(gh pr create \
+            --base main \
+            --head "$signature_branch" \
+            --title "chore: 发布已签名扩展市场索引" \
+            --body "由受保护的市场签名环境生成。临时分支已完成与主分支相同的 registry 校验。")"
+          gh pr merge "$pull_request_url" --rebase --delete-branch
+          gh workflow run sync-gitee.yml --ref main
       - name: Remove the runner key file
         if: always()
         shell: bash
