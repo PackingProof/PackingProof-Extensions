@@ -1,0 +1,53 @@
+{
+  "$schema": "../../../schemas/version.v1.schema.json",
+  "access": {
+    "packingProofCapabilities": [],
+    "packingProofPermissions": [
+      "recordings.search",
+      "recordings.download",
+      "recordings.delivery"
+    ],
+    "systemAccess": [
+      {
+        "id": "network",
+        "reason": "连接 QQ 官方接口与用户配置的 PackingProof 主机"
+      },
+      {
+        "id": "filesystem.read",
+        "reason": "读取 QQBot 本机配置、加密凭据和运行状态"
+      },
+      {
+        "id": "filesystem.write",
+        "reason": "保存本机配置、加密凭据、日志和待发送的临时录像"
+      },
+      {
+        "id": "other",
+        "reason": "用户启用开机自动启动时写入当前 Windows 用户的启动项"
+      }
+    ]
+  },
+  "compatibility": {
+    "minPackingProofVersion": "0.0.63",
+    "platforms": {
+      "windows": [
+        "x64"
+      ]
+    }
+  },
+  "downloads": {
+    "github": {
+      "provider": "github",
+      "url": "https://github.com/PackingProof/PackingProof-QQBot/releases/download/v0.0.6/packingproof.qqbot-0.0.6.ppext"
+    }
+  },
+  "extensionId": "packingproof.qqbot",
+  "publishedAt": "2026-08-30T19:12:32Z",
+  "schemaVersion": 1,
+  "sha256": "25b680bbe7e384dd1ca74fb17b62aaf8636e6ad29d39e2a47c700790ad63aa48",
+  "size": 72514535,
+  "source": {
+    "commit": "60b4e79bbcd602eeb639a99b883e4737d2edcbfd",
+    "tag": "v0.0.6"
+  },
+  "version": "0.0.6"
+}
