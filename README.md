@@ -70,7 +70,7 @@ npm run check
 
 仓库只提交 `registry/catalog-public-key.pem` 和 `registry/catalog.v1.sig`。必须持续使用与现有公钥对应的私钥；重新生成密钥属于公钥轮换，会导致尚未更新信任公钥的 Desktop 拒绝市场索引。
 
-GitHub 上的 `Publish signed registry` 工作流使用受保护的 `market-signing` Environment。主分支 CI 成功且当前签名失效时，维护者批准部署后，专用任务才可读取 `MARKET_SIGNING_PRIVATE_KEY`、签名并提交结果；PR、版本发现机器人和普通 CI 均无法读取该 Secret。签名提交会由现有同步工作流推送到 Gitee。
+GitHub 上的 `Publish signed registry` 工作流使用受保护的 `market-signing` Environment。主分支 CI 成功且当前签名失效时，维护者批准部署后，专用任务才可读取 `MARKET_SIGNING_PRIVATE_KEY`。签名提交会先在临时分支完成同一套 CI，再快进主分支；Gitee 同步也会先验签，拒绝发布审批中的未签名索引。PR、版本发现机器人和普通 CI 均无法读取签名 Secret。
 
 ## 安全边界
 

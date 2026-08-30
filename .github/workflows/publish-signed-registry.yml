@@ -54,6 +54,7 @@ jobs:
     runs-on: ubuntu-latest
     environment: market-signing
     permissions:
+      actions: write
       contents: write
     steps:
       - uses: actions/checkout@v4
@@ -96,12 +97,36 @@ jobs:
           test "$(git diff --name-only)" = "registry/catalog.v1.sig"
       - name: Commit and publish the signature
         shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
         run: |
           git config user.name "packingproof-registry-bot"
           git config user.email "packingproof-registry-bot@users.noreply.github.com"
           git add registry/catalog.v1.sig
           git commit -m "chore: 发布已签名扩展市场索引"
+          signature_revision="$(git rev-parse HEAD)"
+          signature_branch="bot/sign-registry-${signature_revision:0:12}"
+          git push origin "HEAD:refs/heads/$signature_branch"
+          gh workflow run ci.yml --ref "$signature_branch"
+          run_id=""
+          for attempt in {1..30}; do
+            run_id="$(gh run list \
+              --workflow ci.yml \
+              --branch "$signature_branch" \
+              --event workflow_dispatch \
+              --limit 10 \
+              --json databaseId,headSha \
+              --jq ".[] | select(.headSha == \"$signature_revision\") | .databaseId" \
+              | head -n 1)"
+            if [ -n "$run_id" ]; then
+              break
+            fi
+            sleep 2
+          done
+          test -n "$run_id"
+          gh run watch "$run_id" --exit-status
           git push origin HEAD:main
+          git push origin --delete "$signature_branch"
       - name: Remove the runner key file
         if: always()
         shell: bash
