@@ -37,7 +37,7 @@ extensions/<id>/extension.json     扩展静态信息
 extensions/<id>/versions/*.json    不可变版本记录
 advisories/<id>/*.json             撤回与替代版本
 schemas/                            JSON Schema
-registry/                           随 PR 提交的生成索引
+registry/                           维护者签名后原子发布的可信索引
 tools/                              校验、生成和更新工具
 tests/                              自动化测试
 fixtures/                           不进入正式索引的测试数据
@@ -52,10 +52,9 @@ npm ci
 npm test
 npm run validate
 npm run generate
-git diff --exit-code
 ```
 
-`npm run check` 还会验证维护者签名，适合仓库当前已签名 registry 或维护者重新签名后使用。投稿者修改 registry 后没有私钥是正常情况，不要运行签名命令。
+`npm run generate` 可供投稿者在本地预览生成结果，但投稿 PR 不提交 `registry/`。`npm run check` 还会验证维护者签名，只适合仓库当前已发布的 registry 或维护者重新签名后使用。投稿者没有私钥是正常情况，不要运行签名命令。
 
 ## 维护者签名
 
@@ -68,9 +67,9 @@ npm run check
 
 `.env/` 已被 Git 整体忽略，私钥不得提交或发送给作者和普通机器人。需要临时使用其他安全位置时，可通过 `--key <path>` 或 `PACKINGPROOF_MARKET_SIGNING_KEY` 指定；命令行参数优先于环境变量和默认目录。
 
-仓库只提交 `registry/catalog-public-key.pem` 和 `registry/catalog.v1.sig`。必须持续使用与现有公钥对应的私钥；重新生成密钥属于公钥轮换，会导致尚未更新信任公钥的 Desktop 拒绝市场索引。
+仓库提交生成后的 registry、公钥和 `registry/catalog.v1.sig`，但绝不提交签名私钥。必须持续使用与现有公钥对应的私钥；重新生成密钥属于公钥轮换，会导致尚未更新信任公钥的 Desktop 拒绝市场索引。
 
-GitHub 上的 `Publish signed registry` 工作流使用受保护的 `market-signing` Environment。主分支 CI 成功且当前签名失效时，维护者批准部署后，专用任务才可读取 `MARKET_SIGNING_PRIVATE_KEY` 和用于提交签名 PR 的 `MARKET_RELEASE_TOKEN`。签名任务会创建只包含签名的 PR，等待主分支要求的 registry 校验通过后再按线性历史合并；Gitee 同步也会先验签，拒绝发布审批中的未签名索引。PR、版本发现机器人和普通 CI 均无法读取这些 Secret。
+GitHub 上的 `Publish signed registry` 工作流使用受保护的 `market-signing` Environment。扩展源数据合并后，`main` 继续保留上一份完整且已签名的可信索引；维护者批准部署后，专用任务才可读取 `MARKET_SIGNING_PRIVATE_KEY` 和用于提交签名 PR 的 `MARKET_RELEASE_TOKEN`，并在同一个提交中生成新 registry 与新签名。等待审批期间用户仍可打开旧市场，只是暂时看不到尚未发布的新版本。Gitee 也只同步验签通过的完整索引。PR、版本发现机器人和普通 CI 均无法读取这些 Secret。
 
 ## 安全边界
 

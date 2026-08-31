@@ -197,7 +197,7 @@ npm run submit -- --project ../my-extension
 2. 查询所有登记的 Gitee/GitHub Release
 3. 下载目标 PPEXT，验证格式、身份和基础 ZIP 安全规则
 4. 双源存在时验证两个文件字节一致
-5. 自动生成大小、SHA-256、版本记录和 registry
+5. 自动生成大小、SHA-256 和版本记录，并在本地预览 registry
 
 该命令不会上传 Release、创建 Git commit、推送分支、创建 PR 或生成官方签名。成功后检查：
 
@@ -208,7 +208,7 @@ extensions/<extension-id>/versions/<version>.json
 registry/
 ```
 
-不要手工修改已生成版本的大小、SHA-256、下载地址或 registry。发现基本信息错误时，先修正扩展项目中的 `submission.json`，删除本次尚未提交的生成文件后重新运行；绝不能修改已经合并的历史版本记录。
+不要手工修改已生成版本的大小、SHA-256、下载地址或 registry。发现基本信息错误时，先修正扩展项目中的 `submission.json`，删除本次尚未提交的版本文件后重新运行；绝不能修改已经合并的历史版本记录。
 
 ## 作者侧验证与 PR
 
@@ -218,10 +218,9 @@ registry/
 npm test
 npm run validate
 npm run generate
-git diff --exit-code
 ```
 
-`git diff --exit-code` 没有输出才表示 registry 与源数据一致。然后只提交本次生成的 Publisher、扩展、版本和 registry 文件，创建面向官方仓库 `main` 分支的 PR。
+`npm run generate` 成功表示 registry 可以由源数据生成。投稿时只提交本次生成的 Publisher、扩展和版本源文件，不提交 `registry/`；维护者批准后，受保护的签名任务会在同一个提交中生成并签名 registry，再发布到 GitHub 与 Gitee。
 
 作者和 AI 不应运行 `registry:sign`，也不应接触、生成或索取市场私钥。`npm run check` 包含签名验证，registry 改变但维护者尚未重新签名时失败是预期行为。维护者审核通过后离线签名，再运行 `npm run check`。
 

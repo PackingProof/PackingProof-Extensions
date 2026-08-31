@@ -11,6 +11,6 @@
 5. 检查扩展实际申请的 PackingProof API 权限与用途是否一致
 6. 检查构建说明、依赖锁文件和 Release 产物来源；闭源适配器明确记录无法完成源码审查
 7. 运行 CI，确认 `.ppext`、双源字节、SHA-256 与 registry 生成结果一致
-8. 合并后由维护者在本机签名，或人工批准受保护的 `market-signing` Environment，生成并验证 registry 签名
+8. 合并源数据后继续保留上一份可信索引；由维护者在本机生成并签名，或人工批准受保护的 `market-signing` Environment，在同一个提交中发布新 registry 与签名
 
 可以使用静态分析器、杀毒引擎或 AI 辅助定位风险，但最终合并由维护者明确决定

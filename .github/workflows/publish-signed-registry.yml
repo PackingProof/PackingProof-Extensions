@@ -38,11 +38,12 @@ jobs:
         id: revision
         shell: bash
         run: echo "value=$(git rev-parse HEAD)" >> "$GITHUB_OUTPUT"
-      - name: Check whether the registry already has a valid signature
+      - name: Check whether source changes need a registry publication
         id: signature
         shell: bash
         run: |
-          if npm run registry:verify; then
+          npm run generate
+          if git diff --quiet -- registry/catalog.v1.json registry/extensions && npm run registry:verify; then
             echo "needs-signing=false" >> "$GITHUB_OUTPUT"
           else
             echo "needs-signing=true" >> "$GITHUB_OUTPUT"
@@ -70,13 +71,12 @@ jobs:
         run: |
           git fetch origin main
           test "$(git rev-parse HEAD)" = "$(git rev-parse origin/main)"
-      - name: Validate committed registry output
+      - name: Generate the candidate registry
         shell: bash
         run: |
           npm test
           npm run validate
           npm run generate
-          git diff --exit-code -- registry/catalog.v1.json registry/extensions
       - name: Prepare the signing key
         shell: bash
         env:
@@ -93,15 +93,16 @@ jobs:
           npm run registry:sign -- --key "$MARKET_SIGNING_KEY_PATH"
           git diff --exit-code -- registry/catalog-public-key.pem
           npm run check
-          test "$(git diff --name-only)" = "registry/catalog.v1.sig"
-      - name: Commit and publish the signature
+          unexpected="$(git diff --name-only | grep -Ev '^registry/(catalog\.v1\.json|catalog\.v1\.sig|extensions/.+\.json)$' || true)"
+          test -z "$unexpected"
+      - name: Commit and publish the signed registry
         shell: bash
         env:
           GH_TOKEN: ${{ secrets.MARKET_RELEASE_TOKEN }}
         run: |
           git config user.name "packingproof-registry-bot"
           git config user.email "packingproof-registry-bot@users.noreply.github.com"
-          git add registry/catalog.v1.sig
+          git add registry/catalog.v1.json registry/catalog.v1.sig registry/extensions
           git commit -m "chore: 发布已签名扩展市场索引"
           signature_revision="$(git rev-parse HEAD)"
           signature_branch="bot/sign-registry-${signature_revision:0:12}"
@@ -110,7 +111,7 @@ jobs:
             --base main \
             --head "$signature_branch" \
             --title "chore: 发布已签名扩展市场索引" \
-            --body "由受保护的市场签名环境生成。签名 PR 仍需通过主分支要求的 registry 校验。")"
+            --body "由受保护的市场签名环境同时生成 registry 与签名。签名 PR 仍需通过主分支要求的 registry 校验。")"
           for attempt in {1..30}; do
             check_count="$(gh pr checks "$pull_request_url" --required --json name --jq 'length')"
             if [ "$check_count" -gt 0 ]; then

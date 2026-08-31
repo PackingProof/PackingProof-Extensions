@@ -43,7 +43,7 @@ jobs:
               failed=1
               continue
             fi
-            git add "extensions/$extension_id/versions" registry
+            git add "extensions/$extension_id/versions"
             if git diff --cached --quiet; then
               continue
             fi
