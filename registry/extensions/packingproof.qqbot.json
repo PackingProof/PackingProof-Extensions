@@ -89,6 +89,66 @@
           }
         },
         "downloads": {
+          "gitee": {
+            "provider": "gitee",
+            "url": "https://gitee.com/PackingProof/PackingProof-QQBot/releases/download/v0.0.7/packingproof.qqbot-0.0.7.ppext"
+          },
+          "github": {
+            "provider": "github",
+            "url": "https://github.com/PackingProof/PackingProof-QQBot/releases/download/v0.0.7/packingproof.qqbot-0.0.7.ppext"
+          }
+        },
+        "extensionId": "packingproof.qqbot",
+        "publishedAt": "2026-08-31T12:50:23+08:00",
+        "schemaVersion": 1,
+        "sha256": "7e8af2400dfa39d227a553f294f63d03bbafcfb8bd54ed71cac4323adf480372",
+        "size": 72514491,
+        "source": {
+          "commit": "fefb0919c12d3517782ce496347af1de0ad1b706",
+          "tag": "v0.0.7"
+        },
+        "version": "0.0.7"
+      },
+      "status": "available"
+    },
+    {
+      "advisory": null,
+      "release": {
+        "access": {
+          "packingProofCapabilities": [],
+          "packingProofPermissions": [
+            "recordings.search",
+            "recordings.download",
+            "recordings.delivery"
+          ],
+          "systemAccess": [
+            {
+              "id": "network",
+              "reason": "连接 QQ 官方接口与用户配置的 PackingProof 主机"
+            },
+            {
+              "id": "filesystem.read",
+              "reason": "读取 QQBot 本机配置、加密凭据和运行状态"
+            },
+            {
+              "id": "filesystem.write",
+              "reason": "保存本机配置、加密凭据、日志和待发送的临时录像"
+            },
+            {
+              "id": "other",
+              "reason": "用户启用开机自动启动时写入当前 Windows 用户的启动项"
+            }
+          ]
+        },
+        "compatibility": {
+          "minPackingProofVersion": "0.0.63",
+          "platforms": {
+            "windows": [
+              "x64"
+            ]
+          }
+        },
+        "downloads": {
           "github": {
             "provider": "github",
             "url": "https://github.com/PackingProof/PackingProof-QQBot/releases/download/v0.0.6/packingproof.qqbot-0.0.6.ppext"
