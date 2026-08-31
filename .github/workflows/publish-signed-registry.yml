@@ -113,7 +113,7 @@ jobs:
             --title "chore: 发布已签名扩展市场索引" \
             --body "由受保护的市场签名环境同时生成 registry 与签名。签名 PR 仍需通过主分支要求的 registry 校验。")"
           for attempt in {1..30}; do
-            check_count="$(gh pr checks "$pull_request_url" --required --json name --jq 'length')"
+            check_count="$(gh pr view "$pull_request_url" --json statusCheckRollup --jq '[.statusCheckRollup[] | select(.name == "validate")] | length')"
             if [ "$check_count" -gt 0 ]; then
               break
             fi
