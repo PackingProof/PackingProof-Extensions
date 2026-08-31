@@ -2,9 +2,9 @@
   "extensions": [
     {
       "details": "extensions/369431.kuaimai-erp.json",
-      "detailsSha256": "7a3455a81a9c4dedac39056753615b3a213a868e64890164a84ea1a05d42eb24",
+      "detailsSha256": "d613441b50f24f778977fa968f16ec0160b270abff16895af8971de68e4aa0f1",
       "id": "369431.kuaimai-erp",
-      "latestVersion": "1.0.0",
+      "latestVersion": "1.0.1",
       "name": "PackingProof 快麦 ERP 适配器",
       "publisher": {
         "displayName": "369431",
@@ -36,9 +36,9 @@
     },
     {
       "details": "extensions/packingproof.qqbot.json",
-      "detailsSha256": "ba229a29850e128690acda529e1e102d9475b188e5aeaa1642b855fa1b348a7e",
+      "detailsSha256": "74f78bcb59e12606d5ac6a4a0961ec9d296aebb02135322274fce66abc967213",
       "id": "packingproof.qqbot",
-      "latestVersion": "0.0.5",
+      "latestVersion": "0.0.6",
       "name": "QQ 机器人",
       "publisher": {
         "displayName": "PackingProof",
@@ -54,6 +54,6 @@
     }
   ],
   "schemaVersion": 1,
-  "sourceDigest": "fe164409e6f57d2b95baa4aae365dedacaf21c84b2d3087d687f16f687a0ff30",
-  "updatedAt": "2026-08-30T16:34:07Z"
+  "sourceDigest": "836903a6f69d8ff08301cc1a289e3501f166535f2b5bb3ae4f73c8e713d94872",
+  "updatedAt": "2026-08-30T19:12:32Z"
 }
