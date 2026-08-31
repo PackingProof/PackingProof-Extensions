@@ -27,8 +27,6 @@ try {
     await loadMarket(rootDirectory, { validateRegistry: true });
     console.log("registry 已生成");
   } else if (command === "check") {
-    const market = await loadMarket(rootDirectory);
-    await buildRegistry(rootDirectory, market);
     await loadMarket(rootDirectory, { validateRegistry: true });
     await verifyRegistrySignature(rootDirectory);
     console.log("完整校验通过");

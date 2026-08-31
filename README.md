@@ -54,7 +54,7 @@ npm run validate
 npm run generate
 ```
 
-`npm run generate` 可供投稿者在本地预览生成结果，但投稿 PR 不提交 `registry/`。`npm run check` 还会验证维护者签名，只适合仓库当前已发布的 registry 或维护者重新签名后使用。投稿者没有私钥是正常情况，不要运行签名命令。
+`npm run generate` 可供投稿者在本地预览生成结果，但投稿 PR 不提交 `registry/`。`npm run check` 校验仓库当前已发布 registry 的 Schema 与维护者签名，不会用待发布源数据覆盖它。投稿者没有私钥是正常情况，不要运行签名命令。
 
 ## 维护者签名
 
@@ -69,7 +69,7 @@ npm run check
 
 仓库提交生成后的 registry、公钥和 `registry/catalog.v1.sig`，但绝不提交签名私钥。必须持续使用与现有公钥对应的私钥；重新生成密钥属于公钥轮换，会导致尚未更新信任公钥的 Desktop 拒绝市场索引。
 
-GitHub 上的 `Publish signed registry` 工作流使用受保护的 `market-signing` Environment。扩展源数据合并后，`main` 继续保留上一份完整且已签名的可信索引；维护者批准部署后，专用任务才可读取 `MARKET_SIGNING_PRIVATE_KEY` 和用于提交签名 PR 的 `MARKET_RELEASE_TOKEN`，并在同一个提交中生成新 registry 与新签名。等待审批期间用户仍可打开旧市场，只是暂时看不到尚未发布的新版本。Gitee 也只同步验签通过的完整索引。PR、版本发现机器人和普通 CI 均无法读取这些 Secret。
+GitHub 上的 `Publish signed registry` 工作流使用受保护的 `market-signing` Environment。扩展源数据合并后，`main` 继续保留上一份完整且已签名的可信索引；维护者批准部署后，专用任务才可读取 `MARKET_SIGNING_PRIVATE_KEY` 和用于提交签名 PR 的 `MARKET_RELEASE_TOKEN`，并在同一个提交中生成新 registry 与新签名。等待审批期间用户仍可打开旧市场，只是暂时看不到尚未发布的新版本。新的签名任务会自动取消仍在排队或等待审批的旧任务，避免维护者误批过期提交；已结束的任务记录继续由 GitHub 按保留策略清理。Gitee 也只同步验签通过的完整索引。PR、版本发现机器人和普通 CI 均无法读取这些 Secret。
 
 ## 安全边界
 
