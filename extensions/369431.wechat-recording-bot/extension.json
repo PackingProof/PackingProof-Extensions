@@ -1,0 +1,27 @@
+{
+  "description": "连接 PackingProof 与企业微信智能机器人。群内 @机器人发送快递单号，机器人通过扩展 API v1 查询录像；未超限直接下载原片，超过平台上限时请求主机生成受控转码副本并逐段回传群聊。核心流程与聊天平台解耦，内置企业微信与本地调试频道，可按频道契约扩展接入新平台。仅通过扩展 API 通信，不读取数据库、录像目录或 NAS 凭据。",
+  "homepage": "https://github.com/369431/gProof-WechatRecordingBot",
+  "id": "369431.wechat-recording-bot",
+  "license": {
+    "sourceUrl": "https://github.com/369431/gProof-WechatRecordingBot/blob/main/LICENSE",
+    "spdx": "AGPL-3.0-only"
+  },
+  "name": "PackingProof 微信录像机器人",
+  "publisherId": "369431",
+  "releaseSources": [
+    {
+      "name": "gProof-WechatRecordingBot",
+      "owner": "369431",
+      "provider": "github"
+    }
+  ],
+  "repository": {
+    "name": "gProof-WechatRecordingBot",
+    "owner": "369431",
+    "provider": "github"
+  },
+  "schemaVersion": 1,
+  "sourceAvailability": "open-source",
+  "summary": "在企业微信群发送快递单号即可查询并回传打包录像，频道化架构可扩展接入更多聊天平台",
+  "type": "external-adapter"
+}
