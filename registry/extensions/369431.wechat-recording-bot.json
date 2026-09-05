@@ -1,0 +1,80 @@
+{
+  "extension": {
+    "description": "连接 PackingProof 与企业微信智能机器人。群内 @机器人发送快递单号，机器人通过扩展 API v1 查询录像；未超限直接下载原片，超过平台上限时请求主机生成受控转码副本并逐段回传群聊。核心流程与聊天平台解耦，内置企业微信与本地调试频道，可按频道契约扩展接入新平台。仅通过扩展 API 通信，不读取数据库、录像目录或 NAS 凭据。",
+    "homepage": "https://github.com/369431/gProof-WechatRecordingBot",
+    "id": "369431.wechat-recording-bot",
+    "license": {
+      "sourceUrl": "https://github.com/369431/gProof-WechatRecordingBot/blob/main/LICENSE",
+      "spdx": "AGPL-3.0-only"
+    },
+    "name": "PackingProof 微信录像机器人",
+    "publisherId": "369431",
+    "releaseSources": [
+      {
+        "name": "gProof-WechatRecordingBot",
+        "owner": "369431",
+        "provider": "github"
+      }
+    ],
+    "repository": {
+      "name": "gProof-WechatRecordingBot",
+      "owner": "369431",
+      "provider": "github"
+    },
+    "schemaVersion": 1,
+    "sourceAvailability": "open-source",
+    "summary": "在企业微信群发送快递单号即可查询并回传打包录像，频道化架构可扩展接入更多聊天平台",
+    "type": "external-adapter"
+  },
+  "publisher": {
+    "accounts": {
+      "github": "369431"
+    },
+    "displayName": "369431",
+    "homepage": "https://github.com/369431",
+    "id": "369431",
+    "schemaVersion": 1
+  },
+  "riskLabels": [
+    "external-program"
+  ],
+  "schemaVersion": 1,
+  "trust": "third-party",
+  "versions": [
+    {
+      "advisory": null,
+      "release": {
+        "access": {
+          "packingProofCapabilities": [],
+          "packingProofPermissions": [],
+          "systemAccess": []
+        },
+        "compatibility": {
+          "minPackingProofVersion": "0.0.63",
+          "platforms": {
+            "windows": [
+              "any"
+            ]
+          }
+        },
+        "downloads": {
+          "github": {
+            "provider": "github",
+            "url": "https://github.com/369431/gProof-WechatRecordingBot/releases/download/v1.0.0/369431.wechat-recording-bot-1.0.0.ppext"
+          }
+        },
+        "extensionId": "369431.wechat-recording-bot",
+        "publishedAt": "2026-09-05T16:08:09Z",
+        "schemaVersion": 1,
+        "sha256": "045500fed4de1cf57a5ad1aa77dc1310b2b9c0ff9549df861c576ad3cd19dd28",
+        "size": 31806,
+        "source": {
+          "commit": "9a15c990ea74fcef055ddeda71e37cca54f56fe7",
+          "tag": "v1.0.0"
+        },
+        "version": "1.0.0"
+      },
+      "status": "available"
+    }
+  ]
+}

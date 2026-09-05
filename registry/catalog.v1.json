@@ -19,6 +19,24 @@
       "type": "external-adapter"
     },
     {
+      "details": "extensions/369431.wechat-recording-bot.json",
+      "detailsSha256": "1b84a2e7482b4de46cb461e6aadb85e15ad6aab4931e9e5e16691a99570b6c44",
+      "id": "369431.wechat-recording-bot",
+      "latestVersion": "1.0.0",
+      "name": "PackingProof 微信录像机器人",
+      "publisher": {
+        "displayName": "369431",
+        "id": "369431"
+      },
+      "riskLabels": [
+        "external-program"
+      ],
+      "sourceAvailability": "open-source",
+      "summary": "在企业微信群发送快递单号即可查询并回传打包录像，频道化架构可扩展接入更多聊天平台",
+      "trust": "third-party",
+      "type": "external-adapter"
+    },
+    {
       "details": "extensions/packingproof.kdzs.json",
       "detailsSha256": "6d7de27b65f87ec29a777766a26727f0d0ce973147fd97999b5035c947e50be1",
       "id": "packingproof.kdzs",
@@ -54,6 +72,6 @@
     }
   ],
   "schemaVersion": 1,
-  "sourceDigest": "e1863a7fcf71349f79ad3fdab0f53d104fe0af19c3a1041a90d29c11df6f2e58",
-  "updatedAt": "2026-08-31T12:50:23+08:00"
+  "sourceDigest": "fdb9feb482574025a35aed18f460e5c5db59fed935e2d5aababbdb132cc115ac",
+  "updatedAt": "2026-09-05T16:08:09Z"
 }

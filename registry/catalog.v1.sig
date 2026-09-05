@@ -1,7 +1,7 @@
 {
   "algorithm": "ECDSA-P256-SHA256",
-  "catalogSha256": "85a53be3ea30aec29452636a3b25cc3fc6af95e309df0a160cbf6db5802ccadf",
+  "catalogSha256": "da8e55ec8beb0dd89d26d1c0be99c0f3bfbfb313037d4df5ea5dab1c34d3c02c",
   "keyId": "6d14589c4a213deb",
   "schemaVersion": 1,
-  "signature": "uEwB0/76QzQGMacQC1S8xOSi4SWsA7pHE1y3JNGyRJs+Xdcxx2OnyGlLfnC8040VZ72eWKzV48M1KdcbidtSeg=="
+  "signature": "Qz0w3TkiMSndI1crD70JH0rSZmf26qJV6ADHtTqM2jCk5M1nhYa3mBLEZYeI7ncrcoApKc9BabEQKfALLwUhxA=="
 }
