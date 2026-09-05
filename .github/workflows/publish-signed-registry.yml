@@ -120,7 +120,16 @@ jobs:
             sleep 2
           done
           test "$check_count" -gt 0
-          gh pr checks "$pull_request_url" --required --watch
+          for attempt in {1..60}; do
+            checks_json="$(gh pr view "$pull_request_url" --json statusCheckRollup --jq '[.statusCheckRollup[] | select(.name == "validate" and (.workflowName == "Validate registry" or .workflowName == null))]')"
+            check_status="$(printf '%s' "$checks_json" | jq -r 'if length == 0 then "pending" elif any(.[]; .conclusion == "FAILURE" or .conclusion == "CANCELLED" or .conclusion == "TIMED_OUT") then "failure" elif all(.[]; .conclusion == "SUCCESS") then "success" else "pending" end')"
+            case "$check_status" in
+              success) break ;;
+              failure) echo "$checks_json"; exit 1 ;;
+            esac
+            sleep 10
+          done
+          test "$check_status" = success
           gh pr merge "$pull_request_url" --rebase --delete-branch
       - name: Remove the runner key file
         if: always()
