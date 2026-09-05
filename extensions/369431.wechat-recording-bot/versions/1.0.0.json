@@ -1,0 +1,32 @@
+{
+  "$schema": "../../../schemas/version.v1.schema.json",
+  "access": {
+    "packingProofCapabilities": [],
+    "packingProofPermissions": [],
+    "systemAccess": []
+  },
+  "compatibility": {
+    "minPackingProofVersion": "0.0.63",
+    "platforms": {
+      "windows": [
+        "any"
+      ]
+    }
+  },
+  "downloads": {
+    "github": {
+      "provider": "github",
+      "url": "https://github.com/369431/gProof-WechatRecordingBot/releases/download/v1.0.0/369431.wechat-recording-bot-1.0.0.ppext"
+    }
+  },
+  "extensionId": "369431.wechat-recording-bot",
+  "publishedAt": "2026-09-05T16:08:09Z",
+  "schemaVersion": 1,
+  "sha256": "045500fed4de1cf57a5ad1aa77dc1310b2b9c0ff9549df861c576ad3cd19dd28",
+  "size": 31806,
+  "source": {
+    "commit": "9a15c990ea74fcef055ddeda71e37cca54f56fe7",
+    "tag": "v1.0.0"
+  },
+  "version": "1.0.0"
+}
