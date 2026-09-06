@@ -1,0 +1,32 @@
+{
+  "$schema": "../../../schemas/version.v1.schema.json",
+  "access": {
+    "packingProofCapabilities": [],
+    "packingProofPermissions": [],
+    "systemAccess": []
+  },
+  "compatibility": {
+    "minPackingProofVersion": "0.0.63",
+    "platforms": {
+      "windows": [
+        "any"
+      ]
+    }
+  },
+  "downloads": {
+    "github": {
+      "provider": "github",
+      "url": "https://github.com/369431/PackingProof-KuaimaiERP/releases/download/v1.0.3/369431.kuaimai-erp-1.0.3.ppext"
+    }
+  },
+  "extensionId": "369431.kuaimai-erp",
+  "publishedAt": "2026-09-06T13:09:09Z",
+  "schemaVersion": 1,
+  "sha256": "74d7f07555a1719777bbd87d62c45d0bf24296395469d4402e8a2ecb92c9fc15",
+  "size": 23866,
+  "source": {
+    "commit": "98b05ee6004cb4f2fd017984a428591f66e87d71",
+    "tag": "v1.0.3"
+  },
+  "version": "1.0.3"
+}
