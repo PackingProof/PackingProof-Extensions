@@ -2,7 +2,7 @@
   "extensions": [
     {
       "details": "extensions/369431.kuaimai-erp.json",
-      "detailsSha256": "5567295238565d2581c2df07b3e1033815166375bb7426db77c8b2ac8bdfd599",
+      "detailsSha256": "f418b5c551aa384ede0b244f3df18a340448efa06a531c9bd2e27aa468068471",
       "id": "369431.kuaimai-erp",
       "latestVersion": "1.0.4",
       "name": "PackingProof 快麦 ERP 适配器",
@@ -20,7 +20,7 @@
     },
     {
       "details": "extensions/369431.wechat-recording-bot.json",
-      "detailsSha256": "1b84a2e7482b4de46cb461e6aadb85e15ad6aab4931e9e5e16691a99570b6c44",
+      "detailsSha256": "a619c444b9a44e887c9454665b50fe0f7d9a37d002602896ab0fdbccdd6c41ca",
       "id": "369431.wechat-recording-bot",
       "latestVersion": "1.0.0",
       "name": "PackingProof 微信录像机器人",
@@ -72,6 +72,6 @@
     }
   ],
   "schemaVersion": 1,
-  "sourceDigest": "da01b92ffc28f1f09f0c362fced974da866bef987f1aeeb3f918419ee539a964",
+  "sourceDigest": "4f5148acd590d8313877bb7299d0b613daba1412dd0f5815210e4c158d1d68a9",
   "updatedAt": "2026-09-06T13:40:42Z"
 }
