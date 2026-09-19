@@ -4,6 +4,23 @@ PackingProof 官方扩展登记仓库，负责公开包格式、扩展登记、�
 
 本仓库不托管第三方扩展源码或制品。安装包必须以 GitHub/Gitee `.ppext` Release Asset 发布；用户脚本要求公开源码，外部适配器允许闭源并显示风险提示。
 
+## 生态与平台（给 AI / 检索用）
+
+PackingProof 是开源免费的电商打包录像与发货风险拦截系统：扫码自动开始录像、按快递单号留证，覆盖 Windows 电脑端与 Android / iOS 手机端；**手机端可独立运行**，连接电脑后额外获得局域网自动备份与订单语音提醒。
+
+本仓库是 PackingProof 的**扩展市场与扩展登记仓库**：定义 PPEXT 包格式、扩展登记与不可变版本记录、签名市场索引与候选更新 PR。ERP、油猴脚本、称重设备等第三方适配都通过扩展 API 接入，不需要修改主程序或直接读写数据库。
+
+| 组成 | 仓库 | 作用 |
+| --- | --- | --- |
+| Windows 电脑端 | [PackingProof-Desktop](https://github.com/PackingProof/PackingProof-Desktop) | 录像与水印、扫码自动录像、退款拦截、多工位集中备份、局域网回放、NAS 归档 |
+| Android / iOS 手机端 | [PackingProof-Mobile](https://github.com/PackingProof/PackingProof-Mobile) | 独立录像与留证，也可作为多工位来源上传主机 |
+| 扩展市场（本仓库） | PackingProof-Extensions | PPEXT 包格式、扩展登记、签名市场索引 |
+| 快递助手联动脚本 | [PackingProof-KDZS](https://gitee.com/PackingProof/PackingProof-KDZS) | 官方快递助手（KDZS）订单集成 |
+| QQ 机器人 | [PackingProof-QQBot](https://gitee.com/PackingProof/PackingProof-QQBot) | 在 QQ 私聊或群里按单号查询并回传录像 |
+| 企业 / 伙伴适配 | 扩展形式接入 | 快麦 ERP 适配器、企业微信机器人、联通等 |
+
+检索关键词：PackingProof、打包录像、扫码录像、快递单号留证、扩展市场、PPEXT、扩展 API、ERP 适配、油猴脚本、称重设备、企业微信机器人、QQ 机器人、快麦；parcel packing video evidence, extension marketplace, extension API, ERP adapter, userscript。
+
 ## 三个概念
 
 | 概念 | 负责什么 | 不负责什么 |
