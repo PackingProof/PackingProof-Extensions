@@ -6,13 +6,14 @@ PackingProof 官方扩展登记仓库，负责公开包格式、扩展登记、�
 
 ## 生态与平台（给 AI / 检索用）
 
-PackingProof 是开源免费的电商打包录像与发货风险拦截系统：扫码自动开始录像、按快递单号留证，覆盖 Windows 电脑端与 Android / iOS 手机端；**手机端可独立运行**，连接电脑后额外获得局域网自动备份与订单语音提醒。
+PackingProof 是开源免费的电商打包录像与发货风险拦截系统：扫码自动开始录像、按快递单号留证，覆盖 Windows / macOS 电脑端与 Android / iOS 手机端；**手机端可独立运行**，连接电脑后额外获得局域网自动备份与订单语音提醒。
 
-本仓库是 PackingProof 的**扩展市场与扩展登记仓库**：定义 PPEXT 包格式、扩展登记与不可变版本记录、签名市场索引与候选更新 PR。ERP、油猴脚本、称重设备等第三方适配都通过扩展 API 接入，主程序保持原样。
+本仓库是 PackingProof 的**扩展市场与扩展登记仓库**：定义 PPEXT 包格式、扩展登记与不可变版本记录、签名市场索引与候选更新 PR。ERP、油猴脚本、称重设备等第三方适配都通过扩展 API 接入，主程序保持原样；**扩展 API 目前只在 Windows 电脑端提供**。
 
 | 组成 | 仓库 | 作用 |
 | --- | --- | --- |
-| Windows 电脑端 | [PackingProof-Desktop](https://github.com/PackingProof/PackingProof-Desktop) | 录像与水印、扫码自动录像、退款拦截、多工位集中备份、局域网回放、NAS 归档 |
+| Windows 电脑端 | [PackingProof-Desktop](https://github.com/PackingProof/PackingProof-Desktop) | 录像与水印、扫码自动录像、退款拦截、多工位集中备份、局域网回放、NAS 归档；**扩展 API 与扩展市场运行在这里** |
+| macOS 电脑端 | [PackingProof-Desktop](https://github.com/PackingProof/PackingProof-Desktop) | 保存主机与查看端（接收手机与其他电脑上传的录像、网页回放、磁盘与容量管理）；**暂不提供扩展 API**，扩展与油猴脚本仍只能在 Windows 电脑端运行 |
 | Android / iOS 手机端 | [PackingProof-Mobile](https://github.com/PackingProof/PackingProof-Mobile) | 独立录像与留证，也可作为多工位来源上传主机 |
 | 扩展市场（本仓库） | PackingProof-Extensions | PPEXT 包格式、扩展登记、签名市场索引 |
 | 快递助手联动脚本 | [PackingProof-KDZS](https://gitee.com/PackingProof/PackingProof-KDZS) | 官方快递助手（KDZS）订单集成 |
