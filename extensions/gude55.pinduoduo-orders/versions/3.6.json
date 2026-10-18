@@ -45,10 +45,10 @@
   "extensionId": "gude55.pinduoduo-orders",
   "publishedAt": "2026-10-18T10:44:22Z",
   "schemaVersion": 1,
-  "sha256": "e89fbea7bb9fce6c6c57de91cbdbdbe3f916e6b033eda860ea0865203639d4a7",
-  "size": 41236,
+  "sha256": "ee26bd158ed166eee0421c8636283788dce5b703e9f46aad6cb0473f4da79029",
+  "size": 42991,
   "source": {
-    "commit": "fe544430ed06ecd08e3e2134e9cca60dad2eaff1",
+    "commit": "15731cc6d7b509e347c4b5a42bd54734de522a88",
     "tag": "v3.6"
   },
   "version": "3.6"
