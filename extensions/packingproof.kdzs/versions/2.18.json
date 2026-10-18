@@ -1,0 +1,36 @@
+{
+  "$schema": "../../../schemas/version.v1.schema.json",
+  "access": {
+    "packingProofCapabilities": [],
+    "packingProofPermissions": [],
+    "systemAccess": []
+  },
+  "compatibility": {
+    "minPackingProofVersion": "0.0.63",
+    "platforms": {
+      "userscript": [
+        "any"
+      ]
+    }
+  },
+  "downloads": {
+    "gitee": {
+      "provider": "gitee",
+      "url": "https://gitee.com/PackingProof/PackingProof-KDZS/releases/download/v2.18/packingproof.kdzs-2.18.ppext"
+    },
+    "github": {
+      "provider": "github",
+      "url": "https://github.com/PackingProof/PackingProof-KDZS/releases/download/v2.18/packingproof.kdzs-2.18.ppext"
+    }
+  },
+  "extensionId": "packingproof.kdzs",
+  "publishedAt": "2026-10-18T06:10:26Z",
+  "schemaVersion": 1,
+  "sha256": "3e06e9a066603631c873ec56f0c199714a69c02df2bcf81df97de9390625a71f",
+  "size": 32761,
+  "source": {
+    "commit": "d419b7179bd28e23130bd04855c7473d67a7bff3",
+    "tag": "v2.18"
+  },
+  "version": "2.18"
+}
