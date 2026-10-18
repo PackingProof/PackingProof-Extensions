@@ -4,23 +4,23 @@
     "userscript"
   ],
   "description": "安装到浏览器脚本管理器后，在拼多多官方打单页面（待打印/已发货/打印后变化订单）运行。自动全量采集虚拟滚动列表中的订单，读取买家留言、卖家备注、商品明细、商品件数与快递单号，推送到用户配置的录像设备或上位机。",
-  "homepage": "https://github.com/gude55/PackingProof-Extensions",
+  "homepage": "https://github.com/gude55/PackingProof-Pinduoduo",
   "id": "gude55.pinduoduo-orders",
   "license": {
-    "sourceUrl": "https://github.com/PackingProof/PackingProof-Extensions/blob/main/LICENSE",
+    "sourceUrl": "https://github.com/gude55/PackingProof-Pinduoduo/blob/main/LICENSE",
     "spdx": "AGPL-3.0-only"
   },
   "name": "拼多多打单订单联动",
   "publisherId": "gude55",
   "releaseSources": [
     {
-      "name": "PackingProof-Extensions",
+      "name": "PackingProof-Pinduoduo",
       "owner": "gude55",
       "provider": "github"
     }
   ],
   "repository": {
-    "name": "PackingProof-Extensions",
+    "name": "PackingProof-Pinduoduo",
     "owner": "gude55",
     "provider": "github"
   },
