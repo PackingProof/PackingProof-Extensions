@@ -1,9 +1,32 @@
 {
   "$schema": "../../../schemas/version.v1.schema.json",
   "access": {
-    "packingProofCapabilities": [],
-    "packingProofPermissions": [],
-    "systemAccess": []
+    "packingProofCapabilities": [
+      "order.lookup",
+      "refund.lookup"
+    ],
+    "packingProofPermissions": [
+      "scan-tasks.read",
+      "scan-results.write"
+    ],
+    "systemAccess": [
+      {
+        "id": "network",
+        "reason": "连接用户配置的 PackingProof 录像设备、扩展 API，并扫描局域网主机"
+      },
+      {
+        "id": "browser.page-data",
+        "reason": "读取拼多多打单页面中的订单、备注、商品和退款状态"
+      },
+      {
+        "id": "browser.storage",
+        "reason": "保存录像设备、上位机地址和扩展授权凭据"
+      },
+      {
+        "id": "clipboard",
+        "reason": "用户主动复制订单 JSON 时写入剪贴板"
+      }
+    ]
   },
   "compatibility": {
     "minPackingProofVersion": "0.0.63",
@@ -16,16 +39,16 @@
   "downloads": {
     "github": {
       "provider": "github",
-      "url": "https://github.com/gude55/PackingProof-Extensions/releases/download/v3.6/gude55.pinduoduo-orders-3.6.ppext"
+      "url": "https://github.com/gude55/PackingProof-Pinduoduo/releases/download/v3.6/gude55.pinduoduo-orders-3.6.ppext"
     }
   },
   "extensionId": "gude55.pinduoduo-orders",
   "publishedAt": "2026-10-18T10:44:22Z",
   "schemaVersion": 1,
-  "sha256": "5a15ecc1fb06727374abeb0fcc5f1084fefe7b97e71c83b1f410b16d2bd481da",
-  "size": 41224,
+  "sha256": "e89fbea7bb9fce6c6c57de91cbdbdbe3f916e6b033eda860ea0865203639d4a7",
+  "size": 41236,
   "source": {
-    "commit": "ce0a5f7a4dcafc6cc5b7d5c1dbb966e7f826ecda",
+    "commit": "fe544430ed06ecd08e3e2134e9cca60dad2eaff1",
     "tag": "v3.6"
   },
   "version": "3.6"
