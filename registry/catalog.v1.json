@@ -37,6 +37,22 @@
       "type": "external-adapter"
     },
     {
+      "details": "extensions/gude55.pinduoduo-orders.json",
+      "detailsSha256": "02d4e1958a84dfb6477e3d9a3ed2a1d65ddab2a8628ed460510eb3c4a485039d",
+      "id": "gude55.pinduoduo-orders",
+      "latestVersion": "3.6",
+      "name": "拼多多打单订单联动",
+      "publisher": {
+        "displayName": "gude55",
+        "id": "gude55"
+      },
+      "riskLabels": [],
+      "sourceAvailability": "open-source",
+      "summary": "从拼多多官方打单页面读取订单、备注与商品数量，推送到已配置的 PackingProof 录像设备",
+      "trust": "third-party",
+      "type": "userscript"
+    },
+    {
       "details": "extensions/packingproof.kdzs.json",
       "detailsSha256": "82f93d08b2288199b974a1e23425e10b35e5eef6d57317553fa8537695d8f960",
       "id": "packingproof.kdzs",
@@ -72,6 +88,6 @@
     }
   ],
   "schemaVersion": 1,
-  "sourceDigest": "d4d898c3c34a3951ef4d57075fd6ae6d97bc60e89965fb6697923d9ef10805c5",
-  "updatedAt": "2026-10-18T06:10:26Z"
+  "sourceDigest": "868ceda3dca0ef81846edbc6c1a8f6bcd820739c5960260c5019b49cc1d3759a",
+  "updatedAt": "2026-10-18T10:44:22Z"
 }
