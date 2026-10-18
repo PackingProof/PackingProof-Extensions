@@ -1,0 +1,32 @@
+{
+  "$schema": "../../../schemas/version.v1.schema.json",
+  "access": {
+    "packingProofCapabilities": [],
+    "packingProofPermissions": [],
+    "systemAccess": []
+  },
+  "compatibility": {
+    "minPackingProofVersion": "0.0.63",
+    "platforms": {
+      "userscript": [
+        "any"
+      ]
+    }
+  },
+  "downloads": {
+    "github": {
+      "provider": "github",
+      "url": "https://github.com/gude55/PackingProof-Extensions/releases/download/v3.6/gude55.pinduoduo-orders-3.6.ppext"
+    }
+  },
+  "extensionId": "gude55.pinduoduo-orders",
+  "publishedAt": "2026-10-18T10:44:22Z",
+  "schemaVersion": 1,
+  "sha256": "5a15ecc1fb06727374abeb0fcc5f1084fefe7b97e71c83b1f410b16d2bd481da",
+  "size": 41224,
+  "source": {
+    "commit": "ce0a5f7a4dcafc6cc5b7d5c1dbb966e7f826ecda",
+    "tag": "v3.6"
+  },
+  "version": "3.6"
+}
