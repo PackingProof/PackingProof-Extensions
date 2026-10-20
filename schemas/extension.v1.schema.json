@@ -59,6 +59,22 @@
       "pattern": "^assets/[A-Za-z0-9_.-]+\\.(png|webp)$",
       "maxLength": 200
     },
+    "screenshots": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["url", "sha256", "size", "alt"],
+        "properties": {
+          "url": {"$ref": "common.v1.schema.json#/$defs/httpsUrl"},
+          "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+          "size": {"type": "integer", "minimum": 1, "maximum": 4194304},
+          "alt": {"type": "string", "minLength": 1, "maxLength": 160, "pattern": "\\S"}
+        }
+      },
+      "minItems": 1,
+      "maxItems": 6
+    },
     "releaseSources": {
       "type": "array",
       "items": {"$ref": "common.v1.schema.json#/$defs/repository"},

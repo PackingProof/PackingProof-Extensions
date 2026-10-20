@@ -104,6 +104,53 @@ test("rejects a closed-source userscript", async () => {
   }
 });
 
+test("accepts signed screenshot previews and exposes them in registry details", async () => {
+  const root = await createFixtureRoot();
+  try {
+    const extensionPath = path.join(root, "extensions", "sample.demo", "extension.json");
+    const extension = JSON.parse(await readFile(extensionPath, "utf8"));
+    extension.screenshots = [
+      {
+        url: "https://gitee.com/SampleOrg/Demo/raw/0123456789abcdef/docs/orders.png",
+        sha256: "a".repeat(64),
+        size: 123456,
+        alt: "在订单系统页面发送订单到 PackingProof",
+      },
+    ];
+    await writeJson(extensionPath, extension);
+
+    const market = await loadMarket(root);
+    await buildRegistry(root, market);
+    const details = JSON.parse(await readFile(
+      path.join(root, "registry", "extensions", "sample.demo.json"),
+      "utf8",
+    ));
+    assert.deepEqual(details.extension.screenshots, extension.screenshots);
+  } finally {
+    await rm(root, { recursive: true, force: true });
+  }
+});
+
+test("rejects preview images larger than 4 MB", async () => {
+  const root = await createFixtureRoot();
+  try {
+    const extensionPath = path.join(root, "extensions", "sample.demo", "extension.json");
+    const extension = JSON.parse(await readFile(extensionPath, "utf8"));
+    extension.screenshots = [
+      {
+        url: "https://gitee.com/SampleOrg/Demo/raw/0123456789abcdef/docs/orders.png",
+        sha256: "a".repeat(64),
+        size: 4194305,
+        alt: "订单联动截图",
+      },
+    ];
+    await writeJson(extensionPath, extension);
+    await assert.rejects(loadMarket(root));
+  } finally {
+    await rm(root, { recursive: true, force: true });
+  }
+});
+
 async function createFixtureRoot() {
   const root = await mkdtemp(path.join(os.tmpdir(), "packingproof-market-"));
   await cp(path.join(repositoryRoot, "schemas"), path.join(root, "schemas"), { recursive: true });
