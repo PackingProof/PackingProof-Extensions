@@ -31,6 +31,14 @@
       "provider": "github"
     },
     "schemaVersion": 1,
+    "screenshots": [
+      {
+        "alt": "在 QQ 群中发送快递单号并收到对应的打包录像",
+        "sha256": "55590639333b4a1f4f5d9b2d0a8189c130b118bdd7f7d9abd657ddf9a7fc7e37",
+        "size": 47997,
+        "url": "https://gitee.com/PackingProof/PackingProof-QQBot/raw/73ad4884c45b288d0b4537fd39383eb1b64b6e03/docs/images/qq-group-query.jpg"
+      }
+    ],
     "sourceAvailability": "open-source",
     "summary": "通过 QQ 私聊或群聊按快递单号查询并发送打包录像",
     "type": "external-adapter"
