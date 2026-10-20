@@ -10,6 +10,8 @@ Publisher ID 是与托管平台账号分离的稳定身份。GitHub/Gitee 用户
 
 `extension.json` 保存扩展静态信息和最多两个 `releaseSources`。GitHub/Gitee 地位相同，数组顺序没有主源语义。
 
+`extension.json` 可以声明最多 6 张 `screenshots`。每张图必须使用 HTTPS 地址，并登记字节大小、SHA-256 和替代文本；这些字段进入签名详情，客户端校验通过后才显示
+
 每个稳定版本使用独立的 `versions/<version>.json`。`userscript` 使用 `X.Y`，`external-adapter` 使用 `X.Y.Z`，版本文件保存：
 
 - 源码标签、提交和发布时间

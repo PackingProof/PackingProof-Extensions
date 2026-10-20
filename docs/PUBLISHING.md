@@ -164,6 +164,25 @@ npm run ppext -- init ..\example-adapter `
 
 数组顺序不代表主源或镜像。客户端存在 Gitee 下载地址时优先 Gitee，失败或哈希不符再尝试 GitHub。只提供一个平台不影响收录资格。
 
+## 增加市场预览图
+
+`extension.json` 可以增加最多 6 张 `screenshots`。每张图使用 HTTPS 地址，并登记内容大小、SHA-256 和替代文本；客户端下载后会先校验再显示：
+
+```json
+{
+  "screenshots": [
+    {
+      "url": "https://gitee.com/ExampleOrg/ExampleOrders/raw/<提交 SHA>/docs/orders.png",
+      "sha256": "<64 位小写 SHA-256>",
+      "size": 123456,
+      "alt": "在订单系统页面发送订单到 PackingProof"
+    }
+  ]
+}
+```
+
+单张图片不得超过 4 MB。地址应指向提交 SHA、Release 或长期稳定地址，不要使用随时会替换内容的临时链接；图片内容变化时必须同步修改大小和 SHA-256。市场详情页只显示正文和截图，不解析 README 中的远程图片
+
 ## 打包并发布 Release
 
 在市场仓库根目录运行：
