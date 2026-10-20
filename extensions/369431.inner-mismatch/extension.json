@@ -1,0 +1,31 @@
+{
+  "categories": [
+    "packing",
+    "recording"
+  ],
+  "description": "在 PackingProof 录制过程中标记「内物不符」的包裹：屏幕上常驻一条置顶小窗，显示当前正在录制的单号，点一下原因（少件 / 错件 / 多发 / 商品破损 / 包装破损 / 其他）即可完成标记，也可以用 F9 + 数字键两步完成，不影响扫码节奏。标记会写进该段录像自己的水印（异常.内物不符: 错件 · 电脑1 · 14:55），录像预览和回放都能看到；同时在本地生成一条异常记录，带单号、原因、备注、操作员、时间与录像会话。事后在异常处理页按状态跟进（待处理 → 处理中 → 已处理 / 已忽略），写处理备注、筛选搜索、导出 CSV，并可一键调出该单号的录像当场回看或下载。扩展以无窗口方式后台运行，自带局域网面板（默认 8792），同一网段的手机或另一台电脑可直接打开处理异常；支持开机自启与防火墙自动放行。所有数据保存在本机扩展数据目录，不上传任何服务器。",
+  "homepage": "https://github.com/369431/kuaidi-yichang-biaoji",
+  "id": "369431.inner-mismatch",
+  "license": {
+    "sourceUrl": "https://github.com/369431/kuaidi-yichang-biaoji/blob/main/LICENSE",
+    "spdx": "AGPL-3.0-only"
+  },
+  "name": "快递异常标记",
+  "publisherId": "369431",
+  "releaseSources": [
+    {
+      "name": "kuaidi-yichang-biaoji",
+      "owner": "369431",
+      "provider": "github"
+    }
+  ],
+  "repository": {
+    "name": "kuaidi-yichang-biaoji",
+    "owner": "369431",
+    "provider": "github"
+  },
+  "schemaVersion": 1,
+  "sourceAvailability": "open-source",
+  "summary": "录制时一键标记内物不符：写进录像水印并生成异常记录，事后按状态处理",
+  "type": "external-adapter"
+}

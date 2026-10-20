@@ -1,0 +1,50 @@
+{
+  "$schema": "../../../schemas/version.v1.schema.json",
+  "access": {
+    "packingProofCapabilities": [],
+    "packingProofPermissions": [
+      "recordings.active.read",
+      "recording-fields.write",
+      "recordings.search",
+      "recordings.download"
+    ],
+    "systemAccess": [
+      {
+        "id": "network",
+        "reason": "局域网面板监听本机端口 8792，并访问 Desktop 的本机扩展 API"
+      },
+      {
+        "id": "process.launch",
+        "reason": "启动悬浮标记条窗口与全局快捷键宿主进程"
+      },
+      {
+        "id": "filesystem.write",
+        "reason": "在本机扩展数据目录保存异常记录、设置与日志"
+      }
+    ]
+  },
+  "compatibility": {
+    "minPackingProofVersion": "0.0.63",
+    "platforms": {
+      "windows": [
+        "any"
+      ]
+    }
+  },
+  "downloads": {
+    "github": {
+      "provider": "github",
+      "url": "https://github.com/369431/kuaidi-yichang-biaoji/releases/download/v1.1.9/369431.inner-mismatch-1.1.9.ppext"
+    }
+  },
+  "extensionId": "369431.inner-mismatch",
+  "publishedAt": "2026-10-20T14:47:59Z",
+  "schemaVersion": 1,
+  "sha256": "f4859190eb9e519b5e67a332e48b692c8bdff8758ba21f96bf7ff4c6235b7581",
+  "size": 94211,
+  "source": {
+    "commit": "096c482d6ce37cd4cd794805f5abe1ec6ea4ab64",
+    "tag": "v1.1.9"
+  },
+  "version": "1.1.9"
+}
