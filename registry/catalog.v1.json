@@ -1,6 +1,24 @@
 {
   "extensions": [
     {
+      "details": "extensions/369431.inner-mismatch.json",
+      "detailsSha256": "27f06970e3684e53f7aa5d0a53c485cc87863c26db24d24830b7a25ec2f7b0fe",
+      "id": "369431.inner-mismatch",
+      "latestVersion": "1.1.9",
+      "name": "快递异常标记",
+      "publisher": {
+        "displayName": "369431",
+        "id": "369431"
+      },
+      "riskLabels": [
+        "external-program"
+      ],
+      "sourceAvailability": "open-source",
+      "summary": "录制时一键标记内物不符：写进录像水印并生成异常记录，事后按状态处理",
+      "trust": "third-party",
+      "type": "external-adapter"
+    },
+    {
       "details": "extensions/369431.kuaimai-erp.json",
       "detailsSha256": "d281e5eedc304c1565180a93f49feaf143160897e6f10a5603cab55fcd65a869",
       "id": "369431.kuaimai-erp",
@@ -88,6 +106,6 @@
     }
   ],
   "schemaVersion": 1,
-  "sourceDigest": "868ceda3dca0ef81846edbc6c1a8f6bcd820739c5960260c5019b49cc1d3759a",
-  "updatedAt": "2026-10-18T10:44:22Z"
+  "sourceDigest": "1692eef51cfbecf9631c8b5f0450c5be5476961f78c3124009392df1d07f51dc",
+  "updatedAt": "2026-10-20T14:47:59Z"
 }
