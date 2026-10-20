@@ -88,7 +88,7 @@
     },
     {
       "details": "extensions/packingproof.qqbot.json",
-      "detailsSha256": "9058ced1e82c763a2ee83805ab2b06922c65a3c6e458e9d5c29097b47321d8df",
+      "detailsSha256": "c67c26740b9ba9e30f69ac0269b30dd174b5d8dc864c602d9b1119bf37665865",
       "id": "packingproof.qqbot",
       "latestVersion": "0.0.10",
       "name": "QQ 机器人",
@@ -106,6 +106,6 @@
     }
   ],
   "schemaVersion": 1,
-  "sourceDigest": "80b37964fce30ef4617bd3cfd2c6e70a76d01a517db383a1b19a90aca2200bf8",
+  "sourceDigest": "ce58a97ae0650c45dba3e6658080294fc46f374229181304eb89706474257ef1",
   "updatedAt": "2026-10-21T00:31:47+08:00"
 }
