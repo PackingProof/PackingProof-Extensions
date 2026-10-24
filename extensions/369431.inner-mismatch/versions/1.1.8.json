@@ -1,0 +1,32 @@
+{
+  "$schema": "../../../schemas/version.v1.schema.json",
+  "access": {
+    "packingProofCapabilities": [],
+    "packingProofPermissions": [],
+    "systemAccess": []
+  },
+  "compatibility": {
+    "minPackingProofVersion": "0.0.63",
+    "platforms": {
+      "windows": [
+        "any"
+      ]
+    }
+  },
+  "downloads": {
+    "github": {
+      "provider": "github",
+      "url": "https://github.com/369431/kuaidi-yichang-biaoji/releases/download/v1.1.8/369431.inner-mismatch-1.1.8.ppext"
+    }
+  },
+  "extensionId": "369431.inner-mismatch",
+  "publishedAt": "2026-10-20T14:32:28Z",
+  "schemaVersion": 1,
+  "sha256": "35e8a01de01c08ec06c968a5aa1ccdf2380c2af910e6b96b351792c0819827bc",
+  "size": 93899,
+  "source": {
+    "commit": "096c482d6ce37cd4cd794805f5abe1ec6ea4ab64",
+    "tag": "v1.1.8"
+  },
+  "version": "1.1.8"
+}
