@@ -22,6 +22,8 @@ export async function initializeProject(projectDirectory, values) {
     version: values.version,
     type: values.type,
     minPackingProofVersion: values.minPackingProofVersion,
+    summary: values.summary,
+    description: values.description,
     payload: values.payload,
   };
   const submission = {
@@ -136,8 +138,11 @@ export function expandAuthorManifest(manifest) {
     format: "packingproof-extension",
     packageFormatVersion: 1,
     id: manifest.id,
+    name: manifest.name,
     version: manifest.version,
     type: manifest.type,
+    ...(manifest.summary ? { summary: manifest.summary } : {}),
+    ...(manifest.description ? { description: manifest.description } : {}),
     installation: manifest.type === "userscript"
       ? { mode: "userscript-import", payloadPath: manifest.payload }
       : { mode: "manual-external", suggestedPath: manifest.payload },

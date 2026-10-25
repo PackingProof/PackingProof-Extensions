@@ -20,6 +20,8 @@
     "version": {"$ref": "common.v1.schema.json#/$defs/extensionVersion"},
     "type": {"enum": ["userscript", "external-adapter"]},
     "minPackingProofVersion": {"$ref": "common.v1.schema.json#/$defs/semver"},
+    "summary": {"type": "string", "minLength": 1, "maxLength": 160},
+    "description": {"type": "string", "minLength": 1, "maxLength": 4000},
     "payload": {
       "type": "string",
       "pattern": "^payload/[A-Za-z0-9_./ -]+$",

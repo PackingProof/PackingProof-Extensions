@@ -20,6 +20,9 @@
     "format": {"const": "packingproof-extension"},
     "packageFormatVersion": {"const": 1},
     "id": {"$ref": "common.v1.schema.json#/$defs/identifier"},
+    "name": {"type": "string", "minLength": 1, "maxLength": 100},
+    "summary": {"type": "string", "minLength": 1, "maxLength": 160},
+    "description": {"type": "string", "minLength": 1, "maxLength": 4000},
     "version": {"$ref": "common.v1.schema.json#/$defs/extensionVersion"},
     "type": {"enum": ["userscript", "external-adapter"]},
     "installation": {

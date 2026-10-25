@@ -23,6 +23,9 @@ test("initializes and packs a userscript from the small author manifest", async 
     const output = path.join(root, "sample.demo-1.0.ppext");
     const packed = await packProject(root, output, repositoryRoot);
     assert.equal(packed.manifest.format, "packingproof-extension");
+    assert.equal(packed.manifest.name, "Sample Demo");
+    assert.equal(packed.manifest.summary, "Sample PackingProof extension");
+    assert.equal(packed.manifest.description, "Sample PackingProof extension used by the project tool tests");
     assert.equal(packed.manifest.installation.mode, "userscript-import");
     assert.deepEqual(packed.manifest.compatibility.platforms, { userscript: ["any"] });
     const result = await validatePackage(output, await createSchemaValidator(repositoryRoot));

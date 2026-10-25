@@ -146,12 +146,16 @@ npm run ppext -- init ..\example-adapter `
   "schemaVersion": 1,
   "id": "example.orders",
   "name": "Example Orders",
+  "summary": "将示例平台订单发送到 PackingProof",
+  "description": "在示例平台页面读取订单并发送到用户配置的 PackingProof 主机",
   "version": "1.0",
   "type": "userscript",
   "minPackingProofVersion": "0.0.63",
   "payload": "payload/main.user.js"
 }
 ```
+
+`name`、`summary` 和 `description` 会写入 PPEXT。用户从本地文件离线安装后，即使扩展尚未登记市场，扩展市场也会用这些字段显示一个“本地”条目。它们只用于本地展示；市场已登记同一扩展 ID 时，以签名市场详情为准，不会重复显示
 
 `submission.json` 描述作者和市场展示信息。`submit` 会读取它，不会根据 Release URL 猜测作者、名称、类型、许可证或源码状态。
 

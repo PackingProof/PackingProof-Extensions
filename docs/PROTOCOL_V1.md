@@ -42,7 +42,11 @@ README.md       可选
 icon.png        可选
 ```
 
-作者在 PPEXT 的 `manifest.json` 中只填写 ID、名称、版本、类型、最低 PackingProof 版本和 payload；首次市场登记的作者与展示信息另见 [完整投稿教程](PUBLISHING.md)。`ppext pack` 自动生成包含 `format`、`packageFormatVersion`、安装方式和兼容信息的包内 manifest。
+作者在项目根目录的 `manifest.json` 中填写 ID、名称、版本、类型、最低 PackingProof 版本和 payload，并建议同时填写 `summary` 与 `description`。`ppext pack` 会自动生成包含 `format`、`packageFormatVersion`、名称、简介、说明、安装方式和兼容信息的包内 manifest
+
+名称、简介和说明随包保存，供用户从本地 PPEXT 离线安装后直接在扩展市场列表中显示。它们属于未签名的本地展示信息，不能替代市场目录中的发布者、许可证、截图或审核状态；同一 ID 已登记市场时，以签名市场详情为准
+
+首次市场登记的作者与展示信息另见 [完整投稿教程](PUBLISHING.md)
 
 版本规则：
 
