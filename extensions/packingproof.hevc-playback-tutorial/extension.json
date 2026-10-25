@@ -1,0 +1,36 @@
+{
+  "categories": [
+    "tutorial",
+    "playback"
+  ],
+  "description": "这只是一个 H.265 解码器安装教程，有更好的方案也欢迎提交。\n\n列出 Microsoft Store 中的免费资格版和付费版 HEVC 扩展。两者均为闭源组件；免费版受设备和地区资格限制，付费扩展由 Microsoft Corporation 发布，价格以商店为准。浏览器通常还需要硬件解码",
+  "homepage": "https://github.com/PackingProof/PackingProof-HEVC-Tutorial",
+  "id": "packingproof.hevc-playback-tutorial",
+  "license": {
+    "sourceUrl": "https://github.com/PackingProof/PackingProof-HEVC-Tutorial/blob/main/LICENSE",
+    "spdx": "AGPL-3.0-only"
+  },
+  "name": "H.265 解码器安装教程",
+  "publisherId": "packingproof",
+  "releaseSources": [
+    {
+      "name": "PackingProof-HEVC-Tutorial",
+      "owner": "PackingProof",
+      "provider": "gitee"
+    },
+    {
+      "name": "PackingProof-HEVC-Tutorial",
+      "owner": "PackingProof",
+      "provider": "github"
+    }
+  ],
+  "repository": {
+    "name": "PackingProof-HEVC-Tutorial",
+    "owner": "PackingProof",
+    "provider": "github"
+  },
+  "schemaVersion": 1,
+  "sourceAvailability": "open-source",
+  "summary": "介绍 Windows 与 Edge 中 H.265（HEVC）解码器的微软官方商店入口",
+  "type": "external-adapter"
+}
