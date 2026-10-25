@@ -71,6 +71,24 @@
       "type": "userscript"
     },
     {
+      "details": "extensions/packingproof.hevc-playback-tutorial.json",
+      "detailsSha256": "2030d8fa3ec94e8095ec5f711f1d605e2b66bdd088b593878d682f68e6e3d4e2",
+      "id": "packingproof.hevc-playback-tutorial",
+      "latestVersion": "1.0.1",
+      "name": "H.265 解码器安装教程",
+      "publisher": {
+        "displayName": "PackingProof",
+        "id": "packingproof"
+      },
+      "riskLabels": [
+        "external-program"
+      ],
+      "sourceAvailability": "open-source",
+      "summary": "介绍 Windows 与 Edge 中 H.265（HEVC）解码器的微软官方商店入口",
+      "trust": "official",
+      "type": "external-adapter"
+    },
+    {
       "details": "extensions/packingproof.kdzs.json",
       "detailsSha256": "82f93d08b2288199b974a1e23425e10b35e5eef6d57317553fa8537695d8f960",
       "id": "packingproof.kdzs",
@@ -106,6 +124,6 @@
     }
   ],
   "schemaVersion": 1,
-  "sourceDigest": "ce58a97ae0650c45dba3e6658080294fc46f374229181304eb89706474257ef1",
-  "updatedAt": "2026-10-21T00:31:47+08:00"
+  "sourceDigest": "1ef4ea52a841cb01b0e2906b3b4a99cb341140e2bd54b58e51928b3a5234df06",
+  "updatedAt": "2026-10-25T15:35:44+08:00"
 }
