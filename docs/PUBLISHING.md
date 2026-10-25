@@ -98,13 +98,15 @@ npm run ppext -- init ..\example-orders `
 
 开源外部适配器同样使用 `--license <SPDX>` 和 `--license-url <公开许可证地址>`。v1 只面向 Windows，作者不需要填写架构、安装模式或系统权限。
 
-如果希望用户在市场中直接启动程序，可在包内 `manifest.json` 增加：
+如果希望用户在市场中直接启动程序，可在项目根目录的 `manifest.json` 增加：
 
 ```json
 "launcher": { "path": "payload/adapter.exe" }
 ```
 
 路径只能指向 `payload/` 下的 `.exe`、`.cmd` 或 `.bat` 文件。未填写时，Desktop 会显示灰色不可用的“启动”按钮，用户仍可打开目录手动运行。PackingProof 只负责发起独立进程并提示启动错误，不监管外部程序运行，也不会因外部程序退出或崩溃而退出
+
+`ppext pack` 会把该可选字段写入最终包内的生成清单；启动文件也必须实际存在于包内
 
 ### 闭源 external-adapter
 

@@ -53,6 +53,40 @@ test("packs an external adapter without asking for architecture or access declar
   }
 });
 
+test("packs the optional launcher declared by an external adapter", async () => {
+  const root = await mkdtemp(path.join(os.tmpdir(), "ppext-adapter-launcher-"));
+  try {
+    const values = projectValues({
+      id: "sample.guide",
+      name: "Sample Guide",
+      version: "1.0.0",
+      type: "external-adapter",
+      payload: "payload/open-guide.cmd",
+      launcher: { path: "payload/open-guide.cmd" },
+    });
+    await initializeProject(root, values);
+    const manifestPath = path.join(root, "manifest.json");
+    const manifest = JSON.parse(await readFile(manifestPath, "utf8"));
+    manifest.launcher = { path: "payload/open-guide.cmd" };
+    await writeFile(manifestPath, `${JSON.stringify(manifest, null, 2)}\n`, "utf8");
+    await writeFile(
+      path.join(root, "payload", "open-guide.cmd"),
+      "@echo off\r\nstart \"\" \"%~dp0guide.html\"\r\n",
+      "utf8",
+    );
+    await writeFile(path.join(root, "payload", "guide.html"), "<!doctype html><title>Guide</title>", "utf8");
+
+    const output = path.join(root, "sample.guide-1.0.0.ppext");
+    const packed = await packProject(root, output, repositoryRoot);
+
+    assert.deepEqual(packed.manifest.launcher, { path: "payload/open-guide.cmd" });
+    const result = await validatePackage(output, await createSchemaValidator(repositoryRoot));
+    assert.deepEqual(result.manifest.launcher, { path: "payload/open-guide.cmd" });
+  } finally {
+    await rm(root, { recursive: true, force: true });
+  }
+});
+
 function projectValues(overrides = {}) {
   return {
     id: "sample.demo",

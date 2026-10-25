@@ -77,6 +77,9 @@ export async function packProject(projectDirectory, outputPath, repositoryRoot) 
   schema.validate("package-manifest.v1.schema.json", internalManifest, "生成的 PPEXT manifest");
   const files = await collectProjectFiles(projectDirectory);
   if (!files.includes(payloadPath)) throw new Error(`payload 文件不存在：${payloadPath}`);
+  if (authorManifest.launcher && !files.includes(authorManifest.launcher.path)) {
+    throw new Error(`启动文件不存在：${authorManifest.launcher.path}`);
+  }
   await mkdir(path.dirname(outputPath), { recursive: true });
   const zip = new yazl.ZipFile();
   zip.addBuffer(Buffer.from(stableJson(internalManifest)), "manifest.json", { mtime: FIXED_ZIP_TIME, mode: 0o100644 });
@@ -138,6 +141,9 @@ export function expandAuthorManifest(manifest) {
     installation: manifest.type === "userscript"
       ? { mode: "userscript-import", payloadPath: manifest.payload }
       : { mode: "manual-external", suggestedPath: manifest.payload },
+    ...(manifest.type === "external-adapter" && manifest.launcher
+      ? { launcher: manifest.launcher }
+      : {}),
     compatibility: {
       minPackingProofVersion: manifest.minPackingProofVersion,
       platforms: manifest.type === "userscript"
