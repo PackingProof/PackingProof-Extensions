@@ -1,0 +1,36 @@
+{
+  "$schema": "../../../schemas/version.v1.schema.json",
+  "access": {
+    "packingProofCapabilities": [],
+    "packingProofPermissions": [],
+    "systemAccess": []
+  },
+  "compatibility": {
+    "minPackingProofVersion": "0.0.63",
+    "platforms": {
+      "windows": [
+        "any"
+      ]
+    }
+  },
+  "downloads": {
+    "gitee": {
+      "provider": "gitee",
+      "url": "https://gitee.com/PackingProof/PackingProof-HEVC-Tutorial/releases/download/v1.0.0/packingproof.hevc-playback-tutorial-1.0.0.ppext"
+    },
+    "github": {
+      "provider": "github",
+      "url": "https://github.com/PackingProof/PackingProof-HEVC-Tutorial/releases/download/v1.0.0/packingproof.hevc-playback-tutorial-1.0.0.ppext"
+    }
+  },
+  "extensionId": "packingproof.hevc-playback-tutorial",
+  "publishedAt": "2026-10-25T07:31:39Z",
+  "schemaVersion": 1,
+  "sha256": "46f22d063475f0dff9302db84fe6c143e5973994976aa4e69177b6b94af582a5",
+  "size": 6365,
+  "source": {
+    "commit": "2d841aad8f76458c3dc167bd2a256ee8c41dfe76",
+    "tag": "v1.0.0"
+  },
+  "version": "1.0.0"
+}
