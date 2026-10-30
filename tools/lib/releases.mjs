@@ -26,10 +26,25 @@ export async function updateExtension(rootDirectory, market, extensionId, option
       }
     }
   }
-  const candidates = [...releasesByVersion.values()]
-    .filter((release) => !known.has(release.version)
-      && (!options.onlyVersion || release.version === options.onlyVersion))
+  const latestKnown = item.versions.reduce(
+    (latest, version) => !latest
+      || compareExtensionVersions(version.version, latest, item.descriptor.type) > 0
+      ? version.version
+      : latest,
+    null,
+  );
+  let candidates = [...releasesByVersion.values()]
+    .filter((release) => !known.has(release.version))
+    .filter((release) => options.onlyVersion
+      ? release.version === options.onlyVersion
+      : !latestKnown
+        || compareExtensionVersions(release.version, latestKnown, item.descriptor.type) > 0)
     .sort((left, right) => compareExtensionVersions(left.version, right.version, item.descriptor.type));
+  // 自动发现只领取最新一个；旧 Release 不应因为尚未登记就反复补录。
+  // 确需补录某个历史版本时，使用 update --only-version 显式指定。
+  if (!options.onlyVersion && candidates.length > 1) {
+    candidates = [candidates.at(-1)];
+  }
   const created = [];
   const pendingDocuments = [];
 

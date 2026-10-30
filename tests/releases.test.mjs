@@ -106,6 +106,76 @@ test("creates the versions directory for the first discovered release", async ()
   }
 });
 
+test("ignores releases older than the latest registered version", async () => {
+  const root = await mkdtemp(path.join(os.tmpdir(), "packingproof-old-release-"));
+  const originalFetch = globalThis.fetch;
+  try {
+    await cp(path.join(repositoryRoot, "schemas"), path.join(root, "schemas"), { recursive: true });
+    await writeJson(path.join(root, "publishers", "packingproof.json"), {
+      schemaVersion: 1,
+      id: "packingproof",
+      displayName: "PackingProof",
+      accounts: { github: "PackingProof" },
+    });
+    await writeJson(path.join(root, "extensions", "packingproof.test", "extension.json"), {
+      schemaVersion: 1,
+      id: "packingproof.test",
+      publisherId: "packingproof",
+      name: "Test Adapter",
+      summary: "Test adapter for release discovery",
+      description: "Test adapter for ignoring historical releases",
+      type: "external-adapter",
+      repository: { provider: "github", owner: "PackingProof", name: "TestAdapter" },
+      license: { spdx: "MIT", sourceUrl: "https://github.com/PackingProof/TestAdapter/blob/main/LICENSE" },
+      releaseSources: [{ provider: "github", owner: "PackingProof", name: "TestAdapter" }],
+    });
+    await writeJson(path.join(root, "extensions", "packingproof.test", "versions", "1.1.9.json"), {
+      schemaVersion: 1,
+      extensionId: "packingproof.test",
+      version: "1.1.9",
+      publishedAt: "2026-10-20T14:47:59Z",
+      source: {
+        tag: "v1.1.9",
+        commit: "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      },
+      downloads: {
+        github: {
+          provider: "github",
+          url: "https://github.com/PackingProof/TestAdapter/releases/download/v1.1.9/packingproof.test-1.1.9.ppext",
+        },
+      },
+      sha256: "f".repeat(64),
+      size: 1,
+      compatibility: {
+        minPackingProofVersion: "0.0.63",
+        platforms: { windows: ["x64"] },
+      },
+      access: {
+        packingProofPermissions: [],
+        packingProofCapabilities: [],
+        systemAccess: [],
+      },
+    });
+    globalThis.fetch = async (url) => {
+      const value = String(url);
+      assert.match(value, /\/releases\?/);
+      return jsonResponse([{
+        tag_name: "v1.1.8",
+        draft: false,
+        prerelease: false,
+        published_at: "2026-10-20T14:32:28Z",
+        assets: [{ name: "packingproof.test-1.1.8.ppext" }],
+      }], value);
+    };
+
+    const created = await updateExtension(root, await loadMarket(root), "packingproof.test");
+    assert.deepEqual(created, []);
+  } finally {
+    globalThis.fetch = originalFetch;
+    await rm(root, { recursive: true, force: true });
+  }
+});
+
 function jsonResponse(value, url) {
   const response = new Response(JSON.stringify(value), {
     status: 200,

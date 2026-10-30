@@ -59,7 +59,9 @@ try {
     const extensionId = optionValue(argumentsList, "--extension");
     if (!extensionId) throw new Error("update 需要 --extension <id>");
     const market = await loadMarket(rootDirectory);
-    const created = await updateExtension(rootDirectory, market, extensionId);
+    const created = await updateExtension(rootDirectory, market, extensionId, {
+      onlyVersion: optionValue(argumentsList, "--only-version"),
+    });
     console.log(created.length ? `新增 ${created.length} 个版本` : "没有发现新稳定版本");
   } else if (command === "list-extensions") {
     const market = await loadMarket(rootDirectory);
